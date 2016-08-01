@@ -15,7 +15,7 @@
 		<p>The goal of this project is to connect web developers with small or non-profit organizations in need an online presence.</p>
 		<p>The intent of this site will be to create a symbiotic relationship between web developers and organizations.  Web developers, who wish to build their portfolios and to increase their skills and marketability, will have to opportunity to search and work pro bono for a cause they wish to support.  Organizations, such as a non-profit, will have the opportunity to showcase their cause and their online needs.  Small organizations will also have the opportunity to post their online needs and propose an alternative compensation plan.</p>
 		<ul>
-			<li>We will have two primary users, developers and organizations. They will be able to use the site to interact with each other and share content and needs</li>
+			<li>We will have two primary users, developers and organizations. They will be able to use the site to interact with each other and share content and needs.</li>
 			<li>There will be a jobs board, where organizations can post project and link them to their profile where interested developers can contact them.</li>
 			<li>Devs will be able to link their work to their profile, so organizations can check it out easily.</li>
 			<li>Star rating and review system for organizations to leave feedback on developers.</li>
