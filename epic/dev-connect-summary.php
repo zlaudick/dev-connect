@@ -20,6 +20,7 @@
 			<li>Devs will be able to link their work to their profile, so organizations can check it out easily.</li>
 			<li>Star rating and review system for organizations to leave feedback on developers.</li>
 			<li>Only allow registered users to see contact information for the job listings.</li>
+			<li>Mailgun and Login with Github</li>
 		</ul>
 	</body>
 </html>
