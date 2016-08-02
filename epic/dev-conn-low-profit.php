@@ -46,8 +46,8 @@
 	<ol>
 		<li>Log in to profile</li>
 		<li>Click on Create New Project button</li>
-		<li>
-			<ul>Fill out the project form, including:
+		<li>Fill out the project form, including:
+			<ul>
 				<li>Project name</li>
 				<li>Project description</li>
 				<li>Short description of the company</li>
