@@ -22,4 +22,22 @@
 	<p></p>
 	<p></p>
 	<p></p>
+
+	<h1>Interaction Flow</h1>
+	<h3>Sign up Process</h3>
+	<ol>
+		<li>Click Sign Up link.</li>
+		<li>Checks Organization box when prompted for account type.</li>
+		<li>Fill out sign up form including:
+			<ul>
+				<li>email</li>
+				<li>username</li>
+				<li>password</li>
+			</ul>
+		</li>
+	</ol>
+	<h3>Set Up Business Profile Page Interaction Flow</h3>
+	<ol>
+		<li></li>
+	</ol>
 </html>
