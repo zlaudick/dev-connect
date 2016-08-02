@@ -24,28 +24,29 @@
 		<h1>Interaction Flow</h1>
 		<h3>Sign up process</h3>
 		<ol>
-			<li>click the sign up link</li>
-			<li>check developer box</li>
-			<li>sign up with github account or sign up with email</li>
-			<li>if signing up with github - choose username</li>
-			<li>if signing up with email - fill out the form</li>
+			<li>Click the sign up link</li>
+			<li>Check developer box</li>
+			<li>Sign up with github account or sign up with email</li>
+			<li>If signing up with github - choose username</li>
+			<li>If signing up with email - fill out the form
 				<ul>
 					<li>email</li>
 					<li>username</li>
 					<li>password</li>
 				</ul>
+			</li>
 		</ol>
 		<h3>After the user has signed up they can customize their profile page</h3>
 		<ol>
-			<li>add picture</li>
-			<li>add links to personal website, LinkedIn, Twitter, etc.</li>
+			<li>Add picture</li>
+			<li>Add links to personal website, LinkedIn, Twitter, etc.</li>
 		</ol>
 		<h3>When logged in the developer will be able to search the jobs board</h3>
 		<ol>
-			<li>scroll through organization postings</li>
-			<li>use filter options to narrow search if looking for specific causes</li>
-			<li>click on job posting to view details of the project and organization</li>
-			<li>click contact link to connect with the organization</li>
+			<li>Scroll through organization postings</li>
+			<li>Use filter options to narrow search if looking for specific causes</li>
+			<li>Click on job posting to view details of the project and organization</li>
+			<li>Click contact link to connect with the organization</li>
 		</ol>
 	</body>
 </html>
