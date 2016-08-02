@@ -6,6 +6,13 @@
 	</head>
 	<body>
 		<h1>Entities and Attributes</h1>
+		<ol>
+			<li>jobBoard</li>
+			<li>profilePage</li>
+			<li>projects</li>
+			<li>review</li>
+			<li>user</li>
+		</ol>
 		<h1>Conceptual Model</h1>
 	</body>
 </html>
