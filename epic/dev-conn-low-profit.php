@@ -19,9 +19,9 @@
 	</body>
 
 	<h1>Low Profit Use Case</h1>
-	<p></p>
-	<p></p>
-	<p></p>
+	<p>Frank looked online at home and found that there are several web development companies that are willing to give him quotes, but are not as inexpensive as he would like.</p>
+	<p>Upon his searching, he sees that there is an interesting site: Dev Connect! He clicks on it and sees that there are many small or non-profit businesses, like his, who need an online presence and have posted to a job listing with some simple information, and whether or not they would be paying.</p>
+	<p>It's late at night after work, and Frank has an hour before he is about to go to bed before he goes back to the restaurant tomorrow. He clicks on the Sign Up link and sets up his profile, and posts his need for a website to the board before he goes to sleep.</p>
 
 	<h1>Interaction Flow</h1>
 	<h3>Sign up Process</h3>
