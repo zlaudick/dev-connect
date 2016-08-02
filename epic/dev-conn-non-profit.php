@@ -16,7 +16,7 @@
 		<p><strong>Frustrations and Needs:</strong> Jill is already burden with a heavy schedule.  As a result, she is certainly feeling overwhelmed by this task at hand.  Also, there is a budget shortfall looming this year and she feels personally responsible for that.  Therefore, she does not have the profession website budget.  Therefore, she is looking into low cost alternatives such as a do-it-yourself site such as wix.com.</p>
 		<p><strong>Goals:</strong> Jill is a perfectionist.  She already has in her mind what her organization's website should look like and from her personal experience she feels she has handle on what a good user experience should be for her web site.</p>
 
-		<h1>Non Profit Use Case</h1>
+		<h1>Non-Profit Use Case</h1>
 		<p></p>
 		<p></p>
 		<p></p>
