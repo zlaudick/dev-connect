@@ -35,11 +35,24 @@
 			</ul>
 		</li>
 	</ol>
-	<h3>Set Up Business Profile Page Interaction Flow</h3>
+	<h3>Set Up Business Profile Page</h3>
 	<ol>
 		<li>Add profile picture</li>
 		<li>Add contact information</li>
 		<li>Add business location</li>
 		<li>Begin creating projects for developers! :)</li>
+	</ol>
+	<h3>Post Projects to Job Board</h3>
+	<ol>
+		<li>Log in to profile</li>
+		<li>Click on Create New Project button</li>
+		<li>
+			<ul>Fill out the project form, including:
+				<li>Project name</li>
+				<li>Project description</li>
+				<li>Short description of the company</li>
+				<li>If the project is paid or volunteered</li>
+			</ul>
+		</li>
 	</ol>
 </html>
