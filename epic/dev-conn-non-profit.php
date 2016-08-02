@@ -8,7 +8,6 @@
 	</head>
 	<body>
 		<h1>Organization Persona</h1>
-		<p><strong><em>Persona</em></strong></p>
 		<p><strong>Name:</strong>  Jill Ann Jackson</p>
 		<p><strong>Age:</strong>  48</p>
 
