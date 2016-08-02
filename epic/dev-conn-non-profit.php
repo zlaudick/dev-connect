@@ -7,8 +7,7 @@
 		</title>
 	</head>
 	<body>
-		<h1>Organization Persona</h1>
-		<p><strong><em>Persona</em></strong></p>
+		<h1>Non-Profit Organization Persona</h1>
 		<p><strong>Name:</strong></p>
 		<p><strong>Age:</strong></p>
 		<p><strong>Profession:</strong>On the organization side of the project, a typical persona is a board member of a well know local non-profit organization.  Typically this person is female and is middle aged to older.  She works part-time for this non-profit as she has other endeavors as well.  As a result she has a very busy schedule.  However, serving on this board, for a cause she believes in, is very near and dear to her heart and is a labor of love.</p>

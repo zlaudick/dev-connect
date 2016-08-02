@@ -8,7 +8,6 @@
 	</head>
 	<body>
 		<h1>Developer Persona</h1>
-		<p><strong><em>Persona</strong></em></p>
 			<p><strong>Name:</strong> David E. Hamburg</p>
 			<p><strong>Age:</strong> 38</p>
 			<p><strong>Profession:</strong> Junior Developer who just recently graduated Deep Dive Coding Bootcamp. Would like to get known as an enthusiastic developer who can design websites for any organizations that could be willing to use his services and potentially hire him. He'll like to practice his newly acquired skills and demonstrate his talent among his relatives and friends who may need help in his area of  expertise. Also; David is even willing to do any type of volunteer work for potential non-profit organizations if possible to kick off his career.</p>
