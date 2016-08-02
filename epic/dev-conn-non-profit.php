@@ -17,9 +17,9 @@
 		<p><strong>Goals:</strong> Jill is a perfectionist.  She already has in her mind what her organization's website should look like and from her personal experience she feels she has handle on what a good user experience should be for her web site.</p>
 
 		<h1>Non-Profit Use Case</h1>
-		<p></p>
-		<p></p>
-		<p></p>
+		<p>While researching online for possible alternatives for an ease of use website designer like Wix, Jill is steadily finding that these sites don't have the level of customization that she wants to make it so her website looks just right.</p>
+		<p>Upon asking a coworker who has had to contract for web development before, she finds that she may be able to look for some younger volunteers, that have the right skills but need some experience that she could ask to help.</p>
+		<p>After some searching, she finds Dev Connect, which upon a read over of the home page seems to be a viable option based on her criteria. She signs up for the site, and after carefully constructing her company's profile page, begins to post her project to the job board.</p>
 
 		<h1>Interaction Flow</h1>
 		<h3>Sign up Process</h3>
