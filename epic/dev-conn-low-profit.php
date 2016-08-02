@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>
-			DevConn For Profit Organization
+			DevConn Low Profit Organization
 		</title>
 	</head>
 	<body>
