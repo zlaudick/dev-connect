@@ -38,9 +38,9 @@
 		<h3>After the user has signed up they can customize their profile page</h3>
 		<ol>
 			<li>add picture</li>
-			<li>add links to personal website, linkdin, twitter, etc.</li>
+			<li>add links to personal website, LinkedIn, Twitter, etc.</li>
 		</ol>
-		<h3>when logged in the developer will be able to search the jobs board</h3>
+		<h3>When logged in the developer will be able to search the jobs board</h3>
 		<ol>
 			<li>scroll through organization postings</li>
 			<li>use filter options to narrow search if looking for specific causes</li>
