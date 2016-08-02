@@ -7,8 +7,8 @@
 	<body>
 		<h1>Entities and Attributes</h1>
 		<ol>
-			<li>jobBoard</li>
-			<li>profilePage</li>
+			<li>board</li>
+			<li>profile</li>
 			<li>projects</li>
 			<li>review</li>
 			<li>user</li>
