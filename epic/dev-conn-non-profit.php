@@ -7,7 +7,7 @@
 		</title>
 	</head>
 	<body>
-		<h1>Organization Persona</h1>
+		<h1>Non-Profit Organization Persona</h1>
 		<p><strong>Name:</strong> Jill Ann Jackson</p>
 		<p><strong>Age:</strong> 48</p>
 		<p><strong>Profession:</strong> Jill is the Vice Chairman of the local chapter of the League of World Children Rights Advocacy.  This non-profit organization is involved with promoting children's issues within the inner city. As a board member of this charity, she is involved with important decisions regarding marketing, finances, and fund raising.</p>
