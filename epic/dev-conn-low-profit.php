@@ -37,6 +37,9 @@
 	</ol>
 	<h3>Set Up Business Profile Page Interaction Flow</h3>
 	<ol>
-		<li></li>
+		<li>Add profile picture</li>
+		<li>Add contact information</li>
+		<li>Add business location</li>
+		<li>Begin creating projects for developers! :)</li>
 	</ol>
 </html>
