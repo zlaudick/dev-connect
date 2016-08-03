@@ -10,8 +10,26 @@
 			<li>board</li>
 			<li>profile</li>
 			<li>projects</li>
-			<li>review</li>
-			<li>user</li>
+			<li>
+				review
+				<ul>
+					<li>reviewId</li>
+					<li>reviewUserId</li>
+					<li>reviewRating</li>
+					<li>reviewContent</li>
+					<li>reviewDate</li>
+				</ul>
+			</li>
+			<li>
+				user
+				<ul>
+					<li>userId</li>
+					<li>userEmail</li>
+					<li>userHash</li>
+					<li>userName</li>
+					<li>userSalt</li>
+				</ul>
+			</li>
 		</ol>
 		<h1>Conceptual Model</h1>
 	</body>
