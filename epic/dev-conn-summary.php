@@ -8,12 +8,10 @@
 	</head>
 	<body>
 		<h1>DevConn Organization</h1>
-		<p>Dev Connect is a website that connects web developers with small or non-profit organizations that need an online presence. Dev Connect will allow web developers to search projects posted by organizations in need of this content. The businesses can also search for web developers and view their portfolios to find preferred design styles.</p>
-		<p>This site will be designed to promote a symbiotic relationship between organizations that have limited funding for a professional website who need volunteer or low cost work, and entry to mid level web developers looking for work experience and a way to improve and showcase their skills.</p>
+		<p>Dev Connect is a website that connects web developers with non-profit organizations that need an online presence. Dev Connect will allow web developers to search projects posted by non-profits in need of this content. The businesses can also search for web developers and view their portfolios to find preferred design styles.</p>
+		<p>This site will be designed to promote a symbiotic relationship between non-profit organizations that have limited funding for a professional website who need volunteer or low cost work, and entry to mid level web developers looking for work experience and a way to improve and showcase their skills.</p>
+		<p>Non-profit organizations will be verified by contact information and a manual check of their EIN given to them by the IRS from a system administrator upon sign up. Web developers will not be verified upon sign up, but any abusive or illegitimate use of the site will be moderated and dealt with.</p>
 		<h2>Ideas</h2>
-		<h3>Gerald: I rewrote the summary. If you like it, great. if not, that's cool too!</h3>
-		<p>The goal of this project is to connect web developers with small or non-profit organizations in need an online presence.</p>
-		<p>The intent of this site will be to create a symbiotic relationship between web developers and organizations.  Web developers, who wish to build their portfolios and to increase their skills and marketability, will have to opportunity to search and work pro bono for a cause they wish to support.  Organizations, such as a non-profit, will have the opportunity to showcase their cause and their online needs.  Small organizations will also have the opportunity to post their online needs and propose an alternative compensation plan.</p>
 		<ul>
 			<li>We will have two primary users, developers and organizations. They will be able to use the site to interact with each other and share content and needs.</li>
 			<li>There will be a jobs board, where organizations can post project and link them to their profile where interested developers can contact them.</li>
