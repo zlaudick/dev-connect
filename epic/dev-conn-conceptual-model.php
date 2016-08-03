@@ -61,6 +61,6 @@
 			<li>many <strong>projects</strong> can have many <strong>tags</strong></li>
 		</ul>
 		<h1>Dev Connect ERD</h1>
-		<img src="/images/dev-connect-erd.svg" alt="Dev Connect ERD" />
+		<img src="../images/dev-connect-erd.svg" alt="Dev Connect ERD" />
 	</body>
 </html>
