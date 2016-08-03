@@ -14,7 +14,7 @@
 				<li>profileName</li>
 				<li>profileHash</li>
 				<li>profileSalt</li>
-				<li>profilePhotoRelPath</li>
+				<li>profilePicturePath</li>
 				<li>profileContent</li>
 				<li>profileLocation</li>
 				<li>profileAccountType</li>
@@ -23,7 +23,7 @@
 			<ul>
 				<li>projectId(primary key)</li>
 				<li>projectProfileId(foriegn key)</li>
-				<li>projectProfilePhotoRelPath(foriegn key)</li>
+				<li>projectPicturePath(foriegn key)</li>
 				<li>projectName</li>
 				<li>projectContent</li>
 				<li>projectDate</li>
