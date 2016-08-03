@@ -14,7 +14,7 @@
 		<h2>Ideas</h2>
 		<ul>
 			<li>We will have two primary users, developers and organizations. They will be able to use the site to interact with each other and share content and needs.</li>
-			<li>There will be a jobs board, where organizations can post project and link them to their profile where interested developers can contact them.</li>
+			<li>There will be a jobs board, where organizations can post projects and link them to their profile where interested developers can contact them.</li>
 			<li>Devs will be able to link their work to their profile, so organizations can check it out easily.</li>
 			<li>Star rating and review system for organizations to leave feedback on developers.</li>
 			<li>Only allow registered users to see contact information for the job listings.</li>
