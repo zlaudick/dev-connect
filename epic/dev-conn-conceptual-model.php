@@ -5,6 +5,7 @@
 		<title>Dev Connect Conceptual Model</title>
 	</head>
 	<body>
+		<p>sanity has been compromised</p>
 		<h1>Entities and Attributes</h1>
 		<ol>
 			<li>profile</li>
