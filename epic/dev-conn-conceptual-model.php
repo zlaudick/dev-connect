@@ -60,5 +60,7 @@
 			<li>many <strong>profiles</strong> can review many <strong>profiles</strong></li>
 			<li>many <strong>projects</strong> can have many <strong>tags</strong></li>
 		</ul>
+		<h1>Dev Connect ERD</h1>
+		<img src="/epic/dev-connect-erd.svg" rel="Dev Connect ERD" />
 	</body>
 </html>
