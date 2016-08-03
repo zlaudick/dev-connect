@@ -53,5 +53,12 @@
 				</ul>
 		</ol>
 		<h1>Conceptual Model</h1>
+		<ul>
+			<li>one profile can create many projects</li>
+			<li>many profiles can view many projects</li>
+			<li>many profiles can message many profiles</li>
+			<li>many profiles can review many profiles</li>
+			<li>many projects can have many tags</li>
+		</ul>
 	</body>
 </html>
