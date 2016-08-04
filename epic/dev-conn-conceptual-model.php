@@ -29,8 +29,9 @@
 			<ul>
 				<li>profileId(primary key)</li>
 				<li>profileAccountType</li>
-				<li>profileGithubActivationToken</li>
 				<li>profileContent</li>
+				<li>profileGithubAccessToken</li>
+				<li>profileGithubUserId</li>
 				<li>profileHash</li>
 				<li>profileLocation</li>
 				<li>profileName</li>
@@ -80,6 +81,7 @@
 			<li>many <strong>profiles</strong> can message many <strong>profiles</strong></li>
 			<li>many <strong>profiles</strong> can review many <strong>profiles</strong></li>
 			<li>many <strong>projects</strong> can have many <strong>tags</strong></li>
+			<li>many <strong>images</strong> can be attached to many <strong>profiles</strong></li>
 		</ul>
 		<h1>Dev Connect ERD</h1>
 		<img src="../images/dev-connect-erd.svg" alt="Dev Connect ERD" />
