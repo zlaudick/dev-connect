@@ -22,8 +22,8 @@
 			<li>project
 			<ul>
 				<li>projectId(primary key)</li>
-				<li>projectProfileId(foriegn key)</li>
-				<li>projectPicturePath(foriegn key)</li>
+				<li>projectProfileId(foreign key)</li>
+				<li>projectPicturePath(foreign key)</li>
 				<li>projectName</li>
 				<li>projectContent</li>
 				<li>projectDate</li>
