@@ -29,7 +29,7 @@
 			<ul>
 				<li>profileId(primary key)</li>
 				<li>profileAccountType</li>
-				<li>profileActivationToke</li>
+				<li>profileActivationToken</li>
 				<li>profileContent</li>
 				<li>profileGithubAccessToken</li>
 				<li>profileGithubUserId</li>
