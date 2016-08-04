@@ -5,7 +5,6 @@
 		<title>Dev Connect Conceptual Model</title>
 	</head>
 	<body>
-
 		<h1>Entities and Attributes</h1>
 		<ol>
 			<li>message(weak)
