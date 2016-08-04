@@ -38,7 +38,7 @@
 			<li>message(weak)
 			<ul>
 				<li>messageSentProfileId(primary composite key)</li>
-				<li>messageRecieveProfileId(primary composite key)</li>
+				<li>messageReceiveProfileId(primary composite key)</li>
 				<li>messageContent</li>
 			</ul>
 			</li>
