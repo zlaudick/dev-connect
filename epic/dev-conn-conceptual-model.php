@@ -7,30 +7,46 @@
 	<body>
 		<h1>Entities and Attributes</h1>
 		<ol>
+			<li>
+				image
+				<ul>
+					<li>imageId</li>
+					<li>imagePath</li>
+					<li>imageType</li>
+				</ul>
+			</li>
 			<li>message(weak)
 				<ul>
 					<li>messageReceiveProfileId(primary composite key)</li>
 					<li>messageSentProfileId(primary composite key)</li>
 					<li>messageContent</li>
+					<li>messageDateTime</li>
+					<li>messageMailgunId</li>
+					<li>messageSubject</li>
 				</ul>
 			</li>
 			<li>profile
 			<ul>
 				<li>profileId(primary key)</li>
 				<li>profileAccountType</li>
+				<li>profileGithubActivationToken</li>
 				<li>profileContent</li>
 				<li>profileHash</li>
 				<li>profileLocation</li>
 				<li>profileName</li>
-				<li>profilePicturePath</li>
 				<li>profileSalt</li>
+			</ul>
+			</li>
+			<li>profileImage
+			<ul>
+				<li>profileImageProfileId</li>
+				<li>profileImageImageId</li>
 			</ul>
 			</li>
 			<li>project
 			<ul>
 				<li>projectId(primary key)</li>
 				<li>projectProfileId(foreign key)</li>
-				<li>projectPicturePath(foreign key)</li>
 				<li>projectContent</li>
 				<li>projectDate</li>
 				<li>projectName</li>
@@ -44,9 +60,10 @@
 			</li>
 			<li>review(weak)
 				<ul>
-					<li>reviewReceiveProfileId(primary composite key</li>
+					<li>reviewReceiveProfileId(primary composite key)</li>
 					<li>reviewWriteProfileId(primary composite key)</li>
 					<li>reviewContent</li>
+					<li>reviewDateTime</li>
 					<li>reviewRating</li>
 				</ul>
 			</li>
