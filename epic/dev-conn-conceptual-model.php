@@ -60,7 +60,6 @@
 		<h1>Conceptual Model</h1>
 		<ul>
 			<li>one <strong>profile</strong> can create many <strong>projects</strong></li>
-			<li>many <strong>profiles</strong> can view many <strong>projects</strong></li>
 			<li>many <strong>profiles</strong> can message many <strong>profiles</strong></li>
 			<li>many <strong>profiles</strong> can review many <strong>profiles</strong></li>
 			<li>many <strong>projects</strong> can have many <strong>tags</strong></li>
