@@ -27,12 +27,12 @@
 			</li>
 			<li>profile
 			<ul>
+				<li>profileAccountType</li>
+				<li>profileActivationToken</li>
 				<li>profileApproved</li>
 				<li>profileApprovedBy</li>
 				<li>profileApprovedDateTime</li>
 				<li>profileId(primary key)</li>
-				<li>profileAccountType</li>
-				<li>profileActivationToken</li>
 				<li>profileContent</li>
 				<li>profileGithubAccessToken</li>
 				<li>profileHash</li>
