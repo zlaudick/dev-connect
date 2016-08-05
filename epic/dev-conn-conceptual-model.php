@@ -27,6 +27,9 @@
 			</li>
 			<li>profile
 			<ul>
+				<li>profileApproved</li>
+				<li>profileApprovedBy</li>
+				<li>profileApprovedDateTime</li>
 				<li>profileId(primary key)</li>
 				<li>profileAccountType</li>
 				<li>profileActivationToken</li>
