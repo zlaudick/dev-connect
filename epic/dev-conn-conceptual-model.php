@@ -32,7 +32,6 @@
 				<li>profileActivationToken</li>
 				<li>profileContent</li>
 				<li>profileGithubAccessToken</li>
-				<li>profileGithubUserId</li>
 				<li>profileHash</li>
 				<li>profileLocation</li>
 				<li>profileName</li>
