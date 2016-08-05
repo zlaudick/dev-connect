@@ -30,7 +30,7 @@
 				<li>profileAccountType</li>
 				<li>profileActivationToken</li>
 				<li>profileApproved</li>
-				<li>profileApprovedBy</li>
+				<li>profileApprovedById</li>
 				<li>profileApprovedDateTime</li>
 				<li>profileId(primary key)</li>
 				<li>profileContent</li>
