@@ -35,6 +35,7 @@
 				<li>profileApprovedById</li>
 				<li>profileApprovedDateTime</li>
 				<li>profileContent</li>
+				<li>profileEmail</li>
 				<li>profileGithubAccessToken</li>
 				<li>profileHash</li>
 				<li>profileLocation</li>
