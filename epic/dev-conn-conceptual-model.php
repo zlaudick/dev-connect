@@ -15,10 +15,11 @@
 					<li>imageType</li>
 				</ul>
 			</li>
-			<li>message(weak)
+			<li>message(weak - "try hard")
 				<ul>
-					<li>messageReceiveProfileId(primary composite key)</li>
-					<li>messageSentProfileId(primary composite key)</li>
+					<li>messageId (primary key)</li>
+					<li>messageReceiveProfileId(foreign key)</li>
+					<li>messageSentProfileId(foreign key)</li>
 					<li>messageContent</li>
 					<li>messageDateTime</li>
 					<li>messageMailgunId</li>
