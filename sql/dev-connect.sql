@@ -12,17 +12,17 @@ DROP TABLE IF EXISTS profile;
 CREATE TABLE profile(
 	profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	profileAccountType CHAR(1) NOT NULL,
-	profileActivationToken VARCHAR(128) NOT NULL,
+	profileActivationToken CHAR(32) NOT NULL,
 	profileApproved BOOLEAN NOT NULL,
 	profileApprovedById INT UNSIGNED NOT NULL,
 	profileApprovedDateTime DATETIME NOT NULL,
 	profileContent VARCHAR(2000),
 	profileEmail VARCHAR(128) NOT NULL,
 	profileGithubAccessToken CHAR(64),
-	profileHash CHAR(128) NOT NULL,
+	profileHash CHAR(128),
 	profileLocation VARCHAR(64),
 	profileName VARCHAR(32) NOT NULL,
-	profileSalt CHAR(64) NOT NULL,
+	profileSalt CHAR(64),
 	UNIQUE (profileEmail),
 	UNIQUE (profileHash),
 	UNIQUE (profileName),
@@ -33,8 +33,8 @@ CREATE TABLE profile(
 -- create image entity
 CREATE TABLE image (
 	imageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	imagePath VARCHAR(255),
-	imageType VARCHAR(32),
+	imagePath VARCHAR(255) NOT NULL,
+	imageType VARCHAR(32) NOT NULL,
 	PRIMARY KEY (imageId)
 );
 
@@ -61,10 +61,10 @@ CREATE TABLE message (
 	messageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	messageReceiveProfileId INT UNSIGNED NOT NULL,
 	messageSentProfileId INT UNSIGNED NOT NULL,
-	messageContent VARCHAR(2000),
+	messageContent VARCHAR(2000) NOT NULL,
 	messageDateTime DATETIME NOT NULL,
-	messageMailgunId CHAR(128),
-	messageSubject VARCHAR(140),
+	messageMailgunId VARCHAR(128),
+	messageSubject VARCHAR(140) NOT NULL,
 	FOREIGN KEY (messageReceiveProfileId) REFERENCES profile (profileId),
 	FOREIGN KEY (messageSentProfileId) REFERENCES profile (profileId),
 	PRIMARY KEY (messageId)
