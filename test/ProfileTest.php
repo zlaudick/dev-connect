@@ -98,4 +98,18 @@ Class ProfileTest extends DevConnectTest {
 	 * @var Profile Salt
 	 **/
 	private $salt;
+
+	/**
+	 * create dependent objects before running each test
+	 **/
+	public final function setUp() {
+		// run the default setUp method first
+		parent::setUp();
+
+		// create and insert a Profile to own the account
+		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
+		$this->VALID_PROFILEACTIVATIONTOKEN2 = bin2hex(random_bytes(16));
+		$this->salt = bin2hex(random_bytes(32));
+		$this->hash = hash_pbkdf2("sha512", "123456", $this->salt, 4096, 128);
+	}
 }
