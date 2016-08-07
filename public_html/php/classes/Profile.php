@@ -157,4 +157,37 @@ class Profile {
 		// convert and store the profile id
 		$this->profileId = $newProfileId;
 	}
+
+	/**
+	 * accessor method for profile account type
+	 * @return string value of profile account type
+	 **/
+	public function getProfileAccountType() {
+		return($this->profileAccountType);
+	}
+
+	/**
+	 * mutator method for profile account type
+	 *
+	 * @param string $newProfileAccountType new account type of the profile
+	 * @throws \InvalidArgumentException if $newProfileAccountType is not a string or insecure
+	 * @throws \RangeException if $newProfileAccountType is > 1 character
+	 * @throws \TypeError if $newProfileAccountType is not a string
+	 **/
+	public function setProfileAccountType(string $newProfileAccountType) {
+		// verify the account type is secure
+		$newProfileAccountType = trim($newProfileAccountType);
+		$newProfileAccountType = filter_var($newProfileAccountType, FILTER_SANITIZE_STRING);
+		if(empty($newProfileAccountType) === true) {
+			throw(new \InvalidArgumentException("account type is emtpy or insecure"));
+		}
+
+		// verify the account type will fit in the database
+		if(strlen($newProfileAccountType) > 1) {
+			throw(new \RangeException("account type is too large"));
+		}
+
+		// store the account type
+		$this->profileAccountType = $newProfileAccountType;
+	}
 }
