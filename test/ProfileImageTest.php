@@ -31,4 +31,20 @@ class ProfileImageTest extends DevConnectTest {
 	 * @var Image image
 	 **/
 	protected $image = null;
+
+	/**
+	 * create dependent objects before running each test
+	 **/
+	public final function setUp() {
+		// run the default setUp method first
+		parent::setUp();
+
+		// create and insert a Profile to own the test Profile Image
+		$this->profile = new Profile(null, "Zac", "zlaudick@cnm.edu");
+		$this->profile->insert($this->getPDO());
+
+		// create and insert an Image to own the test Profile Image
+		$this->image = new Image(null, "filename", "image/jpg");
+		$this->image->insert($this->getPDO());
+	}
 }
