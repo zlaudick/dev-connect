@@ -127,17 +127,17 @@ Class ProfileTest extends DevConnectTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
-		$this->assertEquals($pdoUser->getProfileAccountType(), $this->VALID_PROFILEACCOUNTTYPE);
-		$this->assertEquals($pdoUser->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
-		$this->assertEquals($pdoUser->getProfileApproved(), $this->VALID_PROFILEAPPROVED);
-		$this->assertEquals($pdoUser->getProfileApprovedById(), $this->VALID_PROILEAPPROVEDBYID);
-		$this->assertEquals($pdoUser->getProfileApprovedDateTime(), $this->VALID_PROFILEAPPROVEDDATETIME);
-		$this->assertEquals($pdoUser->getProfileContent(), $this->VALID_PROFILECONTENT);
-		$this->assertEquals($pdoUser->getProfileEmail(), $this->VALID_PROFILEEMAIL);
-		$this->assertEquals($pdoUser->getProfileGithubAccessToken(), $this->VALID_PROFILEGITHUBACCESSTOKEN);
-		$this->assertEquals($pdoUser->getProfileHash(), $this->hash);
-		$this->assertEquals($pdoUser->getProfileLocation(), $this->VALID_PROFILELOCATION);
-		$this->assertEquals($pdoUser->getProfileName(), $this->VALID_PROFILENAME);
-		$this->assertEquals($pdoUser->getProfileSalt(), $this->salt);
+		$this->assertEquals($pdoProfile->getProfileAccountType(), $this->VALID_PROFILEACCOUNTTYPE);
+		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
+		$this->assertEquals($pdoProfile->getProfileApproved(), $this->VALID_PROFILEAPPROVED);
+		$this->assertEquals($pdoProfile->getProfileApprovedById(), $this->VALID_PROILEAPPROVEDBYID);
+		$this->assertEquals($pdoProfile->getProfileApprovedDateTime(), $this->VALID_PROFILEAPPROVEDDATETIME);
+		$this->assertEquals($pdoProfile->getProfileContent(), $this->VALID_PROFILECONTENT);
+		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
+		$this->assertEquals($pdoProfile->getProfileGithubAccessToken(), $this->VALID_PROFILEGITHUBACCESSTOKEN);
+		$this->assertEquals($pdoProfile->getProfileHash(), $this->hash);
+		$this->assertEquals($pdoProfile->getProfileLocation(), $this->VALID_PROFILELOCATION);
+		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
+		$this->assertEquals($pdoProfile->getProfileSalt(), $this->salt);
 	}
 }
