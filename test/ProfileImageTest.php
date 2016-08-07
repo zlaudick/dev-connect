@@ -85,4 +85,15 @@ class ProfileImageTest extends DevConnectTest {
 		$profileImage = new ProfileImage($this->profile->getProfileId(), $this->image->getImageId());
 		$profileImage->update($this->getPDO());
 	}
+
+	/**
+	 * test updating a Profile Image
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testUpdateInvalidProfileImage() {
+		// create a profileImage with a non null profileImage id and watch it fail
+		$profileImage = new ProfileImage(DevConnectTest::INVALID_KEY, DevConnectTest::INVALID_KEY);
+		$profileImage->update($this->getPDO());
+	}
 }
