@@ -112,4 +112,32 @@ Class ProfileTest extends DevConnectTest {
 		$this->salt = bin2hex(random_bytes(32));
 		$this->hash = hash_pbkdf2("sha512", "123456", $this->salt, 4096, 128);
 	}
+
+	/**
+	 * test inserting a valid Profile and verify that the actual mySQL data matches
+	 **/
+	public function testInsertValidProfile() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("Profile");
+
+		// create a new Profile and insert it into mySQL
+		$profile = new Profile(null, $this->VALID_PROFILEACCOUNTTYPE, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEAPPROVED, $this->VALID_PROILEAPPROVEDBYID, $this->VALID_PROFILEAPPROVEDDATETIME, $this->VALID_PROFILECONTENT, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEGITHUBACCESSTOKEN, $this->hash, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->salt);
+		$profile->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
+		$this->assertEquals($pdoUser->getProfileAccountType(), $this->VALID_PROFILEACCOUNTTYPE);
+		$this->assertEquals($pdoUser->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
+		$this->assertEquals($pdoUser->getProfileApproved(), $this->VALID_PROFILEAPPROVED);
+		$this->assertEquals($pdoUser->getProfileApprovedById(), $this->VALID_PROILEAPPROVEDBYID);
+		$this->assertEquals($pdoUser->getProfileApprovedDateTime(), $this->VALID_PROFILEAPPROVEDDATETIME);
+		$this->assertEquals($pdoUser->getProfileContent(), $this->VALID_PROFILECONTENT);
+		$this->assertEquals($pdoUser->getProfileEmail(), $this->VALID_PROFILEEMAIL);
+		$this->assertEquals($pdoUser->getProfileGithubAccessToken(), $this->VALID_PROFILEGITHUBACCESSTOKEN);
+		$this->assertEquals($pdoUser->getProfileHash(), $this->hash);
+		$this->assertEquals($pdoUser->getProfileLocation(), $this->VALID_PROFILELOCATION);
+		$this->assertEquals($pdoUser->getProfileName(), $this->VALID_PROFILENAME);
+		$this->assertEquals($pdoUser->getProfileSalt(), $this->salt);
+	}
 }
