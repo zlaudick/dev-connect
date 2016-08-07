@@ -126,4 +126,13 @@ class ProfileImageTest extends DevConnectTest {
 		$profileImage = new ProfileImage($this->profile->getProfileId(), $this->image->getImageId());
 		$profileImage->delete($this->getPDO());
 	}
+
+	/**
+	 * test grabbing a ProfileImage by a ProfileId and ImageId that does not exist
+	 **/
+	public function testGetProfileImageByInvalidProfileImageProfileIdAndImageId() {
+		// grab a profile image profileId and imageId that exceed the maximum allowable profileId and imageId
+		$profileImage = ProfileImage::getProfileImageByProfileImageProfileIdAndImageId($this->getPDO(), DevConnectTest::INVALID_KEY, DevConnectTest::INVALID_KEY);
+		$this->assertNull($profileImage);
+	}
 }
