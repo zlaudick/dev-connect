@@ -187,4 +187,15 @@ Class ProfileTest extends DevConnectTest {
 		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
 		$this->assertEquals($pdoProfile->getProfileSalt(), $this->salt);
 	}
+
+	/**
+	 * test updating a Profile that already exists
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testUpdateInvalidProfile() {
+		// create a Profile with a null profile id and watch it fail
+		$profile = new Profile(null, $this->VALID_PROFILEACCOUNTTYPE, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEAPPROVED, $this->VALID_PROILEAPPROVEDBYID, $this->VALID_PROFILEAPPROVEDDATETIME, $this->VALID_PROFILECONTENT, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEGITHUBACCESSTOKEN, $this->hash, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->salt);
+		$profile->update($this->getPDO());
+	}
 }
