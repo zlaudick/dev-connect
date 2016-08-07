@@ -47,4 +47,22 @@ class ProfileImageTest extends DevConnectTest {
 		$this->image = new Image(null, "filename", "image/jpg");
 		$this->image->insert($this->getPDO());
 	}
+
+	/**
+	 * test inserting a valid ProfileImage composite key and verify that the actual mySQL data matches
+	 **/
+	public function testInsertValidProfileImage() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profileImage");
+
+		// create a new profileImage and insert into mySQL
+		$profileImage = new ProfileImage($this->profile->getProfileId(), $this->image->getImageId());
+		$profileImage->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoProfileImage = ProfileImage::getProfileImagebyProfileImageProfileIdAndImageId($this->getPDO(), $profileImage->getProfileImageProfileId(), $profileImage->getProfileImageImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profileImage"));
+		$this->assertEquals($pdoProfileImage->getProfileImageProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfileImage->getProfileImageImageId(), $this->image->getImageId());
+	}
 }
