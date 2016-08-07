@@ -96,4 +96,25 @@ class ProfileImageTest extends DevConnectTest {
 		$profileImage = new ProfileImage(DevConnectTest::INVALID_KEY, DevConnectTest::INVALID_KEY);
 		$profileImage->update($this->getPDO());
 	}
+
+	/**
+	 * test creating a ProfileImage using a profileId and imageId and then deleting it
+	 **/
+	public function testDeleteProfileImageProfileIdAndImageId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profileImage");
+
+		// create a new profileImage and insert into mySQL
+		$profileImage = new ProfileImage($this->profile->getProfileId(), $this->image->getImageId());
+		$profileImage->insert($this->getPDO());
+
+		// delete the profileImage from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profileImage"));
+		$profileImage->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the profileImage does not exist
+		$pdoProfileImage = ProfileImage::getProfileImagebyProfileImageProfileIdAndImageId($this->getPDO(), $profileImage->getProfileImageProfileId(), $profileImage->getProfileImageImageId());
+		$this->assertNull($pdoProfileImage);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profileImage"));
+	}
 }
