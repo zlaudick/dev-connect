@@ -126,7 +126,7 @@ Class ProfileTest extends DevConnectTest {
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileAccountType(), $this->VALID_PROFILEACCOUNTTYPE);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 		$this->assertEquals($pdoProfile->getProfileApproved(), $this->VALID_PROFILEAPPROVED);
@@ -150,5 +150,41 @@ Class ProfileTest extends DevConnectTest {
 		// create a Profile with a non null profile id and watch it fail
 		$profile = new Profile(DevConnectTest::INVALID_KEY, $this->VALID_PROFILEACCOUNTTYPE, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEAPPROVED, $this->VALID_PROILEAPPROVEDBYID, $this->VALID_PROFILEAPPROVEDDATETIME, $this->VALID_PROFILECONTENT, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEGITHUBACCESSTOKEN, $this->hash, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->salt);
 		$profile->insert($this->getPDO());
+	}
+
+	/**
+	 * test inserting a Profile, editing it, and then updating it
+	 **/
+	public function testUpdateValidProfile() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// create a new Profile and insert it in mySQL
+		$profile = new Profile(null, $this->VALID_PROFILEACCOUNTTYPE, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEAPPROVED, $this->VALID_PROILEAPPROVEDBYID, $this->VALID_PROFILEAPPROVEDDATETIME, $this->VALID_PROFILECONTENT, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEGITHUBACCESSTOKEN, $this->hash, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->salt);
+		$profile->insert($this->getPDO());
+
+		// edit the Profile and update it in mySQL
+		$profile->setProfileActivationToken($this->VALID_PROFILEACTIVATIONTOKEN2);
+		$profile->setProfileContent($this->VALID_PROFILECONTENT2);
+		$profile->setProfileEmail($this->VALID_PROFILEEMAIL2);
+		$profile->setProfileHash($this->hash);
+		$profile->setProfileLocation($this->VALID_PROFILELOCATION2);
+		$profile->setProfileSalt($this->salt);
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($pdoProfile->getProfileAccountType(), $this->VALID_PROFILEACCOUNTTYPE);
+		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
+		$this->assertEquals($pdoProfile->getProfileApproved(), $this->VALID_PROFILEAPPROVED);
+		$this->assertEquals($pdoProfile->getProfileApprovedById(), $this->VALID_PROILEAPPROVEDBYID);
+		$this->assertEquals($pdoProfile->getProfileApprovedDateTime(), $this->VALID_PROFILEAPPROVEDDATETIME);
+		$this->assertEquals($pdoProfile->getProfileContent(), $this->VALID_PROFILECONTENT);
+		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
+		$this->assertEquals($pdoProfile->getProfileGithubAccessToken(), $this->VALID_PROFILEGITHUBACCESSTOKEN);
+		$this->assertEquals($pdoProfile->getProfileHash(), $this->hash);
+		$this->assertEquals($pdoProfile->getProfileLocation(), $this->VALID_PROFILELOCATION);
+		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
+		$this->assertEquals($pdoProfile->getProfileSalt(), $this->salt);
 	}
 }
