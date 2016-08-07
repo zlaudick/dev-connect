@@ -65,4 +65,15 @@ class ProfileImageTest extends DevConnectTest {
 		$this->assertEquals($pdoProfileImage->getProfileImageProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoProfileImage->getProfileImageImageId(), $this->image->getImageId());
 	}
+
+	/**
+	 * test inserting a ProfileImage that already exists
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testInsertInvalidProfileImage() {
+		// create an invalid Profile Image and try to insert it
+		$profileImage = new ProfileImage(DevConnectTest::INVALID_KEY, DevConnectTest::INVALID_KEY);
+		$profileImage->insert($this->getPDO());
+	}
 }
