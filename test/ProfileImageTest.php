@@ -76,4 +76,13 @@ class ProfileImageTest extends DevConnectTest {
 		$profileImage = new ProfileImage(DevConnectTest::INVALID_KEY, DevConnectTest::INVALID_KEY);
 		$profileImage->insert($this->getPDO());
 	}
+
+	/**
+	 * test updating a Profile Image
+	 **/
+	public function testUpdateValidProfileImage() {
+		// create a profileImage with a non null profileImage id and watch it fail
+		$profileImage = new ProfileImage($this->profile->getProfileId(), $this->image->getImageId());
+		$profileImage->update($this->getPDO());
+	}
 }
