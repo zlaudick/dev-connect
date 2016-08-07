@@ -260,4 +260,13 @@ Class ProfileTest extends DevConnectTest {
 		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
 		$this->assertEquals($pdoProfile->getProfileSalt(), $this->salt);
 	}
+
+	/**
+	 * test grabbing a Profile that does not exist
+	 **/
+	public function testGetInvalidProfileByProfileId() {
+		// grab a profile id that exceeds the maximum allowable profile id
+		$profile = Profile::getProfileByProfileId($this->getPDO(), DevConnectTest::INVALID_KEY);
+		$this->assertNull($profile);
+	}
 }
