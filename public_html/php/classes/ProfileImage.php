@@ -99,4 +99,26 @@ class ProfileImage {
 		// convert and store the profileImageImageId
 		$this->profileImageImageId = $newProfileImageImageId;
 	}
+
+	/**
+	 * inserts profileImage composite primary key info into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) {
+		// enforce the profileImageProfileId or profileImageImageId is not null
+		if($this->profileImageProfileId === null || $this->profileImageImageId === null) {
+			throw(new \PDOException("not a valid composite key"));
+		}
+
+		// create query template
+		$query = "INSERT INTO profileImage(profileImageProfileId, profileImageImageId) VALUES(:profileImageProfileId, :profileImageImageId)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["profileImageProfileId" => $this->profileImageProfileId, "profileImageImageId" => $this->profileImageImageId];
+		$statement->execute($parameters);
+	}
 }
