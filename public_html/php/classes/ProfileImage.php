@@ -170,4 +170,48 @@ class ProfileImage {
 		$parameters = ["profileImageProfileId" => $this->profileImageProfileId, "profileImageImageId" => $this->profileImageImageId];
 		$statement->execute($parameters);
 	}
+
+	/**
+	 * get the profileImage by profileImageProfileIdAndImageId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $profileImageProfileId profileImageProfileId to search for
+	 * @param int $profileImageImageId profileImageImageId to search for
+	 * @return profileImage profileImage found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getProfileImageByProfileImageProfileIdAndImageId(\PDO $pdo, int $profileImageProfileId, int $profileImageImageId) {
+		// sanitize the profileImageProfileId before searching
+		if($profileImageProfileId <= 0) {
+			throw(new \PDOException("profileImageProfileId is not positive"));
+		}
+
+		// sanitize the profileImageImageId before searching
+		if($profileImageImageId <= 0) {
+			throw(new \PDOException("profileImageImageId is not positive"));
+		}
+
+		// create query template
+		$query = "SELECT profileImageProfileId, profileImageImageId FROM profileImage WHERE profileImageProfileId = :profileImageProfileId AND profileImageImageId = :profileImageImageId";
+		$statement = $pdo->prepare($query);
+
+		// bind the composite key to the place holder in the template
+		$parameters = array("profileImageProfileId" => $profileImageProfileId, "profileImageImageId" => $profileImageImageId);
+		$statement->execute($parameters);
+
+		// grab the category from mySQL
+		try {
+			$profileImage = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profileImage = new ProfileImage($row["profileImageProfileId"], $row["profileImageImageId"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($profileImage);
+	}
 }
