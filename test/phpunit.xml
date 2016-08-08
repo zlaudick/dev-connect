@@ -1,13 +1,13 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="Dev Connect">
-			<file>ImageTest.php</file>
-			<file>MessageTest.php</file>
-			<file>ProfileImageTest.php</file>
-			<file>ProfileTest.php</file>
-			<file>ProjectTest.php</file>
-			<file>ProjectTagTest.php</file>
-			<file>ReviewTest.php</file>
+			<!--<file>ImageTest.php</file>-->
+			<!--<file>MessageTest.php</file>-->
+			<!--<file>ProfileImageTest.php</file>-->
+			<!--<file>ProfileTest.php</file>-->
+			<!--<file>ProjectTest.php</file>-->
+			<!--<file>ProjectTagTest.php</file>-->
+			<!--<file>ReviewTest.php</file>-->
 			<file>TagTest.php</file>
 		</testsuite>
 	</testsuites>

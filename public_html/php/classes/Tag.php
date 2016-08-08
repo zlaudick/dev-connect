@@ -18,7 +18,7 @@ require_once("autoload.php");
  * @author Gerald Sandoval <gsandoval16@cnm.edu>
  * @version
  **/
-class tag {
+class Tag implements \JsonSerializable {
 	/**
 	 * id for this tag entity; this is the primary key
 	 * @var int $tagId
@@ -283,5 +283,16 @@ class tag {
 		}
 		return($tags);
 	}
-
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 * stub for now
+	 **/
+	public function jsonSerialize() {
+		//$fields = get_object_vars($this);
+		//$fields["likeDate"] = intval($this->likeDate->format("U")) * 1000;
+		//return($fields);
+		return(0);
+	}
 }
