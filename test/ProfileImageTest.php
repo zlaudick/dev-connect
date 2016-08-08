@@ -5,10 +5,10 @@ namespace Edu\Cnm\DevConnect\Test;
 use Edu\Cnm\DevConnect\Test\{Profile, Image};
 
 // grab the project test parameters
-require_once(DevConnectTest.php);
+require_once("DevConnectTest.php");
 
 // grab the class under scrutiny
-require_once(dirname(__DIR__) . "/publichtml/php/classes/autoload.php");
+require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
 /**
  * Full PHPUnit test for the ProfileImage class

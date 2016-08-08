@@ -133,13 +133,84 @@ class Image implements \JsonSerializable {
 		return($this->imageType);
 	}
 
+	/**
+	 * mutator method for image type
+	 *
+	 * @param string $newImageType new value of image type
+	 * @throws \InvalidArgumentException if $newImageType is not a string or insecure
+	 * @throws \RangeException if $newImageType is > 32 characters
+	 * @throws \TypeError if $newImageType is not a string
+	 **/
+	public function setImageType(string $newImageType) {
+		//verify image type is secure
+		$newImageType = trim($newImageType);
+		$newImageType = filter_var($newImageType, FILTER_SANITIZE_STRING);
+		if(empty($newImageType) === true) {
+			throw(new \InvalidArgumentException("image type is empty or insecure"));
+		}
 
+		//verify the image type will fit in the database
+		if(strlen($newImageType) > 32) {
+			throw(new \RangeException("image type is too many characters"));
+		}
 
+		//store the image type
+		$this->imageType = $newImageType;
+	}
 
+	/**
+	 * inserts this image into MySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when MySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) {
+		//enforce the imageId is null (don't insert an image that already exists)
+		if($this->imageId !== null) {
+			throw(new \PDOException("not a new image"));
+		}
 
+		//create query template
+		$query = "INSERT INTO image(imagePath, imageType) VALUES(:imagePath, :imageType)";
+		$statement = $pdo->prepare($query);
 
+		//bind the member variables to the placeholders in the template
+		$parameters = ["imagePath" => $this->imagePath, "imageType" => $this->imageType];
+		$statement->execute($parameters);
 
+		//update the null image id with what MySQL just gave us
+		$this->imageId = intval($pdo->lastInsertId());
+	}
 
+	/**
+	 * deletes this image from MySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when MySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) {
+		//enforce the imageId is not null (don't delete an image that hasn't been inserted)
+		if($this->imageId === null) {
+			throw(new \PDOException("unable to delete an image that does not exist"));
+		}
 
+		//create query template
+		$query = "DELETE FROM image WHERE imageId = :imageId";
+		$statement = $pdo->prepare($query);
 
+		//bind the member variables to the placeholders in the template
+		$parameters = ["imageId" => $this->imageId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting in state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		//TODO: Implement jsonSerialize() method.
+	}
 }
