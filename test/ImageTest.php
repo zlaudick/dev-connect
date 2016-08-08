@@ -77,7 +77,7 @@ class ImageTest extends DevConnectTest {
 	 **/
 	public function testUpdateValidImage() {
 		//count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCound("image");
+		$numRows = $this->getConnection()->getRowCount("image");
 
 		//create a new Image and insert into MySQL
 		$image = new Image(null, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
@@ -94,5 +94,36 @@ class ImageTest extends DevConnectTest {
 		$this->assertEquals($pdoImage->getImagePath(), $this->VALID_IMAGEPATH2);
 		$this->assertEquals($pdoImage->getImageType(), $this->VALID_IMAGETYPE2);
 	}
+
+	/**
+	 * test inserting an Image then deleting it
+	 **/
+	public function testDeleteValidImage() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("image");
+
+		//create a new Image and insert into MySQL
+		$image = new Image(null, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
+		$image = insert($this->getPDO());
+
+		//delete the Image from MySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$image->delete($this->getPDO());
+
+		//grab the data from MySQL and enforce that the fields match our expectations
+		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+		$this->assertNull($pdoImage);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("image"));
+	}
+
+	/**
+	 * test deleting an Image that does not exist
+	 **/
+	public function testDeleteInvalidImage() {
+		//create an Image and try to delete it without actually inserting it
+
+	}
+
+
 
 }
