@@ -1,4 +1,4 @@
--- drops tables if they exist in the database
+9++-- drops tables if they exist in the database
 DROP TABLE IF EXISTS projectTag;
 DROP TABLE IF EXISTS profileImage;
 DROP TABLE IF EXISTS review;
