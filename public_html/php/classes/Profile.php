@@ -247,4 +247,29 @@ class Profile {
 		// convert and store the profile approved value
 		$this->profileApproved = $newProfileApproved;
 	}
+
+	/**
+	 * accessor method for profile approved by id
+	 * @returns int value of profile approved by id
+	 **/
+	public function getProfileApprovedById() {
+		return($this->profileApprovedById);
+	}
+
+	/**
+	 * mutator method for profile approved by id
+	 *
+	 * @param int $newProfileApprovedById new value of profile approved by id
+	 * @throws \RangeException if $newProfileApprovedById is not positive
+	 * @throws \TypeError if $newProfileApprovedById is not an integer
+	 **/
+	public function setProfileApprovedById(int $newProfileApprovedById) {
+		// verify the profile approved by id is positive
+		if($newProfileApprovedById <= 0) {
+			throw(new \RangeException("profile approved by id is not positive"));
+		}
+
+		// convert and store the profile approved by id
+		$this->profileApprovedById = $newProfileApprovedById;
+	}
 }
