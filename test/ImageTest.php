@@ -118,10 +118,37 @@ class ImageTest extends DevConnectTest {
 
 	/**
 	 * test deleting an Image that does not exist
+	 *
+	 * @expectedException PDOException
 	 **/
 	public function testDeleteInvalidImage() {
 		//create an Image and try to delete it without actually inserting it
+		$image = new Image(null, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
+		$image->delete($this->getPDO());
+	}
 
+	/**
+	 * test grabbing an Image by image path
+	 **/
+	public function testGetValidImageByImagePath () {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("image");
+
+		//create a new Image and insert it into MySQL
+		$image = new Image(null, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
+		$image->insert($this->getPDO());
+
+		//grab the data from MySQL and enforce the fields match our expectations
+		$results = Image::getImageByImagePath($this->getPDO(), $image->getImagePath());
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("image"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Test", $results);
+
+		//grab the results from the array and validate it
+		$pdoImage = $results[0];
+		$this->assertEquals($pdoImage->getImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoImage->getImagePath(), $this->VALID_IMAGEPATH);
+		$this->assertEquals($pdoImage->getImageType(), $this->VALID_IMAGETYPE);
 	}
 
 
