@@ -1,6 +1,6 @@
 <?php
 namespace Edu\Cnm\DevConnect\Test;
-use Edu\Cnm\DevConnect\Test\DevConnectTest;
+use Edu\Cnm\DevConnect\{Tag};
 // grab the project test parameters
 require_once("DevConnectTest.php");
 // grab the class under scrutiny
@@ -12,7 +12,7 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  * are tested for both invalid and valid inputs.
  *
  * @see Tag
- * @author Dylan McDonald <dmcdonald21@cnm.edu>
+ * @author Gerald Sandoval <gsandoval16@cnm.edu>
  **/
 class TagTest extends DevConnectTest {
 	/**
