@@ -542,4 +542,29 @@ class Profile {
 		// store the profile salt
 		$this->profileSalt = $newProfileSalt;
 	}
+
+	/**
+	 * inserts this Profile in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) {
+		// enforce the user is null
+		if($this->profileId !== null) {
+			throw(new \PDOException("profile already exists"));
+		}
+
+		// create query template
+		$query = "INSERT INTO profile(profileAccountType, profileActivationToken, profileApproved, profileApprovedById, profileApprovedDateTime, profileContent, profileEmail, profileGithubAccessToken, profileHash, profileLocation, profileName, profileSalt) VALUES(:profileAccountType, :profileActivationToken, :profileApproved, :profileApprovedById, :profileApprovedDateTime, :profileContent, :profileEmail, : profileGithubAccessToken, :profileHash, :profileLocation, :profileName, :profileSalt)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["profileAccountType" => $this->profileAccountType, "profileActivationToken" => $this->profileActivationToken, "profileApproved" => $this->profileApproved, "profileApprovedById" => $this->profileApprovedById, "profileApprovedDateTime" => $this->profileApprovedDateTime, "profileContent" => $this->profileContent, "profileEmail" => $this->profileEmail, "profileGithubAccessToken" => $this->profileGithubAccessToken, "profileHash" => $this->profileHash, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profileSalt" => $this->profileSalt];
+		$statement->execute($parameters);
+
+		// update the null profile id with what mySQL just gave us
+		$this->profileId = intval($pdo->lastInsertId());
+	}
 }
