@@ -404,4 +404,40 @@ class Profile {
 		// convert and store the github access token
 		$this->profileGithubAccessToken = $newProfileGithubAccessToken;
 	}
+
+	/**
+	 * accessor method for profile hash
+	 * @return string value of profile hash
+	 **/
+	public function getProfileHash() {
+		return($this->profileHash);
+	}
+
+	/**
+	 * mutator method for profile hash
+	 *
+	 * @param string $newProfileHash new value of profile hash
+	 * @throws \InvalidArgumentException if $newProfileHash is not a string or insecure
+	 * @throws \RangeException if $newProfileHash is !== 128 characters
+	 * @throws \TypeError if $newProfileHash is not a string
+	 **/
+	public function setProfileHash(string $newProfileHash) {
+		// verify the hash is secure
+		if(empty($newProfileHash)) {
+			throw(new \InvalidArgumentException("hash is empty or insecure"));
+		}
+
+		// verify the hash is a hexadecimal
+		if(!ctype_xdigit($newProfileHash)) {
+			throw(new \InvalidArgumentException("hash is empty or insecure"));
+		}
+
+		// verify the hash will fit in the database
+		if(strlen($newProfileHash) !== 128) {
+			throw(new \RangeException("hash is not of valid length"));
+		}
+
+		// store the hash
+		$this->profileHash = $newProfileHash;
+	}
 }
