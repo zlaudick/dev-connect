@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\Gsandoval21\DevConnect;
+namespace Edu\Cnm\DevConnect;
 require_once("autoload.php");
 
 
