@@ -205,9 +205,14 @@ class Image implements \JsonSerializable {
 		$statement->execute($parameters);
 	}
 
-
-
-
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting in state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		// TODO: Implement jsonSerialize() method.
+	}
 
 
 }
