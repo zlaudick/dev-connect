@@ -223,4 +223,28 @@ class Profile {
 		// store the activation token
 		$this->profileActivationToken = $newProfileActivationToken;
 	}
+
+	/**
+	 * accessor method for profile approved
+	 * @returns boolean value of profile approved
+	 **/
+	public function getProfileApproved() {
+		return($this->profileApproved);
+	}
+
+	/**
+	 * mutator method for profile approved
+	 *
+	 * @param boolean $newProfileApproved new value of profile approved
+	 * @throws \TypeError if $newProfileApproved is not a boolean
+	 **/
+	public function setProfileApproved(boolean $newProfileApproved) {
+		// verify the profile approved value is boolean
+		if(is_bool($newProfileApproved) === false) {
+			throw(new \TypeError("this is not a boolean value"));
+		}
+
+		// convert and store the profile approved value
+		$this->profileApproved = $newProfileApproved;
+	}
 }
