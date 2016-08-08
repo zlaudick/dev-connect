@@ -338,4 +338,37 @@ class Profile {
 		// store the content
 		$this->profileContent = $newProfileContent;
 	}
+
+	/**
+	 * accessor method for profile email
+	 * @return string value of profile email
+	 **/
+	public function getProfileEmail() {
+		return($this->profileEmail);
+	}
+
+	/**
+	 * mutator method for profile email
+	 *
+	 * @param string $newProfileEmail new value of profile email
+	 * @throws \InvalidArgumentException if $newProfileEmail is not a string or insecure
+	 * @throws \RangeException if $newProfileEmail is > 128 characters
+	 * @throws \TypeError if $newProfileEmail is not a string
+	 **/
+	public function setProfileEmail(string $newProfileEmail) {
+		// verify the email is secure
+		$newProfileEmail = trim($newProfileEmail);
+		$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_STRING);
+		if(empty($newProfileEmail) === true) {
+			throw(new \InvalidArgumentException("email is empty or insecure"));
+		}
+
+		// verify the email will fit in the database
+		if(strlen($newProfileEmail) > 128) {
+			throw(new \RangeException("email is too large"));
+		}
+
+		// convert and store the email
+		$this->profileEmail = $newProfileEmail;
+	}
 }
