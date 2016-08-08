@@ -24,27 +24,27 @@ Class ProfileTest extends DevConnectTest {
 	 * account type of the Profile
 	 * @var string $VALID_PROFILEACCOUNTTYPE
 	 **/
-	protected $VALID_PROFILEACCOUNTTYPE = null;
+	protected $VALID_PROFILEACCOUNTTYPE = "0";
 	/**
 	 * activation token of the Profile
 	 * @var string $VALID_PROFILEACTIVATIONTOKEN
 	 **/
-	protected $VALID_PROFILEACTIVATIONTOKEN = null;
+	protected $VALID_PROFILEACTIVATIONTOKEN = "123456789";
 	/**
 	 * activation token of the Profile
 	 * @var string $VALID_PROFILEACTIVATIONTOKEN2
 	 **/
-	protected $VALID_PROFILEACTIVATIONTOKEN2 = null;
+	protected $VALID_PROFILEACTIVATIONTOKEN2 = "987654321";
 	/**
 	 * approved value of the Profile
 	 * @var boolean $VALID_PROFILEAPPROVED
 	 **/
-	protected $VALID_PROFILEAPPROVED = null;
+	protected $VALID_PROFILEAPPROVED = true;
 	/**
 	 * approvedById of the Profile
 	 * @var int $VALID_PROFILEAPPROVEDBYID
 	 **/
-	protected $VALID_PROILEAPPROVEDBYID = null;
+	protected $VALID_PROILEAPPROVEDBYID = 1;
 	/**
 	 * datetime stamp of the Profile approval
 	 * @var DateTime $VALID_PROFILEAPPROVEDDATETIME
@@ -74,7 +74,7 @@ Class ProfileTest extends DevConnectTest {
 	 * github access token of the Profile
 	 * @var string $VALID_PROFILEGITHUBACCESSTOKEN
 	 **/
-	protected $VALID_PROFILEGITHUBACCESSTOKEN = null;
+	protected $VALID_PROFILEGITHUBACCESSTOKEN = "12345678910";
 	/**
 	 * @var Profile Hash
 	 **/
