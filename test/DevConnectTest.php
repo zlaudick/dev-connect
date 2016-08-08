@@ -1,4 +1,4 @@
-<?php
+ <?php
 namespace Edu\Cnm\DevConnect\Test;
 
 // grab the encrypted properties file
