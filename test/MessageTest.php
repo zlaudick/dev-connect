@@ -56,7 +56,7 @@ class MessageTest extends DevConnectTest {
 
 		//create and insert a Profile to own the test Message, must figure out what to put for these...
 		//do we need two profiles created, the send and receive profiles??
-		$this->profile = new Profile(null, null, null, null, null, null, null, "foo@bar.com", null, null, null, "Los Angeles", "Mark Fischbach", null);
+		$this->profile = new Profile(null, "0", null, null, null, null, null, "foo@bar.com", null, null, null, "Los Angeles", "Mark Fischbach", null);
 		$this->profile->insert($this->getPDO());
 
 		//calculate the date using the time the unit test was set up
@@ -71,7 +71,7 @@ class MessageTest extends DevConnectTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new message and insert into MySQL
-		$message = new $message($this->profile->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MESSAGESUBJECT);
+		$message = new Message($this->profile->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations

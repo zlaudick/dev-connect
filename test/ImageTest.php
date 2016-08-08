@@ -51,10 +51,6 @@ class ImageTest extends DevConnectTest {
 	public final function setUp() {
 		//run the default setUp() method first
 		parent::setUp();
-
-		//create and insert an Image Id to own the test Image
-		$this->image = new Image(null, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
-		$this->image->insert($this->getPDO());
 	}
 
 	/**
