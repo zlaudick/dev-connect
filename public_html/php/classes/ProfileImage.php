@@ -8,7 +8,7 @@ require_once("autoload.php");
  *
  * @author Zac Laudick <zlaudick@cnm.edu>
  **/
-class ProfileImage {
+class ProfileImage implements \JsonSerializable {
 	/**
 	 * foreign key, this is part of the composite key
 	 * @var int $profileImageProfileId
@@ -243,5 +243,15 @@ class ProfileImage {
 			}
 		}
 		return ($profileImages);
+	}
+
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		return($fields);
 	}
 }
