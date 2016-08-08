@@ -179,7 +179,7 @@ class Profile implements \JsonSerializable {
 		$newProfileAccountType = trim($newProfileAccountType);
 		$newProfileAccountType = filter_var($newProfileAccountType, FILTER_SANITIZE_STRING);
 		if(empty($newProfileAccountType) === true) {
-			throw(new \InvalidArgumentException("account type is emtpy or insecure"));
+			throw(new \InvalidArgumentException("account type is empty or insecure"));
 		}
 
 		// verify the account type will fit in the database
