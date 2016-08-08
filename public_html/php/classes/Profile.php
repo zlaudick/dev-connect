@@ -171,7 +171,7 @@ class Profile {
 	 *
 	 * @param string $newProfileAccountType new account type of the profile
 	 * @throws \InvalidArgumentException if $newProfileAccountType is not a string or insecure
-	 * @throws \RangeException if $newProfileAccountType is > 1 character
+	 * @throws \RangeException if $newProfileAccountType is !== 1 character
 	 * @throws \TypeError if $newProfileAccountType is not a string
 	 **/
 	public function setProfileAccountType(string $newProfileAccountType) {
@@ -183,11 +183,44 @@ class Profile {
 		}
 
 		// verify the account type will fit in the database
-		if(strlen($newProfileAccountType) > 1) {
+		if(strlen($newProfileAccountType) !== 1) {
 			throw(new \RangeException("account type is too large"));
 		}
 
 		// store the account type
 		$this->profileAccountType = $newProfileAccountType;
+	}
+
+	/**
+	 * accessor method for profile activation token
+	 * @return string value of profile activation token
+	 **/
+	public function getProfileActivationToken() {
+		return($this->profileActivationToken);
+	}
+
+	/**
+	 * mutator method for profile activation token
+	 *
+	 * @param string $newProfileActivationToken new value of profile activation token
+	 * @throws \InvalidArgumentException if $newProfileActivationToken is not a string or insecure
+	 * @throws \RangeException if $newProfileActivationToken is !== 32 characters
+	 * @throws \TypeError if $newProfileActivationToken is not a string
+	 **/
+	public function setProfileActivationToken(string $newProfileActivationToken) {
+		// verify the activation token is secure
+		$newProfileActivationToken = trim($newProfileActivationToken);
+		$newProfileActivationToken = filter_var($newProfileActivationToken, FILTER_SANITIZE_STRING);
+		if(empty($newProfileActivationToken) === true) {
+			throw(new \InvalidArgumentException("activation token is empty or insecure"));
+		}
+
+		// verify the activation token will fit in the database
+		if(strlen($newProfileActivationToken) !== 32) {
+			throw(new \RangeException("activation token is not 32 characters"));
+		}
+
+		// store the activation token
+		$this->profileActivationToken = $newProfileActivationToken;
 	}
 }
