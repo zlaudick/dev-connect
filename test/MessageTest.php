@@ -45,6 +45,7 @@ class MessageTest extends DevConnectTest {
 	 * @var Profile profile
 	 **/
 	protected $profile = null;
+	
 
 	/**
 	 * create dependent objects first before running each test
@@ -54,6 +55,7 @@ class MessageTest extends DevConnectTest {
 		parent::setUp();
 
 		//create and insert a Profile to own the test Message, must figure out what to put for these...
+		//do we need two profiles created, the send and receive profiles??
 		$this->profile = new Profile(null, null, null, null, null, null, null, "foo@bar.com", null, null, null, "Los Angeles", "Mark Fischbach", null);
 		$this->profile->insert($this->getPDO());
 
@@ -62,7 +64,7 @@ class MessageTest extends DevConnectTest {
 	}
 
 	/**
-	 * test inserting valid Message content and verifying that actual MySQL data matches
+	 * test inserting a valid Message and verifying that actual MySQL data matches
 	 **/
 	public function testInsertValidMessageContent() {
 		//count the number of rows and save it for later
@@ -70,7 +72,20 @@ class MessageTest extends DevConnectTest {
 
 		//create a new message and insert into MySQL
 		$message = new $message($this->profile->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MESSAGESUBJECT);
+		$message->insert($this->getPDO());
+
+		//grab the data from MySQL and enforce that the fields match our expectations
+		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
+		$this->assertEquals($pdoMessage->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
+		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
+		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
+
+	/**
+	 * test inserting a Message that already exists
+	 **/
 
 }
 
