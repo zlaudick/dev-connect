@@ -87,8 +87,8 @@ public final function getConnection() {
 // if the connection hasn't been established, create it
 if($this->connection === null) {
 // connect to mySQL and provide the interface to PHPUnit
-$config = readConfig("/etc/apache2/dev-connect.ini");
-$pdo = connectToEncryptedMySQL("/etc/apache2/dev-connect.ini");
+$config = readConfig("/etc/apache2/capstone-mysql/devconnect.ini");
+$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/devconnect.ini");
 $this->connection = $this->createDefaultDBConnection($pdo, $config["database"]);
 }
 return($this->connection);
