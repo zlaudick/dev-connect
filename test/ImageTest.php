@@ -55,6 +55,7 @@ class ImageTest extends DevConnectTest {
 		//grab the data from MySQL and enforce that the fields match our expectations
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		//do we need an image field? This seems to say we do.
 		$this->assertEquals($pdoImage->getImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoImage->getImagePath(), $this->VALID_IMAGEPATH);
 		$this->assertEquals($pdoImage->getImageType(), $this->VALID_IMAGETYPE);
