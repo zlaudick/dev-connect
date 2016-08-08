@@ -8,7 +8,7 @@ require_once("autoload.php");
  *
  * @author Zac Laudick <zlaudick@cnm.edu>
  **/
-class Profile {
+class Profile implements \JsonSerializable {
 	use ValidateDate;
 	/**
 	 * id for this Profile; this is the primary key
@@ -745,4 +745,10 @@ class Profile {
 	 *
 	 * @return array resulting state variables to serialize
 	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		unset($fields["profileHash"]);
+		unset($fields["profileSalt"]);
+		return ($fields);
+	}
 }
