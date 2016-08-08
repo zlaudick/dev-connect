@@ -2,3 +2,42 @@
 namespace Edu\Cnm\DevConnect\Test;
 
 use Edu\Cnm\DevConnect\Test\DevConnectTest;
+
+//grab the project test parameters
+require_once("DevConnectTest.php");
+
+//grab the class under scrutiny
+require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
+
+/**
+ * Full PHPUnit test for the Image class
+ *
+ * This is a complete PHPUnit test of the Image class. It is complete because *ALL* mySQL/PDO enabled methods
+ * are tested for both invalid and valid inputs.
+ *
+ * @see Image
+ * @author Devon Beets <dbeets@cnm.edu>
+ **/
+
+class ImageTest extends DevConnectTest {
+	/**
+	 * path of the Image
+	 * @var string $VALID_IMAGEPATH
+	 **/
+	protected $VALID_IMAGEPATH = "myPictureIsWorking";
+	/**
+	 * path of the updated Image
+	 * @var string $VALID_IMAGEPATH2
+	 **/
+	protected $VALID_IMAGEPATH2 = "myOtherPictureIsWorkingToo";
+	/**
+	 * type of the Image
+	 * @var string $VALID_IMAGETYPE
+	 **/
+	protected $VALID_IMAGETYPE = "jpeg";
+	/**
+	 *  type of the updated Image
+	 * @var string $VALID_IMAGETYPE2
+	 **/
+	protected $VALID_IMAGETYPE2 = "png";
+}

@@ -87,11 +87,7 @@ class MessageTest extends DevConnectTest {
 	 * test inserting a Message that already exists
 	 * @expectedException PDOException
 	 **/
-	public function testInsertInvalidMessageContent() {
-		//create a Message with with a non null message id and see epic fail
-		$message = new Message(null, )
 
-	}
 
 }
 
