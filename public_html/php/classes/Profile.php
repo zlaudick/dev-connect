@@ -272,4 +272,37 @@ class Profile {
 		// convert and store the profile approved by id
 		$this->profileApprovedById = $newProfileApprovedById;
 	}
+
+	/**
+	 * accessor method for profile approved date time
+	 * @return \DateTime value of profile approved date time
+	 **/
+	public function getProfileApprovedDateTime() {
+		return($this->profileApprovedDateTime);
+	}
+
+	/**
+	 * mutator method for profile approved date time
+	 *
+	 * @param \DateTime|string|null $newProfileApprovedDateTime new value of profile approved date time
+	 * @throws \InvalidArgumentException if $newProfileApprovedDateTime is not a valid object or string
+	 * @throws \RangeException if $newProfileApprovedDateTime is a date that does not exist
+	 **/
+	public function setProfileApprovedDateTime($newProfileApprovedDateTime = null) {
+		// base case: if the date is null, use the current date and time
+		if($newProfileApprovedDateTime === null) {
+			$this->profileApprovedDateTime = new \DateTime();
+			return;
+		}
+
+		// store the profile approved date time
+		try {
+			$newProfileApprovedDateTime = self::validateDateTime($newProfileApprovedDateTime);
+		} catch(\InvalidArgumentException $invalidArgument) {
+			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $range) {
+			throw(new \RangeException($range->getMessage(), 0, $range));
+		}
+		$this->profileApprovedDateTime = $newProfileApprovedDateTime;
+	}
 }
