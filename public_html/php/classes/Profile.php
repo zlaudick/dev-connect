@@ -506,4 +506,40 @@ class Profile {
 		// convert and store the profile name
 		$this->profileName = $newProfileName;
 	}
+
+	/**
+	 * accessor method for profile salt
+	 * @return string value of profile salt
+	 **/
+	public function getProfileSalt() {
+		return($this->profileSalt);
+	}
+
+	/**
+	 * mutator method for profile salt
+	 *
+	 * @param string $newProfileSalt new value of profile salt
+	 * @throws \InvalidArgumentException if $newProfileName is not a string or insecure
+	 * @throws \RangeException if $newProfileName is !== 64 characters
+	 * @throws \TypeError if $newProfileName is not a string
+	 **/
+	public function setProfileSalt(string $newProfileSalt) {
+		// verify the profile salt is secure
+		if(empty($newProfileSalt) === true) {
+			throw(new \InvalidArgumentException("profile salt is empty or insecure"));
+		}
+
+		// verify the salt is a hexadecimal
+		if(!ctype_xdigit($newProfileSalt)) {
+			throw(new \InvalidArgumentException("profile salt is empty or insecure"));
+		}
+
+		// verify the salt will fit in the database
+		if(strlen($newProfileSalt) !== 64) {
+			throw(new \RangeException("profile salt is not of valid length"));
+		}
+
+		// store the profile salt
+		$this->profileSalt = $newProfileSalt;
+	}
 }
