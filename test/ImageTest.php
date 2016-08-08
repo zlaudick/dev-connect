@@ -163,8 +163,24 @@ class ImageTest extends DevConnectTest {
 	/**
 	 * test grabbing all Images
 	 **/
-	//count the number of rows and save it for later
+	public function testGetAllValidImages(){
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("image");
 
+		//create a new Image and insert into MySQL
+		$image = new Image(null, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
+		$image->insert($this->getPDO());
 
+		//grab the data from MySQL and enforce that the fields match our expectations
+		$results = Image::getAllImages($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Test", $results);
 
+		//grab the result from the array and validate it
+		$pdoImage = $results[0];
+		$this->assertEquals($pdoImage->getImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoImage->getImagePath(), $this->VALID_IMAGEPATH);
+		$this->assertEquals($pdoImage->getImageType(), $this->VALID_IMAGETYPE);
+	}
 }
