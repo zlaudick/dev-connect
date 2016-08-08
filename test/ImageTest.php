@@ -68,7 +68,7 @@ class ImageTest extends DevConnectTest {
 	 **/
 	public function testInsertInvalidImage() {
 		//create an Image with a non null ImageId and watch it fail
-		$image = new Image(DataDesignTest::INVALID_KEY, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
+		$image = new Image(DevConnectTest::INVALID_KEY, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
 		$image->insert($this->getPDO());
 	}
 
@@ -150,6 +150,20 @@ class ImageTest extends DevConnectTest {
 		$this->assertEquals($pdoImage->getImagePath(), $this->VALID_IMAGEPATH);
 		$this->assertEquals($pdoImage->getImageType(), $this->VALID_IMAGETYPE);
 	}
+
+	/**
+	 * test grabbing an Image by an image path that does not exist
+	 **/
+	public function testGetInvalidImageByImagePath() {
+		//grab an image by searching for content that does not exist
+		$image = Image::getImageByImagePath($this->getPDO(), "this image is not found");
+		$this->assertCount(0, $image);
+	}
+
+	/**
+	 * test grabbing all Images
+	 **/
+	//count the number of rows and save it for later
 
 
 
