@@ -40,6 +40,22 @@ class ImageTest extends DevConnectTest {
 	 * @var string $VALID_IMAGETYPE2
 	 **/
 	protected $VALID_IMAGETYPE2 = "png";
+	/**
+	 * Image Id that associates with the Image
+	 **/
+	protected $image = null;
+
+	/**
+	 * create dependent objects before running each test
+	 **/
+	public final function setUp() {
+		//run the default setUp() method first
+		parent::setUp();
+
+		//create and insert an Image Id to own the test Image
+		$this->image = new Image(null, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
+		$this->image->insert($this->getPDO());
+	}
 
 	/**
 	 * test inserting a valid Image and verify that actual MySQL data matches
