@@ -607,4 +607,39 @@ class Profile {
 		$parameters = ["profileAccountType" => $this->profileAccountType, "profileActivationToken" => $this->profileActivationToken, "profileApproved" => $this->profileApproved, "profileApprovedById" => $this->profileApprovedById, "profileApprovedDateTime" => $this->profileApprovedDateTime, "profileContent" => $this->profileContent, "profileEmail" => $this->profileEmail, "profileGithubAccessToken" => $this->profileGithubAccessToken, "profileHash" => $this->profileHash, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profileSalt" => $this->profileSalt];
 		$statement->execute($parameters);
 	}
+
+	/**
+	 * gets the profile by profileId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $profileId profileId to search for
+	 * @return Profile|null Profile found or null if not found
+	 * @throws \PDOException when mySQL relate errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getProfileByProfileId(\PDO $pdo, $profileId) {
+		// sanitize the profileId before searching
+		if($profileId <= 0) {
+			throw(new \PDOException("profile id is not positive"));
+		}
+		// create query template
+		$query = "SELECT profileId, profileAccountType, profileActivationToken, profileApproved, profileApprovedById, profileApprovedDateTime, profileContent, profileEmail, profileGithubAccessToken, profileHash, profileLocation, profileName, profileSalt FROM profile WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
+		// bind the profile id to the place holder template
+		$parameters = array("profileId" => $profileId);
+		$statement->execute($parameters);
+		// grab the profile from mySQL
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileAccountType"], $row["profileActivationToken"], $row["profileApproved"], $row["profileApprovedById"], $row["profileApprovedDateTime"], $row["profileContent"], $row["profileEmail"], $row["profileGithubAccessToken"], $row["profileHash"], $row["profileLocation"], $row["profileName"], $row["profileSalt"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted throw it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($profile);
+	}
 }
