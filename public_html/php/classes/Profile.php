@@ -642,4 +642,39 @@ class Profile {
 		}
 		return($profile);
 	}
+
+	/**
+	 * gets the Profile by profileActivationToken
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $profileActivationToken profile activation token to search for
+	 * @return Profile|null Profile found or null if not found
+	 * @throws \TypeError when variable are not the correct data type
+	 **/
+	public static function getProfileByProfileActivationToken(\PDO $pdo, $profileActivationToken) {
+		// sanitize the token before searching
+		$profileActivationToken = trim($profileActivationToken);
+		$profileActivationToken = filter_var($profileActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($profileActivationToken) === true) {
+			throw(new \PDOException("profile activation token is invalid"));
+		}
+		//create query template
+		$query = "SELECT profileId, profileAccountType, profileActivationToken, profileApproved, profileApprovedById, profileApprovedDateTime, profileContent, profileEmail, profileGithubAccessToken, profileHash, profileLocation, profileName, profileSalt FROM profile WHERE profileActivationToken = :profileActivationToken";
+		$statement = $pdo->prepare($query);
+		// build an array of profiles
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileAccountType"], $row["profileActivationToken"], $row["profileApproved"], $row["profileApprovedById"], $row["profileApprovedDateTime"], $row["profileContent"], $row["profileEmail"], $row["profileGithubAccessToken"], $row["profileHash"], $row["profileLocation"], $row["profileName"], $row["profileSalt"]);
+			}
+		} catch
+		(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($profile);
+	}
 }
