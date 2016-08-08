@@ -54,17 +54,17 @@ class Review implements \JsonSerializable {
 	/**
 	 * constructor for this Like
 	 *
-	 * @param int $reviewReceiveProfileId id of the profile receiving the review
-	 * @param int $reviewWriteProfileId id of the profile writing the review
-	 * @param string $reviewContent actual text of the content of the review
+	 * @param int $newReviewReceiveProfileId id of the profile receiving the review
+	 * @param int $newReviewWriteProfileId id of the profile writing the review
+	 * @param string $newReviewContent actual text of the content of the review
 	 * @param \DateTime|null $newReviewDateTime date the review was submitted (or null for current time)
-	 * @param int $reviewRating
+	 * @param int $newReviewRating
 	 * @throws \Exception if some other exception occurs
 	 * @throws \TypeError if data types violate type hints
 	 */
 	public function __construct(int $newReviewReceiveProfileId = null, int $newReviewWriteProfileId = null,
 										 string $newReviewContent, $newReviewDateTime = null,
-										 int $newReviewRating) {
+										 int $newReviewRating = null) {
 		// Exceptions
 		try {
 			$this->setReviewReceiveProfileId($newReviewReceiveProfileId);
