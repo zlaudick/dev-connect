@@ -24,8 +24,8 @@ class ProfileImage {
 	/**
 	 * constructor for this profile image
 	 *
-	 * @param int $profileImageProfileId foreign key part of composite primary key
-	 * @param int $profileImageImageId foreign key part of composite primary key
+	 * @param int $newProfileImageProfileId foreign key part of composite primary key
+	 * @param int $newProfileImageImageId foreign key part of composite primary key
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds
 	 * @throws \TypeError if data types violate type hints
@@ -65,7 +65,7 @@ class ProfileImage {
 	 * @throws \RangeException if $newProfileImageProfileId is not positive
 	 * @throws \TypeError if $newProfileImageProfileId is not an integer
 	 **/
-	public function setProfileImageProfileId($newProfileImageProfileId) {
+	public function setProfileImageProfileId(int $newProfileImageProfileId) {
 		// verify the profileImageProfileId is positive
 		if($newProfileImageProfileId <= 0) {
 			throw(new \RangeException("profileImageProfileId is not positive"));
@@ -73,5 +73,30 @@ class ProfileImage {
 
 		// convert and store the profileImageProfileId
 		$this->profileImageProfileId = $newProfileImageProfileId;
+	}
+
+	/**
+	 * accessor method for profileImageImageId
+	 * @return int|null value of profileImageImageId
+	 **/
+	public function getProfileImageImageId() {
+		return($this->profileImageImageId);
+	}
+
+	/**
+	 * mutator method for profileImageImageId
+	 *
+	 * @param int|null $newProfileImageImageId new value of profileImageImageId
+	 * @throws \RangeException if $newProfileImageImageId is not positive
+	 * @throws \TypeError if $newProfileImageImageId is not an integer
+	 **/
+	public function setProfileImageImageId(int $newProfileImageImageId) {
+		// verify the profileImageImageId is positive
+		if($newProfileImageImageId <= 0) {
+			throw(new \RangeException("profileImageImageId is not positive"));
+		}
+
+		// convert and store the profileImageImageId
+		$this->profileImageImageId = $newProfileImageImageId;
 	}
 }
