@@ -305,4 +305,37 @@ class Profile {
 		}
 		$this->profileApprovedDateTime = $newProfileApprovedDateTime;
 	}
+
+	/**
+	 * accessor method for profile content
+	 * @return string value of profile content
+	 **/
+	public function getProfileContent() {
+		return($this->profileContent);
+	}
+
+	/**
+	 * mutator method for profile content
+	 *
+	 * @param string $newProfileContent new value of profile content
+	 * @throws \InvalidArgumentException if $newProfileContent is not a string or insecure
+	 * @throws \RangeException if $newProfileContent is > 2000 characters
+	 * @throws \TypeError if $newProfileContent is not a string
+	 **/
+	public function setProfileContent(string $newProfileContent) {
+		// verify the content is secure
+		$newProfileContent = trim($newProfileContent);
+		$newProfileContent = filter_var($newProfileContent, FILTER_SANITIZE_STRING);
+		if(emtpy($newProfileContent) === true) {
+			throw(new \InvalidArgumentException("content is empty or insecure"));
+		}
+
+		// verify the content will fit in the database
+		if(strlen($newProfileContent) > 2000) {
+			throw(new \RangeException("content is too large"));
+		}
+
+		// store the content
+		$this->profileContent = $newProfileContent;
+	}
 }
