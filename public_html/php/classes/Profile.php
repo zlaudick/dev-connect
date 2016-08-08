@@ -457,7 +457,7 @@ class Profile {
 	 * @throws \RangeException if $newProfileLocation is > 64 characters
 	 * @throws \TypeError if $newProfileLocation is not a string
 	 **/
-	public function setProfileLocation() {
+	public function setProfileLocation(string $newProfileLocation) {
 		// verify the profile location is secure
 		$newProfileLocation = trim($newProfileLocation);
 		$newProfileLocation = filter_var($newProfileLocation, FILTER_SANITIZE_STRING);
