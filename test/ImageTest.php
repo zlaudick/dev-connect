@@ -36,8 +36,41 @@ class ImageTest extends DevConnectTest {
 	 **/
 	protected $VALID_IMAGETYPE = "jpeg";
 	/**
-	 *  type of the updated Image
+	 * type of the updated Image
 	 * @var string $VALID_IMAGETYPE2
 	 **/
 	protected $VALID_IMAGETYPE2 = "png";
+
+	/**
+	 * test inserting a valid Image and verify that actual MySQL data matches
+	 **/
+	public function testInsertValidImage() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("image");
+
+		//create a new Image and insert into MySQL
+		$image = new Image(null, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
+		$image->insert($this->getPDO());
+
+		//grab the data from MySQL and enforce that the fields match our expectations
+		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$this->assertEquals($pdoImage->getImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoImage->getImagePath(), $this->VALID_IMAGEPATH);
+		$this->assertEquals($pdoImage->getImageType(), $this->VALID_IMAGETYPE);
+	}
+
+	/**
+	 * test inserting an Image that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testInsertInvalidImage() {
+		//create an Image with a non null ImageId and watch it fail
+		$image = new Image(DataDesignTest::INVALID_KEY, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
+		$image->insert($this->getPDO());
+	}
+
+
+
 }
