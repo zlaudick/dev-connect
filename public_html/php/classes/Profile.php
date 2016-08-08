@@ -473,4 +473,37 @@ class Profile {
 		// convert and store the profile location
 		$this->profileLocation = $newProfileLocation;
 	}
+
+	/**
+	 * accessor method for profile name
+	 * @return string value of profile name
+	 **/
+	public function getProfileName() {
+		return($this->profileName);
+	}
+
+	/**
+	 * mutator method for profile name
+	 *
+	 * @param string $newProfileName new value of profile name
+	 * @throws \InvalidArgumentException if $newProfileName is not a string or insecure
+	 * @throws \RangeException if $newProfileName is > 32 characters
+	 * @throws \TypeError if $newProfileName is not a string
+	 **/
+	public function setProfileName(string $newProfileName) {
+		// verify the profile name is secure
+		$newProfileName = trim($newProfileName);
+		$newProfileName = filter_var($newProfileName, FILTER_SANITIZE_STRING);
+		if(empty($newProfileName) === true) {
+			throw(new \InvalidArgumentException("profile name is empty or insecure"));
+		}
+
+		// verify the profile name will fit in the database
+		if(strlen($newProfileName) > 32) {
+			throw(new \RangeException("profile name is too large"));
+		}
+
+		// convert and store the profile name
+		$this->profileName = $newProfileName;
+	}
 }
