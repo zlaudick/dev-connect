@@ -458,6 +458,7 @@ class Review implements \JsonSerializable {
 	/**
 	 * formats the state variables for JSON serialization
 	 *
+	 *
 	 * @return array resulting state variables to serialize
 	 **/
 	public function jsonSerialize() {
