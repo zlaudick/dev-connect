@@ -90,6 +90,17 @@ class Image implements \JsonSerializable {
 		$this->imageId = $newImageId;
 	}
 
+	/**
+	 * accessor method for image path
+	 *
+	 * @return string value of image path
+	 **/
+	public function getImagePath() {
+		return($this->imagePath);
+	}
+
+
+
 
 
 
