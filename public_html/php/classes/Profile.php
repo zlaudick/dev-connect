@@ -326,7 +326,7 @@ class Profile {
 		// verify the content is secure
 		$newProfileContent = trim($newProfileContent);
 		$newProfileContent = filter_var($newProfileContent, FILTER_SANITIZE_STRING);
-		if(emtpy($newProfileContent) === true) {
+		if(empty($newProfileContent) === true) {
 			throw(new \InvalidArgumentException("content is empty or insecure"));
 		}
 
@@ -439,5 +439,38 @@ class Profile {
 
 		// store the hash
 		$this->profileHash = $newProfileHash;
+	}
+
+	/**
+	 * accessor method for profile location
+	 * @return string value of profile location
+	 **/
+	public function getProfileLocation() {
+		return($this->profileLocation);
+	}
+
+	/**
+	 * mutator method for profile location
+	 *
+	 * @param string $newProfileLocation new value of profile location
+	 * @throws \InvalidArgumentException if $newProfileLocation is not a string or insecure
+	 * @throws \RangeException if $newProfileLocation is > 64 characters
+	 * @throws \TypeError if $newProfileLocation is not a string
+	 **/
+	public function setProfileLocation() {
+		// verify the profile location is secure
+		$newProfileLocation = trim($newProfileLocation);
+		$newProfileLocation = filter_var($newProfileLocation, FILTER_SANITIZE_STRING);
+		if(empty($newProfileLocation) === true) {
+			throw(new \InvalidArgumentException("profile location is empty or insecure"));
+		}
+
+		// verify the profile location will fit in the database
+		if(strlen($newProfileLocation) > 64) {
+			throw(new \RangeException("profile location is too large"));
+		}
+
+		// convert and store the profile location
+		$this->profileLocation = $newProfileLocation;
 	}
 }
