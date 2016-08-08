@@ -121,4 +121,26 @@ class ProfileImage {
 		$parameters = ["profileImageProfileId" => $this->profileImageProfileId, "profileImageImageId" => $this->profileImageImageId];
 		$statement->execute($parameters);
 	}
+
+	/**
+	 * deletes this profileImage composite primary key from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) {
+		// enforce the profileImageProfileId and profileImageImageId is not null
+		if($this->profileImageProfileId === null && $this->profileImageImageId === null) {
+			throw(new \PDOException("unable to delete a profileImage that does not exist"));
+		}
+
+		// create query template
+		$query = "DELETE FROM profileImage WHERE (profileImageProfileId = :profileImageProfileId AND profileImageImageId = :profileImageImageId)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["profileImageProfileId" => $this->profileImageProfileId, "profileImageImageId" => $this->profileImageImageId];
+		$statement->execute($parameters);
+	}
 }
