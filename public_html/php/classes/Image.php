@@ -58,6 +58,39 @@ class Image implements \JsonSerializable {
 				throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
+	/**
+	 * accessor method for image id
+	 *
+	 * @return int|null value of image id
+	 **/
+	public function getImageId() {
+		return($this->imageId);
+	}
+
+	/**
+	 * mutator method for image id
+	 *
+	 * @param int|null $newImageId new value of image id
+	 * @throws \RangeException if $newImageId id is not positive
+	 * @throws \TypeError if $newImageId is not an integer
+	 **/
+	public function setImageId(int $newImageId = null) {
+		//base case: if the image id is null, this is a new image without a MySQL assigned id yet
+		if($newImageId === null) {
+			$this->imageId = null;
+			return;
+		}
+
+		//verify the image id is positive
+		if($newImageId <= 0) {
+			throw(new \RangeException("image id is not positive"));
+		}
+
+		//convert and store image id
+		$this->imageId = $newImageId;
+	}
+
+
 
 
 }
