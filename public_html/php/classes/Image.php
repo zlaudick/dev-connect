@@ -211,8 +211,6 @@ class Image implements \JsonSerializable {
 	 * @return array resulting in state variables to serialize
 	 **/
 	public function jsonSerialize() {
-		// TODO: Implement jsonSerialize() method.
+		//TODO: Implement jsonSerialize() method.
 	}
-
-
 }
