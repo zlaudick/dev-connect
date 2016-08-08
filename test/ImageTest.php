@@ -87,8 +87,11 @@ class ImageTest extends DevConnectTest {
 		$image->update($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
+		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$this->assertEquals($pdoImage->getImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoImage->getImagePath(), $this->VALID_IMAGEPATH2);
+		$this->assertEquals($pdoImage->getImageType(), $this->VALID_IMAGETYPE2);
 	}
-
-
 
 }
