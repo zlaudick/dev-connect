@@ -71,7 +71,7 @@ class Review implements \JsonSerializable {
 			$this->setReviewWriteProfileId($newReviewWriteProfileId);
 			$this->setReviewContent($newReviewContent);
 			$this->setReviewDateTime($newReviewDateTime);
-			$this->getReviewRating($newReviewRating);
+			$this->setReviewRating($newReviewRating);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow the exception to the caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -107,7 +107,7 @@ class Review implements \JsonSerializable {
 			throw(new \RangeException("profile id is not positive"));
 		}
 		// convert and store the profile id
-		$this->likeProfileId = $newReviewReceiveProfileId;
+		$this->reviewReceiveProfileId = $newReviewReceiveProfileId;
 	}
 	/**
 	 * accessor method for reviewWriteProfileId id of profile writing review
@@ -130,7 +130,7 @@ class Review implements \JsonSerializable {
 			throw(new \RangeException("profile id is not positive"));
 		}
 		// convert and store the profile id
-		$this->likeProfileId = $newReviewWriteProfileId;
+		$this->reviewWriteProfileId = $newReviewWriteProfileId;
 	}
 	/**
 	 * accessor method for review content
@@ -214,7 +214,7 @@ class Review implements \JsonSerializable {
 			throw(new \RangeException("review rating is not positive"));
 		}
 		// convert and store the review rating
-		$this->newReviewRating = $newReviewRating;
+		$this->reviewRating = $newReviewRating;
 	}
 	/**
 	 * inserts this Review into mySQL
@@ -230,7 +230,7 @@ class Review implements \JsonSerializable {
 			throw(new \PDOException("not a valid like"));
 		}
 		// create query template
-		$query = "INSERT INTO `like`(reviewReceiveProfileId, 
+		$query = "INSERT INTO review(reviewReceiveProfileId, 
                                     reviewWriteProfileId,
                                     reviewContent, 
                                     reviewDateTime, 
