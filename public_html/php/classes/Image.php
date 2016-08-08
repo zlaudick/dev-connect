@@ -155,14 +155,33 @@ class Image implements \JsonSerializable {
 		}
 
 		//store the image type
-		$this->imageType =$newImageType;
+		$this->imageType = $newImageType;
 	}
 
+	/**
+	 * inserts this image into MySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when MySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) {
+		//enforce the imageId is null (don't insert an image that already exists)
+		if($this->imageId !== null) {
+			throw(new \PDOException("not a new image"));
+		}
 
+		//create query template
+		$query = "INSERT INTO image(imagePath, imageType) VALUES(:imagePath, :imageType)";
+		$statement = $pdo->prepare($query);
 
+		//bind the member variables to the placeholders in the template
+		$parameters = ["imagePath" => $this->imagePath, "imageType" => $this->imageType];
+		$statement->execute($parameters);
 
-
-
+		//update the null image id with what MySQL just gave us
+		$this->imageId = intval($pdo->lastInsertId());
+	}
 
 
 
