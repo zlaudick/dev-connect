@@ -61,7 +61,7 @@ class TagTest extends DevConnectTest {
 	 **/
 	public function testInsertInvalidTag() {
 		// create a Tag with a non null tag id and watch it fail
-		$tweet = new Tweet(DevConnectTest::INVALID_KEY, $this->VALID_TAGCONTENT);
+		$tag = new Tag(DevConnectTest::INVALID_KEY, $this->VALID_TAGCONTENT);
 		$tag->insert($this->getPDO());
 	}
 	/**
