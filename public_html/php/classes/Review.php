@@ -67,11 +67,11 @@ class Review implements \JsonSerializable {
 										 int $reviewRating) {
 		// Exceptions
 		try {
-			$this->setReviewReceiveProfileId($newLikeProfileId);
-			$this->setReviewWriteProfileId($newLikeTweetId);
+			$this->setReviewReceiveProfileId($newReviewReceiveProfileId);
+			$this->setReviewWriteProfileId($newReviewWriteProfileId);
 			$this->setReviewContent($newReviewContent);
 			$this->setReviewDateTime($newReviewDateTime);
-			$this->getReviewRating($newgetReviewRating);
+			$this->getReviewRating($newReviewRating);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow the exception to the caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
