@@ -710,4 +710,39 @@ class Profile {
 		}
 		return($profile);
 	}
+
+	/**
+	 * gets all Profiles
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of Profiles found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllProfiles(\PDO $pdo) {
+		// create query template
+		$query = "SELECT profileId, profileAccountType, profileActivationToken, profileApproved, profileApprovedById, profileApprovedDateTime, profileContent, profileEmail, profileGithubAccessToken, profileHash, profileLocation, profileName, profileSalt FROM profile";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+		// build an array of users
+		$profiles = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$profile = new Profile($row["profileId"], $row["profileAccountType"], $row["profileActivationToken"], $row["profileApproved"], $row["profileApprovedById"], $row["profileApprovedDateTime"], $row["profileContent"], $row["profileEmail"], $row["profileGithubAccessToken"], $row["profileHash"], $row["profileLocation"], $row["profileName"], $row["profileSalt"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($profiles);
+	}
+
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
 }
