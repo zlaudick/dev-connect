@@ -71,6 +71,24 @@ class ImageTest extends DevConnectTest {
 		$image->insert($this->getPDO());
 	}
 
+	/**
+	 * test inserting an Image, editing it, and then updating it
+	 **/
+	public function testUpdateValidImage() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCound("image");
+
+		//create a new Image and insert into MySQL
+		$image = new Image(null, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
+		$image->insert($this->getPDO());
+
+		//edit the Image and update it in MySQL
+		$image->setImagePath($this->VALID_IMAGEPATH2);
+		$image->update($this->getPDO());
+
+		//grab the data from MySQL and enforce that the fields match our expectations
+	}
+
 
 
 }
