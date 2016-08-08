@@ -62,9 +62,9 @@ class Review implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @throws \TypeError if data types violate type hints
 	 */
-	public function __construct(int $reviewReceiveProfileId, int $reviewWriteProfileId,
-										 string $reviewContent, $newReviewDateTime = null,
-										 int $reviewRating) {
+	public function __construct(int $newReviewReceiveProfileId = null, int $newReviewWriteProfileId = null,
+										 string $newReviewContent, $newReviewDateTime = null,
+										 int $newReviewRating) {
 		// Exceptions
 		try {
 			$this->setReviewReceiveProfileId($newReviewReceiveProfileId);
@@ -463,7 +463,7 @@ class Review implements \JsonSerializable {
 	 **/
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
-		$fields["likeDate"] = intval($this->likeDate->format("U")) * 1000;
+		$fields["reviewDateTime"] = intval($this->reviewDateTime->format("U")) * 1000;
 		return($fields);
 	}
 }
