@@ -49,4 +49,29 @@ class ProfileImage {
 			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
+
+	/**
+	 * accessor method for profileImageProfileId
+	 * @return int|null value of profileImageProfileId
+	 **/
+	public function getProfileImageProfileId() {
+		return($this->profileImageProfileId);
+	}
+
+	/**
+	 * mutator method for profileImageProfileId
+	 *
+	 * @param int|null $newProfileImageProfileId new value of profileImageProfileId
+	 * @throws \RangeException if $newProfileImageProfileId is not positive
+	 * @throws \TypeError if $newProfileImageProfileId is not an integer
+	 **/
+	public function setProfileImageProfileId($newProfileImageProfileId) {
+		// verify the profileImageProfileId is positive
+		if($newProfileImageProfileId <= 0) {
+			throw(new \RangeException("profileImageProfileId is not positive"));
+		}
+
+		// convert and store the profileImageProfileId
+		$this->profileImageProfileId = $newProfileImageProfileId;
+	}
 }
