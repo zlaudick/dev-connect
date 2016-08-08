@@ -371,4 +371,37 @@ class Profile {
 		// convert and store the email
 		$this->profileEmail = $newProfileEmail;
 	}
+
+	/**
+	 * accessor method for profile github access token
+	 * @return string value of profile github access token
+	 **/
+	public function getProfileGithubAccessToken() {
+		return($this->profileGithubAccessToken);
+	}
+
+	/**
+	 * mutator method for profile github access token
+	 *
+	 * @param string $newProfileGithubAccessToken new value of profile github access token
+	 * @throws \InvalidArgumentException if $newProfileGithubAccessToken is not a string or insecure
+	 * @throws \RangeException if $newProfileGithubAccessToken is not 64 characters
+	 * @throws \TypeError if $newProfileGithubAccessToken is not a string
+	 **/
+	public function setProfileGithubAccessToken(string $newProfileGithubAccessToken) {
+		// verify the github access token is secure
+		$newProfileGithubAccessToken = trim($newProfileGithubAccessToken);
+		$newProfileGithubAccessToken = filter_var($newProfileGithubAccessToken, FILTER_SANITIZE_STRING);
+		if(empty($newProfileGithubAccessToken) === true) {
+			throw(new \InvalidArgumentException("github access token is emtpy or insecure"));
+		}
+
+		// verify the github access token will fit in the database
+		if(strlen($newProfileGithubAccessToken) !== 64) {
+			throw(new \RangeException("github access token is not 64 characters"));
+		}
+
+		// convert and store the github access token
+		$this->profileGithubAccessToken = $newProfileGithubAccessToken;
+	}
 }
