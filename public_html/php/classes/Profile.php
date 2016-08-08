@@ -587,4 +587,24 @@ class Profile {
 		$parameters = ["profileId" => $this->profileId];
 		$statement->execute($parameters);
 	}
+
+	/**
+	 * updates this Profile in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) {
+		// enforce the profileId is not null
+		if($this->profileId === null) {
+			throw(new \PDOException("unable to update a profile that does not exist"));
+		}
+		// create a query template
+		$query = "UPDATE profile SET profileAccountType = :profileAccountType, profileActivationToken = :profileActivationToken, profileApproved = :profileApproved, profileApprovedById = :profileApprovedById, profileApprovedDateTime = :profileApprovedDateTime, profileContent = :profileContent, profileEmail = :profileEmail, profileGithubAccessToken = :profileGithubAccessToken, profileHash = :profileHash, profileLocation = :profileLocation, profileName = :profileName, profileSalt = :profileSalt WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
+		// bind the member variables to the place holders in this template
+		$parameters = ["profileAccountType" => $this->profileAccountType, "profileActivationToken" => $this->profileActivationToken, "profileApproved" => $this->profileApproved, "profileApprovedById" => $this->profileApprovedById, "profileApprovedDateTime" => $this->profileApprovedDateTime, "profileContent" => $this->profileContent, "profileEmail" => $this->profileEmail, "profileGithubAccessToken" => $this->profileGithubAccessToken, "profileHash" => $this->profileHash, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profileSalt" => $this->profileSalt];
+		$statement->execute($parameters);
+	}
 }
