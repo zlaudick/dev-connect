@@ -133,6 +133,33 @@ class Image implements \JsonSerializable {
 		return($this->imageType);
 	}
 
+	/**
+	 * mutator method for image type
+	 *
+	 * @param string $newImageType new value of image type
+	 * @throws \InvalidArgumentException if $newImageType is not a string or insecure
+	 * @throws \RangeException if $newImageType is > 32 characters
+	 * @throws \TypeError if $newImageType is not a string
+	 **/
+	public function setImageType(string $newImageType) {
+		//verify image type is secure
+		$newImageType = trim($newImageType);
+		$newImageType = filter_var($newImageType, FILTER_SANITIZE_STRING);
+		if(empty($newImageType) === true) {
+			throw(new \InvalidArgumentException("image type is empty or insecure"));
+		}
+
+		//verify the image type will fit in the database
+		if(strlen($newImageType) > 32) {
+			throw(new \RangeException("image type is too many characters"));
+		}
+
+		//store the image type
+		$this->imageType =$newImageType;
+	}
+
+
+
 
 
 
