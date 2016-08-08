@@ -39,7 +39,7 @@ Class ProfileTest extends DevConnectTest {
 	 * approved value of the Profile
 	 * @var boolean $VALID_PROFILEAPPROVED
 	 **/
-	protected $VALID_PROFILEAPPROVED = true;
+	protected $VALID_PROFILEAPPROVED = false;
 	/**
 	 * approvedById of the Profile
 	 * @var int $VALID_PROFILEAPPROVEDBYID
