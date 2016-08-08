@@ -99,6 +99,33 @@ class Image implements \JsonSerializable {
 		return($this->imagePath);
 	}
 
+	/**
+	 * mutator method for image path
+	 *
+	 * @param string $newImagePath new value of image path
+	 * @throws \InvalidArgumentException if $newImagePath is not a string or insecure
+	 * @throws \RangeException if $newImagePath is > 255 characters
+	 * @throws \TypeError if $newImagePath is not a string
+	 **/
+	public function setImagePath(string $newImagePath) {
+		//verify image path is secure
+		$newImagePath = trim($newImagePath);
+		$newImagePath = filter_var($newImagePath, FILTER_SANITIZE_STRING);
+		if(empty($newImagePath) === true) {
+			throw(new \InvalidArgumentException("image path is empty or insecure"));
+		}
+
+		//verify the image path will fit in the database
+		if(strlen($newImagePath) > 255) {
+			throw(new \RangeException("image path is too many characters"));
+		}
+
+		//store the image path
+		$this->imagePath = $newImagePath;
+	}
+
+
+
 
 
 
