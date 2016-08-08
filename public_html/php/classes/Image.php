@@ -270,6 +270,17 @@ class Image implements \JsonSerializable {
 	}
 
 	/**
+	 * gets the image by image id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $imageId image id to search for
+	 * @return Image|null Image found or null if not found
+	 * @throws \PDOException when MySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function
+
+	/**
 	 * formats the state variables for JSON serialization
 	 *
 	 * @return array resulting in state variables to serialize
