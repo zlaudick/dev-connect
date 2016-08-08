@@ -5,7 +5,7 @@ namespace Edu\Cnm\DevConnect\Test;
 use Edu\Cnm\DevConnect\Test\DevConnectTest;
 
 // grab the project test parameters
-require_once(DevConnectTest.php);
+require_once("DevConnectTest.php");
 
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
