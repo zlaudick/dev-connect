@@ -183,6 +183,28 @@ class Image implements \JsonSerializable {
 		$this->imageId = intval($pdo->lastInsertId());
 	}
 
+	/**
+	 * deletes this image from MySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when MySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) {
+		//enforce the imageId is not null (don't delete an image that hasn't been inserted)
+		if($this->imageId === null) {
+			throw(new \PDOException("unable to delete an image that does not exist"));
+		}
+
+		//create query template
+		$query = "DELETE FROM image WHERE imageId = :imageId";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the placeholders in the template
+		$parameters = ["imageId" => $this->imageId];
+		$statement->execute($parameters);
+	}
+
 
 
 
