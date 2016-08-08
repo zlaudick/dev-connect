@@ -30,6 +30,11 @@ class tag {
 	 **/
 	private $tagName;
 	/**
+	 * @var int|null
+	 */
+	private $newTagId;
+
+	/**
 	 * constructor for this tag
 	 *
 	 * @param int|null $newTagId id of this Tag or null if a new Tag
@@ -56,6 +61,7 @@ class tag {
 			// rethrow the exception to the caller
 			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
+		$this->newTagId = $newTagId;
 	}
 	/**
 	 * mutator method for the tag id primary key
@@ -190,7 +196,7 @@ class tag {
 		}
 		// create query template
 		$query = "SELECT tagId, tagName
-                  FROM tag WHERE tagContent LIKE :tagContent";
+                  FROM tag WHERE tagName LIKE :tagContent";
 		$statement = $pdo->prepare($query);
 		// bind the tag content to the place holder in the template
 		$tagContent = "%$tagContent%";
@@ -202,7 +208,7 @@ class tag {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$tag = new Review($row["tagId"], $row["tagName"];
+				$tag = new Review($row["tagId"], $row["tagName"]);
 				$tags[$tags->key()] = $tag;
 				$tags->next();
 			} catch(\Exception $exception) {
@@ -240,7 +246,7 @@ class tag {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$tag = new Tag($row["tagId"], $row["tagName"];
+				$tag = new Tag($row["tagId"], $row["tagName"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
@@ -267,7 +273,7 @@ class tag {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$tag = new Review($row["tagId"], $row["tagName"];
+				$tag = new Review($row["tagId"], $row["tagName"]);
 				$tags[$tags->key()] = $tag;
 				$tags->next();
 			} catch(\Exception $exception) {
@@ -277,4 +283,5 @@ class tag {
 		}
 		return($tags);
 	}
+
 }
