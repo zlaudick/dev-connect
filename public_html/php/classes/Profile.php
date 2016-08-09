@@ -27,7 +27,7 @@ class Profile implements \JsonSerializable {
 	private $profileActivationToken;
 	/**
 	 * approval status of this Profile
-	 * @var boolean $profileApproved
+	 * @var bool $profileApproved
 	 **/
 	private $profileApproved;
 	/**
@@ -82,7 +82,7 @@ class Profile implements \JsonSerializable {
 	 * @param int|null $newProfileId id of this Profile or null if new Profile
 	 * @param string $newProfileAccountType account type of this Profile
 	 * @param string $newProfileActivationToken activation token for this Profile
-	 * @param boolean $newProfileApproved approval status of this Profile
+	 * @param bool $newProfileApproved approval status of this Profile
 	 * @param int $newProfileApprovedById profileId that approved this Profile
 	 * @param \DateTime|string|null $newProfileApprovedDateTime time stamp when this Profile was approved or null if set to current date and time
 	 * @param string $newProfileContent content of this Profile
@@ -97,7 +97,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 **/
-	public function __construct(int $newProfileId = null, string $newProfileAccountType, string $newProfileActivationToken, boolean $newProfileApproved, int $newProfileApprovedById, $newProfileApprovedDateTime = null, string $newProfileContent, string $newProfileEmail, string $newProfileGithubAccessToken, string $newProfileHash, string $newProfileLocation, string $newProfileName, string $newProfileSalt) {
+	public function __construct(int $newProfileId = null, string $newProfileAccountType, string $newProfileActivationToken, bool $newProfileApproved, int $newProfileApprovedById, $newProfileApprovedDateTime = null, string $newProfileContent, string $newProfileEmail, string $newProfileGithubAccessToken, string $newProfileHash, string $newProfileLocation, string $newProfileName, string $newProfileSalt) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileAccountType($newProfileAccountType);
@@ -179,7 +179,7 @@ class Profile implements \JsonSerializable {
 		$newProfileAccountType = trim($newProfileAccountType);
 		$newProfileAccountType = filter_var($newProfileAccountType, FILTER_SANITIZE_STRING);
 		if(empty($newProfileAccountType) === true) {
-			throw(new \InvalidArgumentException("account type is emtpy or insecure"));
+			throw(new \InvalidArgumentException("account type is empty or insecure"));
 		}
 
 		// verify the account type will fit in the database
@@ -226,7 +226,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * accessor method for profile approved
-	 * @returns boolean value of profile approved
+	 * @returns bool value of profile approved
 	 **/
 	public function getProfileApproved() {
 		return($this->profileApproved);
@@ -235,10 +235,10 @@ class Profile implements \JsonSerializable {
 	/**
 	 * mutator method for profile approved
 	 *
-	 * @param boolean $newProfileApproved new value of profile approved
+	 * @param bool $newProfileApproved new value of profile approved
 	 * @throws \TypeError if $newProfileApproved is not a boolean
 	 **/
-	public function setProfileApproved(boolean $newProfileApproved) {
+	public function setProfileApproved(bool $newProfileApproved) {
 		// verify the profile approved value is boolean
 		if(is_bool($newProfileApproved) === false) {
 			throw(new \TypeError("this is not a boolean value"));
@@ -557,11 +557,29 @@ class Profile implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "INSERT INTO profile(profileAccountType, profileActivationToken, profileApproved, profileApprovedById, profileApprovedDateTime, profileContent, profileEmail, profileGithubAccessToken, profileHash, profileLocation, profileName, profileSalt) VALUES(:profileAccountType, :profileActivationToken, :profileApproved, :profileApprovedById, :profileApprovedDateTime, :profileContent, :profileEmail, : profileGithubAccessToken, :profileHash, :profileLocation, :profileName, :profileSalt)";
+		$query = "INSERT INTO profile(profileAccountType, profileActivationToken, profileApproved, profileApprovedById, profileApprovedDateTime, profileContent, profileEmail, profileGithubAccessToken, profileHash, profileLocation, profileName, profileSalt) VALUES(:profileAccountType, :profileActivationToken, :profileApproved, :profileApprovedById, :profileApprovedDateTime, :profileContent, :profileEmail, :profileGithubAccessToken, :profileHash, :profileLocation, :profileName, :profileSalt)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["profileAccountType" => $this->profileAccountType, "profileActivationToken" => $this->profileActivationToken, "profileApproved" => $this->profileApproved, "profileApprovedById" => $this->profileApprovedById, "profileApprovedDateTime" => $this->profileApprovedDateTime, "profileContent" => $this->profileContent, "profileEmail" => $this->profileEmail, "profileGithubAccessToken" => $this->profileGithubAccessToken, "profileHash" => $this->profileHash, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profileSalt" => $this->profileSalt];
+		$formattedDate = $this->profileApprovedDateTime->format("Y-m-d H:i:s");
+		$formattedProfileApproved = 1;
+		if ($this->profileApproved === false) {
+			$formattedProfileApproved = 0;
+		}
+		$parameters = [
+			"profileAccountType" => $this->profileAccountType,
+			"profileActivationToken" => $this->profileActivationToken,
+			"profileApproved" => $formattedProfileApproved,
+			"profileApprovedById" => $this->profileApprovedById,
+			"profileApprovedDateTime" => $formattedDate,
+			"profileContent" => $this->profileContent,
+			"profileEmail" => $this->profileEmail,
+			"profileGithubAccessToken" => $this->profileGithubAccessToken,
+			"profileHash" => $this->profileHash,
+			"profileLocation" => $this->profileLocation,
+			"profileName" => $this->profileName,
+			"profileSalt" => $this->profileSalt
+		];
 		$statement->execute($parameters);
 
 		// update the null profile id with what mySQL just gave us
@@ -661,6 +679,9 @@ class Profile implements \JsonSerializable {
 		//create query template
 		$query = "SELECT profileId, profileAccountType, profileActivationToken, profileApproved, profileApprovedById, profileApprovedDateTime, profileContent, profileEmail, profileGithubAccessToken, profileHash, profileLocation, profileName, profileSalt FROM profile WHERE profileActivationToken = :profileActivationToken";
 		$statement = $pdo->prepare($query);
+		// bind the profileActivationToken to the place holder in the template
+		$parameters = array("profileActivationToken" => $profileActivationToken);
+		$statement->execute($parameters);
 		// build an array of profiles
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		try {

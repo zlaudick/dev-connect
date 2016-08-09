@@ -2,7 +2,7 @@
 
 namespace Edu\Cnm\DevConnect\Test;
 
-use Edu\Cnm\DevConnect\Test\{Profile, Image};
+use Edu\Cnm\DevConnect\{Profile, Image};
 
 // grab the project test parameters
 require_once("DevConnectTest.php");

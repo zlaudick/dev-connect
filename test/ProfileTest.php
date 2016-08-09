@@ -24,30 +24,30 @@ Class ProfileTest extends DevConnectTest {
 	 * account type of the Profile
 	 * @var string $VALID_PROFILEACCOUNTTYPE
 	 **/
-	protected $VALID_PROFILEACCOUNTTYPE = null;
+	protected $VALID_PROFILEACCOUNTTYPE = "Q";
 	/**
 	 * activation token of the Profile
 	 * @var string $VALID_PROFILEACTIVATIONTOKEN
 	 **/
-	protected $VALID_PROFILEACTIVATIONTOKEN = null;
+	protected $VALID_PROFILEACTIVATIONTOKEN = "12345678901234567890123456789012";
 	/**
 	 * activation token of the Profile
 	 * @var string $VALID_PROFILEACTIVATIONTOKEN2
 	 **/
-	protected $VALID_PROFILEACTIVATIONTOKEN2 = null;
+	protected $VALID_PROFILEACTIVATIONTOKEN2 = "12345678901234567890123456789011";
 	/**
 	 * approved value of the Profile
-	 * @var boolean $VALID_PROFILEAPPROVED
+	 * @var bool $VALID_PROFILEAPPROVED
 	 **/
-	protected $VALID_PROFILEAPPROVED = null;
+	protected $VALID_PROFILEAPPROVED = false;
 	/**
 	 * approvedById of the Profile
 	 * @var int $VALID_PROFILEAPPROVEDBYID
 	 **/
-	protected $VALID_PROILEAPPROVEDBYID = null;
+	protected $VALID_PROILEAPPROVEDBYID = 1;
 	/**
 	 * datetime stamp of the Profile approval
-	 * @var DateTime $VALID_PROFILEAPPROVEDDATETIME
+	 * @var \DateTime $VALID_PROFILEAPPROVEDDATETIME
 	 **/
 	protected $VALID_PROFILEAPPROVEDDATETIME = null;
 	/**
@@ -74,7 +74,7 @@ Class ProfileTest extends DevConnectTest {
 	 * github access token of the Profile
 	 * @var string $VALID_PROFILEGITHUBACCESSTOKEN
 	 **/
-	protected $VALID_PROFILEGITHUBACCESSTOKEN = null;
+	protected $VALID_PROFILEGITHUBACCESSTOKEN = "1234567890123456789012345678901234567890123456789012345678901234";
 	/**
 	 * @var Profile Hash
 	 **/
@@ -118,7 +118,7 @@ Class ProfileTest extends DevConnectTest {
 	 **/
 	public function testInsertValidProfile() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("Profile");
+		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert it into mySQL
 		$profile = new Profile(null, $this->VALID_PROFILEACCOUNTTYPE, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEAPPROVED, $this->VALID_PROILEAPPROVEDBYID, $this->VALID_PROFILEAPPROVEDDATETIME, $this->VALID_PROFILECONTENT, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEGITHUBACCESSTOKEN, $this->hash, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->salt);
@@ -282,13 +282,11 @@ Class ProfileTest extends DevConnectTest {
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Profile::getProfileByProfileActivationToken($this->getPDO(), $profile->getProfileActivationToken());
+		$result = Profile::getProfileByProfileActivationToken($this->getPDO(), $profile->getProfileActivationToken());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Profile", $results);
 
 		// grab the result from the array and validate it
-		$pdoProfile = $results [0];
+		$pdoProfile = $result;
 		$this->assertEquals($pdoProfile->getProfileAccountType(), $this->VALID_PROFILEACCOUNTTYPE);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 		$this->assertEquals($pdoProfile->getProfileApproved(), $this->VALID_PROFILEAPPROVED);
@@ -307,9 +305,9 @@ Class ProfileTest extends DevConnectTest {
 	 * test grabbing a Profile by Activation Token that does not exist
 	 **/
 	public function testGetInvalidProfileByProfileActivationToken() {
-		// grab a Profile by searching for email that does not exist
+		// grab a Profile by searching for profile activation token that does not exist
 		$profile = Profile::getProfileByProfileActivationToken($this->getPDO(), "profile activation does not exist");
-		$this->assertCount(0, $profile);
+		$this->assertNull($profile);
 	}
 
 	/**
@@ -324,13 +322,12 @@ Class ProfileTest extends DevConnectTest {
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Profile::getProfileByProfileEmail($this->getPDO(), $profile->getProfileEmail());
+		$result = Profile::getProfileByProfileEmail($this->getPDO(), $profile->getProfileEmail());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Profile", $results);
+
 
 		// grab the result from the array and validate it
-		$pdoProfile = $results [0];
+		$pdoProfile = $result;
 		$this->assertEquals($pdoProfile->getProfileAccountType(), $this->VALID_PROFILEACCOUNTTYPE);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 		$this->assertEquals($pdoProfile->getProfileApproved(), $this->VALID_PROFILEAPPROVED);

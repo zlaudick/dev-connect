@@ -1,4 +1,4 @@
-++-- drops tables if they exist in the database
+-- drops tables if they exist in the database
 DROP TABLE IF EXISTS projectTag;
 DROP TABLE IF EXISTS profileImage;
 DROP TABLE IF EXISTS review;
@@ -24,9 +24,6 @@ CREATE TABLE profile(
 	profileName VARCHAR(32) NOT NULL,
 	profileSalt CHAR(64),
 	UNIQUE (profileEmail),
-	UNIQUE (profileHash),
-	UNIQUE (profileName),
-	UNIQUE (profileSalt),
 	PRIMARY KEY (profileId)
 );
 

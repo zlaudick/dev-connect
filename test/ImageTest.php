@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\DevConnect\Test;
 
-use Edu\Cnm\DevConnect\Test\{Image};
+use Edu\Cnm\DevConnect\{Image};
 
 //grab the project test parameters
 require_once("DevConnectTest.php");
@@ -67,8 +67,7 @@ class ImageTest extends DevConnectTest {
 		//grab the data from MySQL and enforce that the fields match our expectations
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
-		//do we need an image field? This seems to say we do.
-		$this->assertEquals($pdoImage->getImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoImage->getImageId(), $image->getImageId());
 		$this->assertEquals($pdoImage->getImagePath(), $this->VALID_IMAGEPATH);
 		$this->assertEquals($pdoImage->getImageType(), $this->VALID_IMAGETYPE);
 	}
@@ -97,12 +96,13 @@ class ImageTest extends DevConnectTest {
 
 		//edit the Image and update it in MySQL
 		$image->setImagePath($this->VALID_IMAGEPATH2);
+		$image->setImageType($this->VALID_IMAGETYPE2);
 		$image->update($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
-		$this->assertEquals($pdoImage->getImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoImage->getImageId(), $image->getImageId());
 		$this->assertEquals($pdoImage->getImagePath(), $this->VALID_IMAGEPATH2);
 		$this->assertEquals($pdoImage->getImageType(), $this->VALID_IMAGETYPE2);
 	}
@@ -116,7 +116,7 @@ class ImageTest extends DevConnectTest {
 
 		//create a new Image and insert into MySQL
 		$image = new Image(null, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
-		$image = insert($this->getPDO());
+		$image->insert($this->getPDO());
 
 		//delete the Image from MySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
@@ -152,13 +152,13 @@ class ImageTest extends DevConnectTest {
 
 		//grab the data from MySQL and enforce the fields match our expectations
 		$results = Image::getImageByImagePath($this->getPDO(), $image->getImagePath());
-		$this->assertEquals($numRows, $this->getConnection()->getRowCount("image"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Test", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Image", $results);
 
 		//grab the results from the array and validate it
 		$pdoImage = $results[0];
-		$this->assertEquals($pdoImage->getImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoImage->getImageId(), $image->getImageId());
 		$this->assertEquals($pdoImage->getImagePath(), $this->VALID_IMAGEPATH);
 		$this->assertEquals($pdoImage->getImageType(), $this->VALID_IMAGETYPE);
 	}
@@ -173,9 +173,9 @@ class ImageTest extends DevConnectTest {
 	}
 
 	/**
-	 * test grabbing all Images
+	 * tests the JSON serialization
 	 **/
-	public function testGetAllValidImages(){
+	public function testJsonSerialize() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("image");
 
@@ -183,16 +183,15 @@ class ImageTest extends DevConnectTest {
 		$image = new Image(null, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
 		$image->insert($this->getPDO());
 
-		//grab the data from MySQL and enforce that the fields match our expectations
-		$results = Image::getAllImages($this->getPDO());
+		//grab the data from MySQL and enforce that the JSON data matches our expectations
+		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Test", $results);
 
-		//grab the result from the array and validate it
-		$pdoImage = $results[0];
-		$this->assertEquals($pdoImage->getImageId(), $this->image->getImageId());
-		$this->assertEquals($pdoImage->getImagePath(), $this->VALID_IMAGEPATH);
-		$this->assertEquals($pdoImage->getImageType(), $this->VALID_IMAGETYPE);
+		$imageId = $image->getImageId();
+		$expectedJson = <<< EOF
+{"imageId": $imageId, "imagePath": "$this->VALID_IMAGEPATH", "imageType": "$this->VALID_IMAGETYPE"}
+EOF;
+		$this->assertJsonStringEqualsJsonString($expectedJson, json_encode($pdoImage));
+
 	}
 }

@@ -228,11 +228,93 @@ class Image implements \JsonSerializable {
 	}
 
 	/**
+	 * gets the image by image path
+	 *
+	 * @param \PDO $pdo connection object
+	 * @param string $imagePath image path to search for
+	 * @return \SplFixedArray SplFixedArray of images found
+	 * @throws \PDOException when MySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getImageByImagePath(\PDO $pdo, string $imagePath) {
+		//sanitize the description before searching
+		$imagePath = trim($imagePath);
+		$imagePath = filter_var($imagePath, FILTER_SANITIZE_STRING);
+		if(empty($imagePath) === true) {
+			throw(new \PDOException("image path is invalid"));
+		}
+
+		//create query template
+		$query = "SELECT imageId, imagePath, imageType FROM image WHERE imagePath LIKE :imagePath";
+		$statement = $pdo->prepare($query);
+
+		//bind the image path to the placeholder in the template
+		$imagePath = "%$imagePath%";
+		$parameters = ["imagePath" => $imagePath];
+		$statement->execute($parameters);
+
+		//build an array of images
+		$images = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$image = new Image($row["imageId"], $row["imagePath"], $row["imageType"]);
+				$images[$images->key()] = $image;
+				$images->next();
+			} catch(\Exception $exception) {
+				//if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($images);
+	}
+
+	/**
+	 * gets the image by image id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $imageId image id to search for
+	 * @return Image|null Image found or null if not found
+	 * @throws \PDOException when MySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getImageByImageId (\PDO $pdo, int $imageId) {
+		//sanitize the imageId before searching
+		if($imageId <= 0) {
+			throw(new \PDOException("imageId is not positive"));
+		}
+
+		//create query template
+		$query = "SELECT imageId, imagePath, imageType FROM image WHERE imageId = :imageId";
+		$statement = $pdo->prepare($query);
+
+		//bind the image id to the place holder in the template
+		$parameters = ["imageId" => $imageId];
+		$statement->execute($parameters);
+
+		//grab the image from MySQL
+		try {
+			$image = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$image = new Image($row["imageId"], $row["imagePath"], $row["imageType"]);
+			}
+		} catch(\Exception $exception) {
+			//if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($image);
+	}
+
+
+	/**
 	 * formats the state variables for JSON serialization
 	 *
 	 * @return array resulting in state variables to serialize
 	 **/
 	public function jsonSerialize() {
-		//TODO: Implement jsonSerialize() method.
+		$fields = get_object_vars($this);
+		return($fields);
 	}
 }
