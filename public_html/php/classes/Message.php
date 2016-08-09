@@ -88,6 +88,17 @@ class Message implements \JsonSerializable {
 		}
 	}
 
+	/**
+	 * accessor method for message id
+	 *
+	 * @return int|null value of message id
+	 **/
+	public function getMessageId() {
+		return($this->messageId);
+	}
+
+
+
 
 
 }
