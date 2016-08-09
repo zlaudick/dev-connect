@@ -181,6 +181,26 @@ class Message implements \JsonSerializable {
 		return($this->messageContent);
 	}
 
+	/**
+	 * mutator method for the message content
+	 *
+	 * @param string $newMessageContent new value of the message content
+	 * @throws \InvalidArgumentException if $newMessageContent is not a string or insecure
+	 * @throws \RangeException if $newMessageContent is > 2000 characters
+	 * @throws \TypeError if $newMessageContent is not a string
+	 **/
+	public function setMessageContent(string $newMessageContent) {
+		//verify the message content is secure
+		$newMessageContent = trim($newMessageContent);
+		$newMessageContent = filter_var($newMessageContent, FILTER_SANITIZE_STRING);
+		if(empty($newMessageContent) === true) {
+			throw(new \InvalidArgumentException("message content is empty or insecure"));
+		}
+
+		//verify the message content will fit in the database
+		if(strlen($))
+	}
+
 
 
 
