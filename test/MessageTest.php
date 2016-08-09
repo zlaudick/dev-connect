@@ -107,6 +107,43 @@ class MessageTest extends DevConnectTest {
 	 * test inserting a Message that already exists
 	 * @expectedException \PDOException
 	 **/
+	public function testInsertInvalidMessageContent() {
+		//create a Message with a non null message id and watch it fail
+		$message = new Message(DevConnectTest::INVALID_KEY, $this->receiver->getProfileId(), $this->sender->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message->insert($this->getPDO());
+	}
+
+	/**
+	 * test inserting a valid Message and then deleting it
+	 **/
+	public function testDeleteValidMessage () {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("message");
+
+		//create a new Message and insert it into MySQL
+		$message = new Message(null, $this->receiver->getProfileId(), $this->sender->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message->insert($this->getPDO());
+
+		//delete the message from MySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
+		$message->delete($this->getPDO());
+
+		//grab the data from MySQL and enforce the message does not exist
+		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
+		$this->assertNull($pdoMessage);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("message"));
+	}
+
+	/**
+	 * test deleting a Message that does not exist
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testDeleteInvalidMessage() {
+		//create a Message and try to delete it without inserting it
+
+	}
+
 
 
 }
