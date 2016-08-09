@@ -278,7 +278,35 @@ class Image implements \JsonSerializable {
 	 * @throws \PDOException when MySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function
+	public static function getImageByImageId (\PDO $pdo, int $imageId) {
+		//sanitize the imageId before searching
+		if($imageId <= 0) {
+			throw(new \PDOException("imageId is not positive"));
+		}
+
+		//create query template
+		$query = "SELECT imageId, imagePath, imageType FROM image WHERE imageId = :imageId";
+		$statement = $pdo->prepare($query);
+
+		//bind the image id to the place holder in the template
+		$parameters = ["imageId" => $imageId];
+		$statement->execute($parameters);
+
+		//grab the image from MySQL
+		try {
+			$image = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$image = new Image($row["imageid"], $row["imagePath"], $row["imageType"]);
+			}
+		} catch(\Exception $exception) {
+			//if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($image);
+	}
+
 
 	/**
 	 * formats the state variables for JSON serialization
