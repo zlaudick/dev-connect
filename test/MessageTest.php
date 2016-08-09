@@ -183,9 +183,9 @@ class MessageTest extends DevConnectTest {
 	}
 
 	/**
-	 * test grabbing a Message by sender
+	 * test grabbing a Message by sent profile id
 	 **/
-	public function testGetValidMessageBySender() {
+	public function testGetValidMessageBySentProfileId() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("message");
 
@@ -193,8 +193,28 @@ class MessageTest extends DevConnectTest {
 		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
-		//grab the data from MySQL and enforce that it matches our expectations
-		$results = Message::getMessageBySentProfileId
+		//grab the data from MySQL and enforce that the fields match our expectations
+		$results = Message::getMessageBySentProfileId($this->getPDO(), $message->getMessageContent());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnet\\Message", $results);
+
+		//grab the result from the array and validate it
+		$pdoMessage =$results[0];
+		$this->assertEquals($pdoMessage->getProfileId(), $this->receiveProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getProfileId(), $this->sentProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
+		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
+		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MAILGUNID);
+		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
+	}
+
+	/**
+	 * test grabbing a Message by a sent profile id that does not exist
+	 **/
+	public function testGetInvalidMessageBySentProfileId() {
+		//grab a message by searching for a sent profile id that does not exist
+
 	}
 
 
