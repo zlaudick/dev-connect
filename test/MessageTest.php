@@ -140,6 +140,17 @@ class MessageTest extends DevConnectTest {
 	}
 
 	/**
+	 * test updating a Message that does not exist
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testUpdateInvalidMessage() {
+		//create a Message and try to update it without actually updating it and watch it fail
+		$message = new Message(null, $this->receiver->getProfileId(), $this->sender->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message->update($this->getPDO());
+	}
+
+	/**
 	 * test inserting a valid Message and then deleting it
 	 **/
 	public function testDeleteValidMessage () {
