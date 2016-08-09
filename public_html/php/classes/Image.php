@@ -316,7 +316,25 @@ class Image implements \JsonSerializable {
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getAllImages (\PDO $pdo) {
+		//create query template
+		$query = "SELECT imageId, imagePath, imageType FROM image";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
 
+		//build an array of images
+		$images = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$image = new Image($row["imageId"], $row["imagePath"], $row["imageType"]);
+				$image[$images->key()] = $image;
+				$images->next();
+			} catch(\Exception $exception) {
+				//if the row could not be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($images);
 	}
 
 	/**
