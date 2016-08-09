@@ -562,10 +562,14 @@ class Profile implements \JsonSerializable {
 
 		// bind the member variables to the place holders in the template
 		$formattedDate = $this->profileApprovedDateTime->format("Y-m-d H:i:s");
+		$formattedProfileApproved = 1;
+		if ($this->profileApproved === false) {
+			$formattedProfileApproved = 0;
+		}
 		$parameters = [
 			"profileAccountType" => $this->profileAccountType,
 			"profileActivationToken" => $this->profileActivationToken,
-			"profileApproved" => $this->profileApproved,
+			"profileApproved" => $formattedProfileApproved,
 			"profileApprovedById" => $this->profileApprovedById,
 			"profileApprovedDateTime" => $formattedDate,
 			"profileContent" => $this->profileContent,

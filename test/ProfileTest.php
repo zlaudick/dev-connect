@@ -37,7 +37,7 @@ Class ProfileTest extends DevConnectTest {
 	protected $VALID_PROFILEACTIVATIONTOKEN2 = "987654321";
 	/**
 	 * approved value of the Profile
-	 * @var boolean $VALID_PROFILEAPPROVED
+	 * @var bool $VALID_PROFILEAPPROVED
 	 **/
 	protected $VALID_PROFILEAPPROVED = false;
 	/**
