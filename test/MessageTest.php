@@ -16,7 +16,7 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  * are tested for both valid and invalid inputs.
  *
  * @see Message
- * @author Devon Beets <dbeets@cnm.edu>
+ * @author Devon Beets <dbeetzz@gmail.com>
  **/
 
 class MessageTest extends DevConnectTest {
@@ -35,6 +35,16 @@ class MessageTest extends DevConnectTest {
 	 * @var \DateTime $VALID_MESSAGEDATE
 	 **/
 	protected $VALID_MESSAGEDATE = null;
+	/**
+	 * mailgun id of the Message
+	 * @var string $VALID_MAILGUNID
+	 **/
+	protected $VALID_MAILGUNID = "1337";
+	/**
+	 * mailgun id of the updated Message
+	 * @var string $VALID_MAILGUNID2
+	 **/
+	protected $VALID_MAILGUNID2 = "5W4G";
 	/**
 	 * content of the Message subject
 	 * @var string $VALID_MESSAGESUBJECT
@@ -61,10 +71,10 @@ class MessageTest extends DevConnectTest {
 
 		//create and insert a Profile to own the test Message, must figure out what to put for these...
 		//do we need two profiles created, the send and receive profiles??
-		$this->sender = new Profile(null, "0", null, null, null, null, null, "foo@bar.com", null, null, null, "Los Angeles", "Mark Fischbach", null);
+		$this->sender = new Profile(null, "Q", "1234567", true, 1, null, "Hi, I'm Markimoo and this test is passing!", "foo@bar.com", "4018725372539424208555279506880426447359803448671421461653568500", null, "Los Angeles", "Mark Fischbach", null);
 		$this->sender->insert($this->getPDO());
 
-		$this->receiver = new Profile(null, "0", null, null, null, null, null, "bar@foo.com", null, null, null, "Los Angeles", "Mark Fischbach", null);
+		$this->receiver = new Profile(null, "T", "9876543", true, 2, null, "Hi, I'm Irelia and this test is still passing!", "bar@foo.com", "4018725372539424208555279506880426447359803448671421461653568500", null, "Ionia", "Irelia Ionia", null);
 		$this->receiver->insert($this->getPDO());
 
 		//calculate the date using the time the unit test was set up
