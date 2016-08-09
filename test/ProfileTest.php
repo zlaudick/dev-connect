@@ -47,7 +47,7 @@ Class ProfileTest extends DevConnectTest {
 	protected $VALID_PROILEAPPROVEDBYID = 1;
 	/**
 	 * datetime stamp of the Profile approval
-	 * @var DateTime $VALID_PROFILEAPPROVEDDATETIME
+	 * @var \DateTime $VALID_PROFILEAPPROVEDDATETIME
 	 **/
 	protected $VALID_PROFILEAPPROVEDDATETIME = null;
 	/**
