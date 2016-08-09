@@ -557,12 +557,25 @@ class Profile implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "INSERT INTO profile(profileAccountType, profileActivationToken, profileApproved, profileApprovedById, profileApprovedDateTime, profileContent, profileEmail, profileGithubAccessToken, profileHash, profileLocation, profileName, profileSalt) VALUES(:profileAccountType, :profileActivationToken, :profileApproved, :profileApprovedById, :profileApprovedDateTime, :profileContent, :profileEmail, : profileGithubAccessToken, :profileHash, :profileLocation, :profileName, :profileSalt)";
+		$query = "INSERT INTO profile(profileAccountType, profileActivationToken, profileApproved, profileApprovedById, profileApprovedDateTime, profileContent, profileEmail, profileGithubAccessToken, profileHash, profileLocation, profileName, profileSalt) VALUES(:profileAccountType, :profileActivationToken, :profileApproved, :profileApprovedById, :profileApprovedDateTime, :profileContent, :profileEmail, :profileGithubAccessToken, :profileHash, :profileLocation, :profileName, :profileSalt)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
 		$formattedDate = $this->profileApprovedDateTime->format("Y-m-d H:i:s");
-		$parameters = ["profileAccountType" => $this->profileAccountType, "profileActivationToken" => $this->profileActivationToken, "profileApproved" => $this->profileApproved, "profileApprovedById" => $this->profileApprovedById, "profileApprovedDateTime" => $formattedDate, "profileContent" => $this->profileContent, "profileEmail" => $this->profileEmail, "profileGithubAccessToken" => $this->profileGithubAccessToken, "profileHash" => $this->profileHash, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profileSalt" => $this->profileSalt];
+		$parameters = [
+			"profileAccountType" => $this->profileAccountType,
+			"profileActivationToken" => $this->profileActivationToken,
+			"profileApproved" => $this->profileApproved,
+			"profileApprovedById" => $this->profileApprovedById,
+			"profileApprovedDateTime" => $formattedDate,
+			"profileContent" => $this->profileContent,
+			"profileEmail" => $this->profileEmail,
+			"profileGithubAccessToken" => $this->profileGithubAccessToken,
+			"profileHash" => $this->profileHash,
+			"profileLocation" => $this->profileLocation,
+			"profileName" => $this->profileName,
+			"profileSalt" => $this->profileSalt
+		];
 		$statement->execute($parameters);
 
 		// update the null profile id with what mySQL just gave us
