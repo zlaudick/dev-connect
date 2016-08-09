@@ -52,15 +52,15 @@ class MessageTest extends DevConnectTest {
 	protected $VALID_MESSAGESUBJECT = "PHPUnit message subject test great success";
 	/**
 	 * Profile that created the Message, this is for foreign key relations
-	 * @var Profile sender
+	 * @var Profile sentProfileId
 	 **/
-	protected $sender = null;
+	protected $sentProfileId = null;
 
 	/**
 	 * Profile that received the Message, this is for foreign key relations
-	 * @var Profile receiver
+	 * @var Profile receiveProfileId
 	 **/
-	protected $receiver = null;
+	protected $receiveProfileId = null;
 
 	/**
 	 * create dependent objects first before running each test
@@ -71,11 +71,11 @@ class MessageTest extends DevConnectTest {
 
 		//create and insert a Profile to own the test Message, must figure out what to put for these...
 		//do we need two profiles created, the send and receive profiles??
-		$this->sender = new Profile(null, "Q", "1234567", true, 1, null, "Hi, I'm Markimoo!", "foo@bar.com", "4018725372539424208555279506880426447359803448671421461653568500", null, "Los Angeles", "Mark Fischbach", null);
-		$this->sender->insert($this->getPDO());
+		$this->sentProfileId = new Profile(null, "Q", "1234567", true, 1, null, "Hi, I'm Markimoo!", "foo@bar.com", "4018725372539424208555279506880426447359803448671421461653568500", null, "Los Angeles", "Mark Fischbach", null);
+		$this->sentProfileId->insert($this->getPDO());
 
-		$this->receiver = new Profile(null, "T", "9876543", true, 2, null, "Hi, I'm Irelia!", "bar@foo.com", "4018725372539424208555279506880426447359803448671421461653568500", null, "Ionia", "Irelia Ionia", null);
-		$this->receiver->insert($this->getPDO());
+		$this->receiveProfileId = new Profile(null, "T", "9876543", true, 2, null, "Hi, I'm Irelia!", "bar@foo.com", "4018725372539424208555279506880426447359803448671421461653568500", null, "Ionia", "Irelia Ionia", null);
+		$this->receiveProfileId->insert($this->getPDO());
 
 		//calculate the date using the time the unit test was set up
 		$this->VALID_MESSAGEDATE = new \DateTime();
@@ -89,7 +89,7 @@ class MessageTest extends DevConnectTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new message and insert into MySQL
-		$message = new Message(null, $this->receiver->getProfileId(), $this->sender->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
@@ -109,7 +109,7 @@ class MessageTest extends DevConnectTest {
 	 **/
 	public function testInsertInvalidMessageContent() {
 		//create a Message with a non null message id and watch it fail
-		$message = new Message(DevConnectTest::INVALID_KEY, $this->receiver->getProfileId(), $this->sender->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(DevConnectTest::INVALID_KEY, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 	}
 
@@ -121,7 +121,7 @@ class MessageTest extends DevConnectTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new Message and insert it into MySQL
-		$message = new Message(null, $this->receiver->getProfileId(), $this->sender->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		//edit the Message and update it in MySQL
@@ -131,8 +131,8 @@ class MessageTest extends DevConnectTest {
 		//grab the data from MySQL and enforce that it matches our expectations
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-		$this->assertEquals($pdoMessage->getProfileId(), $this->receiver->getProfileId());
-		$this->assertEquals($pdoMessage->getProfileId(), $this->sender->getProfileId());
+		$this->assertEquals($pdoMessage->getProfileId(), $this->receiveProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getProfileId(), $this->sentProfileId->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
 		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MAILGUNID);
@@ -146,7 +146,7 @@ class MessageTest extends DevConnectTest {
 	 **/
 	public function testUpdateInvalidMessage() {
 		//create a Message and try to update it without actually updating it and watch it fail
-		$message = new Message(null, $this->receiver->getProfileId(), $this->sender->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->update($this->getPDO());
 	}
 
@@ -158,7 +158,7 @@ class MessageTest extends DevConnectTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new Message and insert it into MySQL
-		$message = new Message(null, $this->receiver->getProfileId(), $this->sender->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		//delete the message from MySQL
@@ -178,8 +178,23 @@ class MessageTest extends DevConnectTest {
 	 **/
 	public function testDeleteInvalidMessage() {
 		//create a Message and try to delete it without inserting it
-		$message = new Message(null, $this->receiver->getProfileId(), $this->sender->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->delete($this->getPDO());
+	}
+
+	/**
+	 * test grabbing a Message by sender
+	 **/
+	public function testGetValidMessageBySender() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("message");
+
+		//create a new Message and insert it into MySQL
+		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message->insert($this->getPDO());
+
+		//grab the data from MySQL and enforce that it matches our expectations
+		$results = Message::getMessageBySentProfileId
 	}
 
 
