@@ -158,7 +158,7 @@ class ImageTest extends DevConnectTest {
 
 		//grab the results from the array and validate it
 		$pdoImage = $results[0];
-		$this->assertEquals($pdoImage->getImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoImage->getImageId(), $image->getImageId());
 		$this->assertEquals($pdoImage->getImagePath(), $this->VALID_IMAGEPATH);
 		$this->assertEquals($pdoImage->getImageType(), $this->VALID_IMAGETYPE);
 	}
