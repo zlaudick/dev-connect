@@ -114,6 +114,13 @@ class MessageTest extends DevConnectTest {
 	}
 
 	/**
+	 * test inserting a Message, editing it, and then updating it
+	 **/
+	public function testUpdateValidMessage() {
+
+	}
+
+	/**
 	 * test inserting a valid Message and then deleting it
 	 **/
 	public function testDeleteValidMessage () {
@@ -141,7 +148,8 @@ class MessageTest extends DevConnectTest {
 	 **/
 	public function testDeleteInvalidMessage() {
 		//create a Message and try to delete it without inserting it
-
+		$message = new Message(null, $this->receiver->getProfileId(), $this->sender->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message->delete($this->getPDO());
 	}
 
 
