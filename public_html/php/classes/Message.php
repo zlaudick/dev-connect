@@ -172,6 +172,17 @@ class Message implements \JsonSerializable {
 		$this->messageSentProfileId = $newMessageSentProfileId;
 	}
 
+	/**
+	 * accessor method for the message content
+	 *
+	 * @return string value of the message content
+	 **/
+	public function getMessageContent() {
+		return($this->messageContent);
+	}
+
+
+
 
 
 
