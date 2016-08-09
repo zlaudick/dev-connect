@@ -24,9 +24,6 @@ CREATE TABLE profile(
 	profileName VARCHAR(32) NOT NULL,
 	profileSalt CHAR(64),
 	UNIQUE (profileEmail),
-	UNIQUE (profileHash),
-	UNIQUE (profileName),
-	UNIQUE (profileSalt),
 	PRIMARY KEY (profileId)
 );
 

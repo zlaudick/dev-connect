@@ -298,7 +298,7 @@ class Image implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$image = new Image($row["imageid"], $row["imagePath"], $row["imageType"]);
+				$image = new Image($row["imageId"], $row["imagePath"], $row["imageType"]);
 			}
 		} catch(\Exception $exception) {
 			//if the row couldn't be converted, rethrow it
@@ -307,6 +307,17 @@ class Image implements \JsonSerializable {
 		return($image);
 	}
 
+	/**
+	 * gets all images
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of images found or null if not found
+	 * @throws \PDOException when MySQL relates errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllImages (\PDO $pdo) {
+
+	}
 
 	/**
 	 * formats the state variables for JSON serialization
