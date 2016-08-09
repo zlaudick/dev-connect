@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\DevConnect\Test;
 
-use Edu\Cnm\DevConnect\Test\DevConnectTest;
+use Edu\Cnm\DevConnect\{Message, Profile};
 
 // grab the project test parameters
 require_once("DevConnectTest.php");
@@ -32,7 +32,7 @@ class MessageTest extends DevConnectTest {
 	protected $VALID_MESSAGECONTENT2 = "PHPUnit message content test still great success";
 	/**
 	 * timestamp of the Message; starts as null and is assigned later
-	 * @var DateTime $VALID_MESSAGEDATE
+	 * @var \DateTime $VALID_MESSAGEDATE
 	 **/
 	protected $VALID_MESSAGEDATE = null;
 	/**
@@ -42,10 +42,15 @@ class MessageTest extends DevConnectTest {
 	protected $VALID_MESSAGESUBJECT = "PHPUnit message subject test great success";
 	/**
 	 * Profile that created the Message, this is for foreign key relations
-	 * @var Profile profile
+	 * @var Profile sender
 	 **/
-	protected $profile = null;
-	
+	protected $sender = null;
+
+	/**
+	 * Profile that received the Message, this is for foreign key relations
+	 * @var Profile receiver
+	 **/
+	protected $receiver = null;
 
 	/**
 	 * create dependent objects first before running each test
@@ -56,8 +61,11 @@ class MessageTest extends DevConnectTest {
 
 		//create and insert a Profile to own the test Message, must figure out what to put for these...
 		//do we need two profiles created, the send and receive profiles??
-		$this->profile = new Profile(null, "0", null, null, null, null, null, "foo@bar.com", null, null, null, "Los Angeles", "Mark Fischbach", null);
-		$this->profile->insert($this->getPDO());
+		$this->sender = new Profile(null, "0", null, null, null, null, null, "foo@bar.com", null, null, null, "Los Angeles", "Mark Fischbach", null);
+		$this->sender->insert($this->getPDO());
+
+		$this->receiver = new Profile(null, "0", null, null, null, null, null, "bar@foo.com", null, null, null, "Los Angeles", "Mark Fischbach", null);
+		$this->receiver->insert($this->getPDO());
 
 		//calculate the date using the time the unit test was set up
 		$this->VALID_MESSAGEDATE = new \DateTime();
@@ -71,7 +79,7 @@ class MessageTest extends DevConnectTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new message and insert into MySQL
-		$message = new Message($this->profile->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->receiver->getProfileId(), $this->sender->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
