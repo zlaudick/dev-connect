@@ -117,7 +117,26 @@ class MessageTest extends DevConnectTest {
 	 * test inserting a Message, editing it, and then updating it
 	 **/
 	public function testUpdateValidMessage() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("message");
 
+		//create a new Message and insert it into MySQL
+		$message = new Message(null, $this->receiver->getProfileId(), $this->sender->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message->insert($this->getPDO());
+
+		//edit the Message and update it in MySQL
+		$message->setMessageContent($this->VALID_MESSAGECONTENT2);
+		$message->update($this->getPDO());
+
+		//grab the data from MySQL and enforce that it matches our expectations
+		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
+		$this->assertEquals($pdoMessage->getProfileId(), $this->receiver->getProfileId());
+		$this->assertEquals($pdoMessage->getProfileId(), $this->sender->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
+		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
+		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MAILGUNID);
+		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
 
 	/**
