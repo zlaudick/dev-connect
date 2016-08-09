@@ -71,10 +71,10 @@ class MessageTest extends DevConnectTest {
 
 		//create and insert a Profile to own the test Message, must figure out what to put for these...
 		//do we need two profiles created, the send and receive profiles??
-		$this->sender = new Profile(null, "Q", "1234567", true, 1, null, "Hi, I'm Markimoo and this test is passing!", "foo@bar.com", "4018725372539424208555279506880426447359803448671421461653568500", null, "Los Angeles", "Mark Fischbach", null);
+		$this->sender = new Profile(null, "Q", "1234567", true, 1, null, "Hi, I'm Markimoo!", "foo@bar.com", "4018725372539424208555279506880426447359803448671421461653568500", null, "Los Angeles", "Mark Fischbach", null);
 		$this->sender->insert($this->getPDO());
 
-		$this->receiver = new Profile(null, "T", "9876543", true, 2, null, "Hi, I'm Irelia and this test is still passing!", "bar@foo.com", "4018725372539424208555279506880426447359803448671421461653568500", null, "Ionia", "Irelia Ionia", null);
+		$this->receiver = new Profile(null, "T", "9876543", true, 2, null, "Hi, I'm Irelia!", "bar@foo.com", "4018725372539424208555279506880426447359803448671421461653568500", null, "Ionia", "Irelia Ionia", null);
 		$this->receiver->insert($this->getPDO());
 
 		//calculate the date using the time the unit test was set up
@@ -89,21 +89,23 @@ class MessageTest extends DevConnectTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new message and insert into MySQL
-		$message = new Message(null, $this->receiver->getProfileId(), $this->sender->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->receiver->getProfileId(), $this->sender->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-		$this->assertEquals($pdoMessage->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoMessage->getProfileId(), $this->receiver->getProfileId());
+		$this->assertEquals($pdoMessage->getProfileId(), $this->sender->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
+		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
 
 	/**
 	 * test inserting a Message that already exists
-	 * @expectedException PDOException
+	 * @expectedException \PDOException
 	 **/
 
 
