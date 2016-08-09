@@ -154,7 +154,7 @@ class ImageTest extends DevConnectTest {
 		$results = Image::getImageByImagePath($this->getPDO(), $image->getImagePath());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Test", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Image", $results);
 
 		//grab the results from the array and validate it
 		$pdoImage = $results[0];
