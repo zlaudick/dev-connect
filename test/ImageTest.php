@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\DevConnect\Test;
 
-use Edu\Cnm\DevConnect\Test\{Image};
+use Edu\Cnm\DevConnect\{Image};
 
 //grab the project test parameters
 require_once("DevConnectTest.php");
