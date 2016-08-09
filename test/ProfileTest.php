@@ -24,7 +24,7 @@ Class ProfileTest extends DevConnectTest {
 	 * account type of the Profile
 	 * @var string $VALID_PROFILEACCOUNTTYPE
 	 **/
-	protected $VALID_PROFILEACCOUNTTYPE = "0";
+	protected $VALID_PROFILEACCOUNTTYPE = "Q";
 	/**
 	 * activation token of the Profile
 	 * @var string $VALID_PROFILEACTIVATIONTOKEN
@@ -74,7 +74,7 @@ Class ProfileTest extends DevConnectTest {
 	 * github access token of the Profile
 	 * @var string $VALID_PROFILEGITHUBACCESSTOKEN
 	 **/
-	protected $VALID_PROFILEGITHUBACCESSTOKEN = "12345678910";
+	protected $VALID_PROFILEGITHUBACCESSTOKEN = "12345678910123456789012345678901234567890123456789012345678901234";
 	/**
 	 * @var Profile Hash
 	 **/
