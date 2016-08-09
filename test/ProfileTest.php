@@ -282,13 +282,11 @@ Class ProfileTest extends DevConnectTest {
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Profile::getProfileByProfileActivationToken($this->getPDO(), $profile->getProfileActivationToken());
+		$result = Profile::getProfileByProfileActivationToken($this->getPDO(), $profile->getProfileActivationToken());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Profile", $results);
 
 		// grab the result from the array and validate it
-		$pdoProfile = $results [0];
+		$pdoProfile = $result;
 		$this->assertEquals($pdoProfile->getProfileAccountType(), $this->VALID_PROFILEACCOUNTTYPE);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 		$this->assertEquals($pdoProfile->getProfileApproved(), $this->VALID_PROFILEAPPROVED);
