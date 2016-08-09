@@ -69,11 +69,11 @@ class MessageTest extends DevConnectTest {
 		//run the default setUp() method first
 		parent::setUp();
 
-		//create and insert a Profile to own the test Message, must figure out what to put for these...
-		//do we need two profiles created, the send and receive profiles??
+		//create and insert a Profile to send the test Message
 		$this->sentProfileId = new Profile(null, "Q", "1234567", true, 1, null, "Hi, I'm Markimoo!", "foo@bar.com", "4018725372539424208555279506880426447359803448671421461653568500", null, "Los Angeles", "Mark Fischbach", null);
 		$this->sentProfileId->insert($this->getPDO());
 
+		//create and insert a Profile to receive the test Message
 		$this->receiveProfileId = new Profile(null, "T", "9876543", true, 2, null, "Hi, I'm Irelia!", "bar@foo.com", "4018725372539424208555279506880426447359803448671421461653568500", null, "Ionia", "Irelia Ionia", null);
 		$this->receiveProfileId->insert($this->getPDO());
 
@@ -288,6 +288,30 @@ class MessageTest extends DevConnectTest {
 		//grab a message by searching for a message subject that does not exist
 		$message = Message::getMessageByMessageSubject($this->getPDO(), "you will find nada");
 		$this->assertCount(0, $message);
+	}
+
+	/**
+	 * tests the JSON serialization
+	 **/
+	public function testJsonSerialize() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("message");
+
+		//create a new Message and insert it into MySQL
+		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message->insert($this->getPDO());
+
+		//grab the data from MySQL and enforce that the JSON data matches our expectations
+		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
+
+		$messageId = $message->getMessageId();
+		$receiveProfileId = $this->receiveProfileId->getProfileId();
+		$sentProfileId = $this->sentProfileId->getProfileId();
+		$expectedJson = <<< EOF
+{"messageId": $messageId, "messageReceiveProfileId": $receiveProfileId, "messageSentProfileId": $sentProfileId, "messageContent": "$this->VALID_MESSAGECONTENT", "messageDateTime": "$this->VALID_MESSAGEDATE", "messageMailgunId": "$this->VALID_MAILGUNID", "messageSubject": "$this->VALID_MESSAGESUBJECT"}
+EOF;
+		$this->assertJsonStringEqualsJsonString($expectedJson, json_encode($pdoMessage));
 	}
 }
 
