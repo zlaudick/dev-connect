@@ -171,4 +171,27 @@ class ImageTest extends DevConnectTest {
 		$image = Image::getImageByImagePath($this->getPDO(), "this image is not found");
 		$this->assertCount(0, $image);
 	}
+
+	/**
+	 * tests the JSON serialization
+	 **/
+	public function testJsonSerialize() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("image");
+
+		//create a new Image and insert into MySQL
+		$image = new Image(null, $this->VALID_IMAGEPATH, $this->VALID_IMAGETYPE);
+		$image->insert($this->getPDO());
+
+		//grab the data from MySQL and enforce that the JSON data matches our expectations
+		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+
+		$imageId = $image->getImageId();
+		$expectedJson = <<< EOF
+{"imageId": $imageId, "imagePath": "$this->VALID_IMAGEPATH", "imageType": "$this->VALID_IMAGETYPE"}
+EOF;
+		$this->assertJsonStringEqualsJsonString($expectedJson, json_encode($pdoImage));
+
+	}
 }
