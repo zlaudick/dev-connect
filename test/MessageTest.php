@@ -281,6 +281,17 @@ class MessageTest extends DevConnectTest {
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
 
+	/**
+	 * test grabbing a Message by a message subject that does not exist
+	 **/
+	public function testGetInvalidMessageByMessageSubject() {
+		//grab a message by searching for a message subject that does not exist
+		$message = Message::getMessageByMessageSubject($this->getPDO(), "you will find nada");
+		$this->assertCount(0, $message);
+	}
+
+
+
 
 }
 
