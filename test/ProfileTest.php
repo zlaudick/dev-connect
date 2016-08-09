@@ -307,7 +307,7 @@ Class ProfileTest extends DevConnectTest {
 	 * test grabbing a Profile by Activation Token that does not exist
 	 **/
 	public function testGetInvalidProfileByProfileActivationToken() {
-		// grab a Profile by searching for email that does not exist
+		// grab a Profile by searching for profile activation token that does not exist
 		$profile = Profile::getProfileByProfileActivationToken($this->getPDO(), "profile activation does not exist");
 		$this->assertCount(0, $profile);
 	}

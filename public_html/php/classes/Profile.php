@@ -679,6 +679,9 @@ class Profile implements \JsonSerializable {
 		//create query template
 		$query = "SELECT profileId, profileAccountType, profileActivationToken, profileApproved, profileApprovedById, profileApprovedDateTime, profileContent, profileEmail, profileGithubAccessToken, profileHash, profileLocation, profileName, profileSalt FROM profile WHERE profileActivationToken = :profileActivationToken";
 		$statement = $pdo->prepare($query);
+		// bind the profileActivationToken to the place holder in the template
+		$parameters = array("profileActivationToken" => $profileActivationToken);
+		$statement->execute($parameters);
 		// build an array of profiles
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		try {
