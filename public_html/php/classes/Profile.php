@@ -621,8 +621,15 @@ class Profile implements \JsonSerializable {
 		// create a query template
 		$query = "UPDATE profile SET profileAccountType = :profileAccountType, profileActivationToken = :profileActivationToken, profileApproved = :profileApproved, profileApprovedById = :profileApprovedById, profileApprovedDateTime = :profileApprovedDateTime, profileContent = :profileContent, profileEmail = :profileEmail, profileGithubAccessToken = :profileGithubAccessToken, profileHash = :profileHash, profileLocation = :profileLocation, profileName = :profileName, profileSalt = :profileSalt WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
+
+		// Format values
+		$formattedDate = $this->profileApprovedDateTime->format("Y-m-d H:i:s");
+		$formattedProfileApproved = 1;
+		if ($this->profileApproved === false) {
+			$formattedProfileApproved = 0;
+		}
 		// bind the member variables to the place holders in this template
-		$parameters = ["profileAccountType" => $this->profileAccountType, "profileActivationToken" => $this->profileActivationToken, "profileApproved" => $this->profileApproved, "profileApprovedById" => $this->profileApprovedById, "profileApprovedDateTime" => $this->profileApprovedDateTime, "profileContent" => $this->profileContent, "profileEmail" => $this->profileEmail, "profileGithubAccessToken" => $this->profileGithubAccessToken, "profileHash" => $this->profileHash, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profileSalt" => $this->profileSalt];
+		$parameters = ["profileAccountType" => $this->profileAccountType, "profileActivationToken" => $this->profileActivationToken, "profileApproved" => $formattedProfileApproved, "profileApprovedById" => $this->profileApprovedById, "profileApprovedDateTime" => $formattedDate, "profileContent" => $this->profileContent, "profileEmail" => $this->profileEmail, "profileGithubAccessToken" => $this->profileGithubAccessToken, "profileHash" => $this->profileHash, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profileSalt" => $this->profileSalt, "profileId" => $this->getProfileId()];
 		$statement->execute($parameters);
 	}
 
