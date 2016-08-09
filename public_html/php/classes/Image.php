@@ -9,7 +9,7 @@ require_once("autoload.php");
  * This Image can store the image path and file type of a DevConnect profile's pictures
  *
  * @author Devon Beets <dbeetzz@gmail.com>
- * @version 3.0.0
+ * @version 1.0.0
  **/
 class Image implements \JsonSerializable {
 	/**
