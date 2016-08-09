@@ -29,12 +29,12 @@ Class ProfileTest extends DevConnectTest {
 	 * activation token of the Profile
 	 * @var string $VALID_PROFILEACTIVATIONTOKEN
 	 **/
-	protected $VALID_PROFILEACTIVATIONTOKEN = "123456789";
+	protected $VALID_PROFILEACTIVATIONTOKEN = "12345678901234567890123456789012";
 	/**
 	 * activation token of the Profile
 	 * @var string $VALID_PROFILEACTIVATIONTOKEN2
 	 **/
-	protected $VALID_PROFILEACTIVATIONTOKEN2 = "987654321";
+	protected $VALID_PROFILEACTIVATIONTOKEN2 = "12345678901234567890123456789011";
 	/**
 	 * approved value of the Profile
 	 * @var bool $VALID_PROFILEAPPROVED
