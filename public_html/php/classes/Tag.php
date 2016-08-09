@@ -29,10 +29,6 @@ class Tag implements \JsonSerializable {
 	 * @var string $tagName
 	 **/
 	private $tagName;
-	/**
-	 * @var int|null
-	 */
-	private $newTagId;
 
 	/**
 	 * constructor for this tag
@@ -61,7 +57,6 @@ class Tag implements \JsonSerializable {
 			// rethrow the exception to the caller
 			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
-		$this->newTagId = $newTagId;
 	}
 	/**
 	 * mutator method for the tag id primary key
@@ -70,7 +65,12 @@ class Tag implements \JsonSerializable {
 	 * @throws \RangeException if $newTagId is not positive
 	 * @throws \TypeError if $newTagId is not an integer
 	 **/
-	public function setTagId(int $newTagId) {
+	public function setTagId(int $newTagId = null) {
+		// base case: if the tag id is null, this a new tag without a mySQL assigned id (yet)
+		if($newTagId === null) {
+			$this->tagId = null;
+			return;
+		}
 		// verify the tag id is positive
 		if($newTagId <= 0) {
 			throw(new \RangeException("tag id is not positive"));
@@ -208,7 +208,7 @@ class Tag implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$tag = new Review($row["tagId"], $row["tagName"]);
+				$tag = new Tag($row["tagId"], $row["tagName"]);
 				$tags[$tags->key()] = $tag;
 				$tags->next();
 			} catch(\Exception $exception) {
@@ -233,8 +233,7 @@ class Tag implements \JsonSerializable {
 			throw(new \PDOException("tag id is not positive"));
 		}
 		// create query template
-		$query = "SELECT tagId, tagName
-                         FROM tag WHERE tagId = :tagId";
+		$query = "SELECT tagId, tagName FROM tag WHERE tagId = :tagId";
 		$statement = $pdo->prepare($query);
 		// bind the tag id to the place holder in the template
 		$parameters = ["tagId" => $tagId];
@@ -273,7 +272,7 @@ class Tag implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$tag = new Review($row["tagId"], $row["tagName"]);
+				$tag = new Tag($row["tagId"], $row["tagName"]);
 				$tags[$tags->key()] = $tag;
 				$tags->next();
 			} catch(\Exception $exception) {
@@ -290,9 +289,7 @@ class Tag implements \JsonSerializable {
 	 * stub for now
 	 **/
 	public function jsonSerialize() {
-		//$fields = get_object_vars($this);
-		//$fields["likeDate"] = intval($this->likeDate->format("U")) * 1000;
-		//return($fields);
-		return(0);
+		$fields = get_object_vars($this);
+		return($fields);
 	}
 }

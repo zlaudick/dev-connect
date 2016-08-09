@@ -19,25 +19,15 @@ class TagTest extends DevConnectTest {
 	 * content of the Tag
 	 * @var string $VALID_TAGCONTENT
 	 **/
-	protected $VALID_TAGCONTENT = "PHPUnit test passing";
+	protected $VALID_TAGCONTENT = "Valid Tag Content 1";
 	/**
 	 * content of the updated Tag
 	 * @var string $VALID_TAGCONTENT2
 	 **/
-	protected $VALID_TAGCONTENT2 = "PHPUnit test still passing";
+	protected $VALID_TAGCONTENT2 = "Valid Tag Content 2";
 	/**
 	 * setUp function is not needed since there are no
 	 *  dependent objects before running each test
-
-	public final function setUp() {
-	// run the default setUp() method first
-	parent::setUp();
-	// create and insert a Tag Name to own the test Tag
-	$this->profile = new Profile(null, "@phpunit", "test@phpunit.de", "+12125551212");
-	$this->profile->insert($this->getPDO());
-	// calculate the date (just use the time the unit test was setup...)
-	$this->VALID_TWEETDATE = new \DateTime();
-	}
 	 **/
 	/**
 	 * test inserting a valid Tag and verify that the actual mySQL data matches
@@ -52,7 +42,7 @@ class TagTest extends DevConnectTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoTag = Tag::getTagByTagId($this->getPDO(), $tag->getTagId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
-		$this->assertEquals($pdoTag->setTagName(), $this->VALID_TAGCONTENT);
+		$this->assertEquals($pdoTag->getTagName($this->VALID_TAGCONTENT), $this->VALID_TAGCONTENT);
 	}
 	/**
 	 * test inserting a Tag that already exists
@@ -82,7 +72,7 @@ class TagTest extends DevConnectTest {
 		$this->assertEquals($pdoTag->getTagName(), $this->VALID_TAGCONTENT2);
 	}
 	/**
-	 * test updating a Tag that already exists
+	 * test updating a Tag that does not exists
 	 *
 	 * @expectedException PDOException
 	 **/
@@ -119,55 +109,6 @@ class TagTest extends DevConnectTest {
 		$tag->delete($this->getPDO());
 	}
 	/**
-	 * test inserting a Tag and regrabbing it from mySQL
-	 **/
-	public function testGetValidTagByTagId() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tag");
-		// create a new Tag and insert to into mySQL
-		$tag = new Tag(null, $this->VALID_TAGCONTENT);
-		$tag->insert($this->getPDO());
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoTag = Tag::getTagByTagId($this->getPDO(), $tag->getTagId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
-		$this->assertEquals($pdoTag->getTagName(), $this->VALID_TAGCONTENT);
-	}
-	/**
-	 * test grabbing a Tag that does not exist
-	 **/
-	public function testGetInvalidTagByTagId() {
-		// grab a profile id that exceeds the maximum allowable profile id
-		$tag = Tag::getTagByTagId($this->getPDO(), DevConnectTest::INVALID_KEY);
-		$this->assertNull($tag);
-	}
-	/**
-	 * test inserting a Tag and regrabbing it from mySQL
-	 **/
-	public function testGetValidTagByTageId() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tag");
-		// create a new Tag and insert to into mySQL
-		$tag = new Tag(null, $this->VALID_TAGCONTENT);
-		$tag->insert($this->getPDO());
-		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Tag::getTagByTagId($this->getPDO(), $this->profile->getTagId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
-		$this->assertCount(1, $results);
-		//$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Dmcdonald21\\DataDesign\\Tweet", $results); ????
-		// grab the result from the array and validate it
-		$pdoTag = $results[0];
-		$this->assertEquals($pdoTag->getTagId(), $this->profile->getTagId());
-		$this->assertEquals($pdoTag->getTagName(), $this->VALID_TAGCONTENT);
-	}
-	/**
-	 * test grabbing a Tag that does not exist
-	 **/
-	public function testGetInvalidTagNameByTagId() {
-		// grab a profile id that exceeds the maximum allowable profile id
-		$tag = Tag::getTagByTagId($this->getPDO(), DevConnectTest::INVALID_KEY);
-		$this->assertCount(0, $tag);
-	}
-	/**
 	 * test grabbing a Tag by tag content
 	 **/
 	public function testGetValidTagByTagContent() {
@@ -180,16 +121,23 @@ class TagTest extends DevConnectTest {
 		$results = Tag::getTagByTagContent($this->getPDO(), $tag->getTagName());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
 		$this->assertCount(1, $results);
-		//$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Dmcdonald21\\DataDesign\\Tweet", $results); ???
-		// grab the result from the array and validate it
+				// grab the result from the array and validate it
 		$pdoTag = $results[0];
-		//$this->assertEquals($pdoTag->getTweetProfileId(), $this->profile->getTagId());
-		$this->assertEquals($pdoTag->getTagName(), $this->VALID_TAGCONTENT);
+				$this->assertEquals($pdoTag->getTagName(), $this->VALID_TAGCONTENT);
+	}
+
+	/**
+	 * test grabbing a Tag that does not exist
+	 **/
+	public function testGetInvalidTagByTagId() {
+		// grab a profile id that exceeds the maximum allowable profile id
+		$tag = Tag::getTagByTagId($this->getPDO(), DevConnectTest::INVALID_KEY);
+		$this->assertNull($tag);
 	}
 	/**
-	 * test grabbing a Tag by content that does not exist
+	 * test grabbing a Tag by content that does not exist  DYLAN DIDN'T DO THIS!!!!
 	 **/
-	public function testGetInvalidTagByTweetContent() {
+	public function testGetInvalidTagByTagContent() {
 		// grab a tag by content that does not exist
 		$tag = Tag::getTagByTagContent($this->getPDO(), "nobody ever made this TAG");
 		$this->assertCount(0, $tag);
@@ -204,13 +152,30 @@ class TagTest extends DevConnectTest {
 		$tag = new Tag(null, $this->VALID_TAGCONTENT);
 		$tag->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Tag::getAllTweets($this->getPDO());
+		$results = Tag::getAllTags($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
 		$this->assertCount(1, $results);
-		//$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Dmcdonald21\\DataDesign\\Tweet", $results); ???
-		// grab the result from the array and validate it
+				// grab the result from the array and validate it
 		$pdoTag = $results[0];
-		//$this->assertEquals($pdoTag->getTweetProfileId(), $this->profile->getTagId()); ???
-		$this->assertEquals($pdoTag->getTagName(), $this->VALID_TAGCONTENT);
+				$this->assertEquals($pdoTag->getTagName(), $this->VALID_TAGCONTENT);
+	}
+	/**
+	 * tests the JSON serialization
+	 **/
+	public function testJsonSerialize() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("tag");
+		//create a new Tag and insert into MySQL
+		$tag = new Tag(null, $this->VALID_TAGCONTENT);
+		$tag->insert($this->getPDO());
+		//grab the data from MySQL and enforce that the JSON data matches our expectations
+		$pdoTag = Tag::getTagByTagId($this->getPDO(), $tag->getTagId());
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
+		$tagId = $tag->getTagId();
+		$expectedJson = <<< EOF
+{"tagId": $tagId, "tagName": "$this->VALID_TAGCONTENT"}
+EOF;
+		$this->assertJsonStringEqualsJsonString($expectedJson, json_encode($pdoTag));
 	}
 }
