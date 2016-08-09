@@ -97,6 +97,29 @@ class Message implements \JsonSerializable {
 		return($this->messageId);
 	}
 
+	/**
+	 * mutator method for message id
+	 *
+	 * @param int|null $newMessageId new value of message id
+	 * @throws \RangeException if $newMessageId is not positive
+	 * @throws \TypeError if $newMessageId is not an integer
+	 **/
+	public function setMessageId($newMessageId = null) {
+		//base case: if the message id is null, then this is a new message without a MySQL assigned id yet
+		if($newMessageId === null) {
+			$this->messageId = null;
+			return;
+		}
+
+		//verify the message id is positive
+		if($newMessageId <= 0) {
+			throw(new \RangeException("message id is not positive"));
+		}
+
+		//convert and store the message id
+		$this->messageId = $newMessageId;
+	}
+
 
 
 
