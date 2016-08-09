@@ -118,7 +118,7 @@ Class ProfileTest extends DevConnectTest {
 	 **/
 	public function testInsertValidProfile() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("Profile");
+		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert it into mySQL
 		$profile = new Profile(null, $this->VALID_PROFILEACCOUNTTYPE, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEAPPROVED, $this->VALID_PROILEAPPROVEDBYID, $this->VALID_PROFILEAPPROVEDDATETIME, $this->VALID_PROFILECONTENT, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEGITHUBACCESSTOKEN, $this->hash, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->salt);
