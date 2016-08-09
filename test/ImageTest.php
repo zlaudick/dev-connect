@@ -151,7 +151,7 @@ class ImageTest extends DevConnectTest {
 
 		//grab the data from MySQL and enforce the fields match our expectations
 		$results = Image::getImageByImagePath($this->getPDO(), $image->getImagePath());
-		$this->assertEquals($numRows, $this->getConnection()->getRowCount("image"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Test", $results);
 
