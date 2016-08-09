@@ -95,7 +95,7 @@ class ImageTest extends DevConnectTest {
 		$image->insert($this->getPDO());
 
 		//edit the Image and update it in MySQL
-		$image->setImagePath($this->VALID_IMAGEPATH2);
+		$image->setImagePath($this->VALID_IMAGEPATH2, $this->VALID_IMAGETYPE2);
 		$image->update($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
