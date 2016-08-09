@@ -245,6 +245,19 @@ class MessageTest extends DevConnectTest {
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
 
+	/**
+	 * test grabbing a Message by a receive profile id that does not exist
+	 **/
+	public function testGetInvalidMessageByReceiveProfileId() {
+		//grab a message by searching for a receive profile id that does not exist
+		$message = Message::getMessageByReceiveProfileId($this->getPDO(), "you will find nada");
+		$this->assertCount(0, $message);
+	}
+
+	/**
+	 * test
+	 **/
+
 
 
 }
