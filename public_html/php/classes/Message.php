@@ -155,6 +155,25 @@ class Message implements \JsonSerializable {
 		return($this->messageSentProfileId);
 	}
 
+	/**
+	 * mutator method for the message sent profile id
+	 *
+	 * @param int $newMessageSentProfileId new value of message sent profile id
+	 * @throws \RangeException if $newMessageSentProfileId is not positive
+	 * @throws \TypeError if $newMessageSentProfileId is not an integer
+	 **/
+	public function setMessageSentProfileId(int $newMessageSentProfileId) {
+		//verify the message sent profile id is positive
+		if($newMessageSentProfileId <= 0) {
+			throw(new \RangeException("message sent profile id is not positive"));
+		}
+
+		//convert and store the message sent profile id
+		$this->messageSentProfileId = $newMessageSentProfileId;
+	}
+
+
+
 
 
 
