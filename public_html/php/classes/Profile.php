@@ -704,7 +704,7 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $profileEmail profile email to search for
-	 * @return \Edu\Cnm\DevConnect\Profile
+	 * @return \SplFixedArray
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getProfileByProfileEmail(\PDO $pdo, $profileEmail) {
@@ -721,15 +721,19 @@ class Profile implements \JsonSerializable {
 		$parameters = array("profileEmail" => $profileEmail);
 		$statement->execute($parameters);
 		// build an array of users
+		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		$row = $statement->fetch();
-		try {
-			$profile = new Profile($row["profileId"], $row["profileAccountType"], $row["profileActivationToken"], $row["profileApproved"], $row["profileApprovedById"], $row["profileApprovedDateTime"], $row["profileContent"], $row["profileEmail"], $row["profileGithubAccessToken"], $row["profileHash"], $row["profileLocation"], $row["profileName"], $row["profileSalt"]);
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$profile = new Profile($row["profileId"], $row["profileAccountType"], $row["profileActivationToken"], $row["profileApproved"], $row["profileApprovedById"], $row["profileApprovedDateTime"], $row["profileContent"], $row["profileEmail"], $row["profileGithubAccessToken"], $row["profileHash"], $row["profileLocation"], $row["profileName"], $row["profileSalt"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
 		}
-		return($profile);
+		return($profiles);
 	}
 
 	/**

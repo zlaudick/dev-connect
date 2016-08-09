@@ -107,6 +107,7 @@ Class ProfileTest extends DevConnectTest {
 		parent::setUp();
 
 		// create and insert a Profile to own the account
+		$this->VALID_PROFILEAPPROVEDDATETIME = new \DateTime();
 		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
 		$this->VALID_PROFILEACTIVATIONTOKEN2 = bin2hex(random_bytes(16));
 		$this->salt = bin2hex(random_bytes(32));
@@ -327,19 +328,21 @@ Class ProfileTest extends DevConnectTest {
 
 
 		// grab the result from the array and validate it
-		$pdoProfile = $result;
-		$this->assertEquals($pdoProfile->getProfileAccountType(), $this->VALID_PROFILEACCOUNTTYPE);
-		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
-		$this->assertEquals($pdoProfile->getProfileApproved(), $this->VALID_PROFILEAPPROVED);
-		$this->assertEquals($pdoProfile->getProfileApprovedById(), $this->VALID_PROILEAPPROVEDBYID);
-		$this->assertEquals($pdoProfile->getProfileApprovedDateTime(), $this->VALID_PROFILEAPPROVEDDATETIME);
-		$this->assertEquals($pdoProfile->getProfileContent(), $this->VALID_PROFILECONTENT);
-		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
-		$this->assertEquals($pdoProfile->getProfileGithubAccessToken(), $this->VALID_PROFILEGITHUBACCESSTOKEN);
-		$this->assertEquals($pdoProfile->getProfileHash(), $this->hash);
-		$this->assertEquals($pdoProfile->getProfileLocation(), $this->VALID_PROFILELOCATION);
-		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
-		$this->assertEquals($pdoProfile->getProfileSalt(), $this->salt);
+		$pdoProfiles = $result;
+		foreach($pdoProfiles as $pdoProfile) {
+			$this->assertEquals($pdoProfile->getProfileAccountType(), $this->VALID_PROFILEACCOUNTTYPE);
+			$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
+			$this->assertEquals($pdoProfile->getProfileApproved(), $this->VALID_PROFILEAPPROVED);
+			$this->assertEquals($pdoProfile->getProfileApprovedById(), $this->VALID_PROILEAPPROVEDBYID);
+			$this->assertEquals($pdoProfile->getProfileApprovedDateTime(), $this->VALID_PROFILEAPPROVEDDATETIME);
+			$this->assertEquals($pdoProfile->getProfileContent(), $this->VALID_PROFILECONTENT);
+			$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
+			$this->assertEquals($pdoProfile->getProfileGithubAccessToken(), $this->VALID_PROFILEGITHUBACCESSTOKEN);
+			$this->assertEquals($pdoProfile->getProfileHash(), $this->hash);
+			$this->assertEquals($pdoProfile->getProfileLocation(), $this->VALID_PROFILELOCATION);
+			$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
+			$this->assertEquals($pdoProfile->getProfileSalt(), $this->salt);
+		}
 	}
 
 	/**
@@ -348,7 +351,7 @@ Class ProfileTest extends DevConnectTest {
 	public function testGetInvalidProfileByProfileEmail() {
 		// grab a profile by searching for an email that does not exist
 		$profile = Profile::getProfileByProfileEmail($this->getPDO(), "that email doesn't exist");
-		$this->assertCount(0, $profile);
+		$this->assertNull($profile);
 	}
 
 	/**
