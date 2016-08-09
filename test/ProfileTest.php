@@ -351,7 +351,7 @@ Class ProfileTest extends DevConnectTest {
 	public function testGetInvalidProfileByProfileEmail() {
 		// grab a profile by searching for an email that does not exist
 		$profile = Profile::getProfileByProfileEmail($this->getPDO(), "that email doesn't exist");
-		$this->assertNull($profile);
+		$this->assertCount(0, $profile);
 	}
 
 	/**
