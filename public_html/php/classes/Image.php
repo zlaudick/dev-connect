@@ -314,6 +314,7 @@ class Image implements \JsonSerializable {
 	 * @return array resulting in state variables to serialize
 	 **/
 	public function jsonSerialize() {
-		//TODO: Implement jsonSerialize() method.
+		$fields = get_object_vars($this);
+		return($fields);
 	}
 }
