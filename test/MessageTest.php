@@ -289,9 +289,5 @@ class MessageTest extends DevConnectTest {
 		$message = Message::getMessageByMessageSubject($this->getPDO(), "you will find nada");
 		$this->assertCount(0, $message);
 	}
-
-
-
-
 }
 
