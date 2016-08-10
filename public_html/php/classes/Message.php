@@ -316,7 +316,7 @@ class Message implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(\PDO $pdo) {
-		//enforce that messageId is null (don't insert a message that already exists)
+		//enforce that the messageId is null (don't insert a message that already exists)
 		if($this->messageId !== null) {
 			throw(new \PDOException("not a new message"));
 		}
@@ -333,6 +333,30 @@ class Message implements \JsonSerializable {
 		//update the null messageId with what MySQL just gave us
 		$this->messageId = intval($pdo->lastInsertId());
 	}
+
+	/**
+	 * deletes this Message from MySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when MySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) {
+		//enforce that the messageId is not null (don't delete a message that hasn't been inserted)
+		if($this->messageId === null) {
+			throw(new \PDOException("unable to delete a message that does not exist"));
+		}
+
+		//create query template
+		$query = "DELETE FROM message WHERE messageId = :messageId";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the placeholder in the template
+		$parameters = ["messageId" =>$this->messageId];
+		$statement->execute($parameters);
+	}
+
+	/
 
 
 
