@@ -198,8 +198,31 @@ class Message implements \JsonSerializable {
 		}
 
 		//verify the message content will fit in the database
-		if(strlen($))
+		if(strlen($newMessageContent) > 2000) {
+			throw(new \RangeException("message content is too large"));
+		}
+
+		//store the message content
+		$this->messageContent = $newMessageContent;
 	}
+
+	/**
+	 * accessor method for the Message date and time
+	 *
+	 * @return \DateTime value of the Message date and time
+	 **/
+	public function getMessageDateTime() {
+		return($this->messageDateTime);
+	}
+
+	/**
+	 * mutator method for the Message date and time
+	 *
+	 * @param \DateTime|string|null $newMessageDateTime message date and time as a DateTime object, or null to load the current time
+	 * @throws \InvalidArgumentException if $newMessageDateTime is not a valid object or string
+	 * @throws \RangeException if $newMessageDateTime is a date that does not exist
+	 **/
+	public function setMessageDateTime
 
 
 
