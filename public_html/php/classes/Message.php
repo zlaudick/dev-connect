@@ -380,6 +380,44 @@ class Message implements \JsonSerializable {
 	}
 
 	/**
+	 * gets the Message by message id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $messageId message id to search for
+	 * @return Message|null Message found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getMessageByMessageId(\PDO $pdo, $messageId) {
+		//sanitize the messageId before searching
+		if($messageId <= 0) {
+			throw(new \PDOException("message id is not positive"));
+		}
+
+		//create query template
+		$query = "SELECT messageId, messageReceiveProfileId, messageSentProfileId, messageContent, messageDateTime, messageMailgunId, messageSubject FROM message WHERE messageId = :messageId";
+		$statement = $pdo->prepare($query);
+
+		//bind the message id to the placeholder in the template
+		$parameters = ["messageId" => $messageId];
+		$statement->execute($parameters);
+
+		//grab the message from MySQL
+		try {
+			$message = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$message = new Message($row["messageId"], $row["messageReceiveProfileId"], $row["messageSentProfileId"], $row["messageContent"], $row["messageDateTime"], $row["messageMailgunId"], $row["messageSubject"]);
+			}
+		} catch(\Exception $exception) {
+			//if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($message);
+	}
+
+	/**
 	 * gets the Message by Message receive profile id
 	 *
 	 * @param \PDO $pdo PDO connection object
