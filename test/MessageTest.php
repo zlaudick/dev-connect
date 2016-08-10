@@ -194,7 +194,7 @@ class MessageTest extends DevConnectTest {
 		$message->insert($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
-		$results = Message::getMessageByMessageSentProfileId($this->getPDO(), $message->getMessageContent());
+		$results = Message::getMessageByMessageSentProfileId($this->getPDO(), $message->getMessageSentProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Message", $results);
@@ -230,7 +230,7 @@ class MessageTest extends DevConnectTest {
 		$message->insert($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
-		$results = Message::getMessageByMessageReceiveProfileId($this->getPDO(), $message->getMessageContent());
+		$results = Message::getMessageByMessageReceiveProfileId($this->getPDO(), $message->getMessageReceiveProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Message", $results);
