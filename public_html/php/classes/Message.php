@@ -356,7 +356,67 @@ class Message implements \JsonSerializable {
 		$statement->execute($parameters);
 	}
 
-	/
+	/**
+	 * updates this Message in MySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when MySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) {
+		//enforce that the messageId is not null (don't update a message that that hasn't been inserted)
+		if($this->messageId === null) {
+			throw(new \PDOException("unable to update a message that does not exist"));
+		}
+
+		//create query template
+		$query = "UPDATE message SET messageReceiveProfileId = :messageReceiveProfileId, messageSentProfileId = :messageSentProfileId, messageContent = :messageContent, messageDateTime = :messageDateTime, messageMailgunId = :messageMailgunId, messageSubject = :messageSubject WHERE messageId = :messageId";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the placeholders in the template
+		$formattedDate = $this->messageDateTime->format("Y-m-d H:i:s");
+		$parameters = ["messageReceiveProfileId" => $this->messageReceiveProfileId, "messageSentProfileId" => $this->messageSentProfileId, "messageContent" => $this->messageContent, "messageDateTime" => $this->$formattedDate, "messageMailgunId" => $this->messageMailgunId, "messageSubject" => $this->messageSubject];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * gets the Message by Message receive profile id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $messageReceiveProfileId to search for
+	 * @return \SplFixedArray SplFixedArray of Messages found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getMessageByMessageReceiveProfileId(\PDO $pdo, int $messageReceiveProfileId) {
+		//sanitize the messageReceiveProfileId before searching
+		if($messageReceiveProfileId <= 0) {
+			throw(new \PDOException("message receive profile id is not positive"));
+		}
+
+		//create query template
+		$query = "SELECT messageId, messageReceiveProfileId, messageSentProfileId, messageContent, messageDateTime, messageMailgunId, messageSubject FROM message WHERE messageReceiveProfileId = :messageReceiveProfileId";
+		$statement = $pdo->prepare($query);
+
+		//bind the message receive profile id to the placeholder in the template
+		$parameters = ["messageReceiveProfileId" => $messageReceiveProfileId];
+		$statement->execute($parameters);
+
+		//build an array of messages
+		$messages = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row =$statement->fetch()) !== false) {
+			try {
+				$message = new Message($row["messageId"], $row["messageReceiveProfileId"], $row["messageSentProfileId"], $row["messageContent"], $row["messageDateTime"], $row["messageMailgunId"], $row["messageSubject"]);
+				$messages[$messages->key()] = $message;
+				$messages->next();
+			} catch(\Exception $exception) {
+				//if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($messages);
+	}
 
 
 
