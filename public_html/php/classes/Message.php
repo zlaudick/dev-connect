@@ -250,8 +250,40 @@ class Message implements \JsonSerializable {
 	}
 
 	/**
+	 * mutator method for the Message mailgun id
 	 *
+	 * @param string $newMessageMailgunId new value of the Message mailgun id
+	 * @throws \InvalidArgumentException if $newMessageMailgunId is not a string or insecure
+	 * @throws \RangeException if $newMessageMailgunId is > 128 characters
+	 * @throws \TypeError if $newMessageMailgunId is not a string
 	 **/
+	public function setMessageMailgunId(string $newMessageMailgunId) {
+		//verify the Message mailgun id is secure
+		$newMessageMailgunId = trim($newMessageMailgunId);
+		$newMessageMailgunId = filter_var($newMessageMailgunId, FILTER_SANITIZE_STRING);
+		if(empty($newMessageMailgunId) === true) {
+			throw(new \InvalidArgumentException("message mailgun id is empty or insecure"));
+		}
+
+		//verify the message mailgun id will fit in the database
+		if(strlen($newMessageMailgunId) > 128) {
+			throw(new \RangeException("message mailgun id is too large"));
+		}
+
+		//store the message mailgun id
+		$this->messageMailgunId = $newMessageMailgunId;
+	}
+
+	/**
+	 * accessor method for Message subject
+	 *
+	 * @return string value of the Message subject
+	 **/
+	public function getMessageSubject() {
+		return($this->messageSubject);
+	}
+
+
 
 
 
