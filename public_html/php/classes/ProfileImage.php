@@ -196,6 +196,31 @@ class ProfileImage implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
+	public static function getProfileImageByProfileID(\PDO $pdo, int $profileImageProfileId) {
+		// sanitize the profileImageProfileId before searching
+		if($profileImageProfileId <= 0) {
+			throw(new \PDOException("profileImageProfileId is not positive"));
+		}
+		// create query template
+		$query = "SELECT profileImageProfileId FROM profileImage WHERE profileImageProfileId = :profileImageProfileId";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of profileImageProfileIds
+		$profileImageProfileIds = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$profileImageProfileId = new ProfileImage($row["profileImageProfileId"]);
+				$profileImageProfileIds[$profileImageProfileIds->key()] = $profileImageProfileId;
+				$profileImageProfileIds->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($profileImageProfileIds);
+	}
 
 	/**
 	 * gets all profileImage primary keys
