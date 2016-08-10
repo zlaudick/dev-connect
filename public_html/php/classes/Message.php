@@ -222,7 +222,23 @@ class Message implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if $newMessageDateTime is not a valid object or string
 	 * @throws \RangeException if $newMessageDateTime is a date that does not exist
 	 **/
-	public function setMessageDateTime
+	public function setMessageDateTime($newMessageDateTime = null) {
+		//base case: if the date and time are null, use the current date and time
+		if($newMessageDateTime === null) {
+			$this->messageDateTime = new \DateTime();
+			return;
+		}
+
+		//store the message date and time
+		try {
+			$newMessageDateTime = self::validateDateTime($newMessageDateTime);
+		} catch(\InvalidArgumentException $invalidArgument) {
+			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $range) {
+			throw(new \RangeException($range->getMessage(), 0, $range));
+		}
+		$this->messageDateTime =$newMessageDateTime;
+	}
 
 
 
