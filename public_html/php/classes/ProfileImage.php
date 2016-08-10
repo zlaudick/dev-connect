@@ -145,33 +145,6 @@ class ProfileImage implements \JsonSerializable {
 	}
 
 	/**
-	 * updates the profileImage data in mySQL
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 **/
-	public function update(\PDO $pdo) {
-		// enforce the profileImageProfileId is not null
-		if($this->profileImageProfileId === null || $this->profileImageImageId === null) {
-			throw(new \PDOException("unable to update the profileImage data that does not exist"));
-		}
-
-		// see if the foreign keys are too large
-		if($this->profileImageProfileId > 4294967295 || $this->profileImageImageId > 4294967295) {
-			throw(new \PDOException("foreign keys are too large"));
-		}
-
-		// create query template
-		$query = "UPDATE profileImage SET profileImageProfileId = :profileImageProfileId AND profileImageImageId = :profileImageImageId WHERE profileImageProfileId = :profileImageProfileId AND profileImageImageId = :profileImageImageId";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders in the template
-		$parameters = ["profileImageProfileId" => $this->profileImageProfileId, "profileImageImageId" => $this->profileImageImageId];
-		$statement->execute($parameters);
-	}
-
-	/**
 	 * get the profileImage by profileImageProfileIdAndImageId
 	 *
 	 * @param \PDO $pdo PDO connection object
@@ -214,6 +187,15 @@ class ProfileImage implements \JsonSerializable {
 		}
 		return($profileImage);
 	}
+
+	/**
+	 * gets profileImage by profileImageProfileId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of profileImageProfileId's found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
 
 	/**
 	 * gets all profileImage primary keys
