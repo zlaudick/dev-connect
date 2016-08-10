@@ -240,6 +240,19 @@ class Message implements \JsonSerializable {
 		$this->messageDateTime =$newMessageDateTime;
 	}
 
+	/**
+	 * accessor method for the Message mailgun id
+	 *
+	 * @return string value of the Message mailgun id
+	 **/
+	public function getMessageMailgunId() {
+		return($this->messageMailgunId);
+	}
+
+	/**
+	 *
+	 **/
+
 
 
 
