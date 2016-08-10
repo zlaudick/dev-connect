@@ -203,7 +203,7 @@ class MessageTest extends DevConnectTest {
 		$pdoMessage =$results[0];
 		$this->assertEquals($pdoMessage->getMessageReceiveProfileId(), $this->messageReceiveProfileId->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageSentProfileId(), $this->messageSentProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageDateTime(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageMailgunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
@@ -239,7 +239,7 @@ class MessageTest extends DevConnectTest {
 		$pdoMessage =$results[0];
 		$this->assertEquals($pdoMessage->getMessageReceiveProfileId(), $this->messageReceiveProfileId->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageSentProfileId(), $this->messageSentProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageDateTime(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageMailgunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
@@ -266,7 +266,7 @@ class MessageTest extends DevConnectTest {
 		$message->insert($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
-		$results = Message::getMessageByMessageSubject($this->getPDO(), $message->getMessageContent());
+		$results = Message::getMessageByMessageSubject($this->getPDO(), $message->getMessageSubject());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Message", $results);
@@ -275,7 +275,7 @@ class MessageTest extends DevConnectTest {
 		$pdoMessage =$results[0];
 		$this->assertEquals($pdoMessage->getMessageReceiveProfileId(), $this->messageReceiveProfileId->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageSentProfileId(), $this->messageSentProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageDateTime(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageMailgunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
@@ -288,30 +288,6 @@ class MessageTest extends DevConnectTest {
 		//grab a message by searching for a message subject that does not exist
 		$message = Message::getMessageByMessageSubject($this->getPDO(), "you will find nada");
 		$this->assertCount(0, $message);
-	}
-
-	/**
-	 * tests the JSON serialization
-	 **/
-	public function testJsonSerialize() {
-		//count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("message");
-
-		//create a new Message and insert it into MySQL
-		$message = new Message(null, $this->messageReceiveProfileId->getProfileId(), $this->messageSentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
-		$message->insert($this->getPDO());
-
-		//grab the data from MySQL and enforce that the JSON data matches our expectations
-		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-
-		$messageId = $message->getMessageId();
-		$messageReceiveProfileId = $this->messageReceiveProfileId->getProfileId();
-		$messageSentProfileId = $this->messageSentProfileId->getProfileId();
-		$expectedJson = <<< EOF
-{"messageId": $messageId, "messageReceiveProfileId": $messageReceiveProfileId, "messageSentProfileId": $messageSentProfileId, "messageContent": "$this->VALID_MESSAGECONTENT", "messageDateTime": "$this->VALID_MESSAGEDATE", "messageMailgunId": "$this->VALID_MAILGUNID", "messageSubject": "$this->VALID_MESSAGESUBJECT"}
-EOF;
-		$this->assertJsonStringEqualsJsonString($expectedJson, json_encode($pdoMessage));
 	}
 }
 
