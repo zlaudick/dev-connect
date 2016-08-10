@@ -375,7 +375,7 @@ class Message implements \JsonSerializable {
 
 		//bind the member variables to the placeholders in the template
 		$formattedDate = $this->messageDateTime->format("Y-m-d H:i:s");
-		$parameters = ["messageReceiveProfileId" => $this->messageReceiveProfileId, "messageSentProfileId" => $this->messageSentProfileId, "messageContent" => $this->messageContent, "messageDateTime" => $this->$formattedDate, "messageMailgunId" => $this->messageMailgunId, "messageSubject" => $this->messageSubject];
+		$parameters = ["messageReceiveProfileId" => $this->messageReceiveProfileId, "messageSentProfileId" => $this->messageSentProfileId, "messageContent" => $this->messageContent, "messageDateTime" => $formattedDate, "messageMailgunId" => $this->messageMailgunId, "messageSubject" => $this->messageSubject];
 		$statement->execute($parameters);
 	}
 
