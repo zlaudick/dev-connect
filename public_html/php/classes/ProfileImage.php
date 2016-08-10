@@ -227,6 +227,44 @@ class ProfileImage implements \JsonSerializable {
 	}
 
 	/**
+	 * gets profileImage by profileImageImageId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $profileImageImageId profileImageImageId to search for
+	 * @return \SplFixedArray SplFixedArray of profileImageProfileId's found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getProfileImageByProfileImageImageId(\PDO $pdo, int $profileImageImageId) {
+		// sanitize the profileImageProfileId before searching
+		if($profileImageImageId <= 0) {
+			throw(new \PDOException("profileImageProfileId is not positive"));
+		}
+		// create query template
+		$query = "SELECT profileImageProfileId, profileImageImageId FROM profileImage WHERE profileImageImageId = :profileImageImageId";
+		$statement = $pdo->prepare($query);
+
+		// bind the profileImageProfileId to the place holder in the template
+		$parameters = array("profileImageImageId" => $profileImageImageId);
+		$statement->execute($parameters);
+
+		// build an array of profileImages
+		$profileImages = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$profileImage = new ProfileImage($row["profileImageProfileId"], $row["profileImageImageId"]);
+				$profileImages[$profileImages->key()] = $profileImage;
+				$profileImages->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($profileImages);
+	}
+
+	/**
 	 * gets all profileImage primary keys
 	 *
 	 * @param \PDO $pdo PDO connection object
