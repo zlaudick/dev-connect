@@ -283,6 +283,33 @@ class Message implements \JsonSerializable {
 		return($this->messageSubject);
 	}
 
+	/**
+	 * mutator method for Message subject
+	 *
+	 * @param string $newMessageSubject new value of the Message subject
+	 * @throws \InvalidArgumentException if $newMessageSubject is not a string or insecure
+	 * @throws \RangeException if $newMessageSubject is > 140 characters
+	 * @throws \TypeError if $newMessageSubject is not a string
+	 **/
+	public function setMessageSubject(string $newMessageSubject) {
+		//verify the message subject is secure
+		$newMessageSubject = trim($newMessageSubject);
+		$newMessageSubject = filter_var($newMessageSubject, FILTER_SANITIZE_STRING);
+		if(empty($newMessageSubject) === true) {
+			throw(new \InvalidArgumentException("message subject is empty or insecure"));
+		}
+
+		//verify the message subject will fit in the database
+		if(strlen($newMessageSubject) > 140) {
+			throw(new \RangeException("message subject is too large"));
+		}
+
+		//store the message subject
+		$this->messageSubject = $newMessageSubject;
+	}
+
+
+
 
 
 
