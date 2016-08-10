@@ -192,34 +192,38 @@ class ProfileImage implements \JsonSerializable {
 	 * gets profileImage by profileImageProfileId
 	 *
 	 * @param \PDO $pdo PDO connection object
+	 * @param int $profileImageProfileId profileImageProfileId to search for
 	 * @return \SplFixedArray SplFixedArray of profileImageProfileId's found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getProfileImageByProfileID(\PDO $pdo, int $profileImageProfileId) {
+	public static function getProfileImageByProfileImageProfileId(\PDO $pdo, int $profileImageProfileId) {
 		// sanitize the profileImageProfileId before searching
 		if($profileImageProfileId <= 0) {
 			throw(new \PDOException("profileImageProfileId is not positive"));
 		}
 		// create query template
-		$query = "SELECT profileImageProfileId FROM profileImage WHERE profileImageProfileId = :profileImageProfileId";
+		$query = "SELECT profileImageProfileId, profileImageImageId FROM profileImage WHERE profileImageProfileId = :profileImageProfileId";
 		$statement = $pdo->prepare($query);
-		$statement->execute();
 
-		// build an array of profileImageProfileIds
-		$profileImageProfileIds = new \SplFixedArray($statement->rowCount());
+		// bind the profileImageProfileId to the place holder in the template
+		$parameters = array("profileImageProfileId" => $profileImageProfileId);
+		$statement->execute($parameters);
+
+		// build an array of profileImages
+		$profileImages = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$profileImageProfileId = new ProfileImage($row["profileImageProfileId"]);
-				$profileImageProfileIds[$profileImageProfileIds->key()] = $profileImageProfileId;
-				$profileImageProfileIds->next();
+				$profileImage = new ProfileImage($row["profileImageProfileId"], $row["profileImageImageId"]);
+				$profileImages[$profileImages->key()] = $profileImage;
+				$profileImages->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($profileImageProfileIds);
+		return ($profileImages);
 	}
 
 	/**

@@ -117,6 +117,29 @@ class ProfileImageTest extends DevConnectTest {
 	}
 
 	/**
+	 * test grabbing a ProfileImage by ProfileImageProfileId
+	 **/
+	public function testGetProfileImageByProfileImageProfileId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profileImage");
+
+		// create a new profileImage and insert into mySQL
+		$profileImage = new ProfileImage($this->profile->getProfileId(), $this->image->getImageId());
+		$profileImage->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = ProfileImage::getProfileImageByProfileImageProfileId($this->getPDO(), $profileImage->getProfileImageProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profileImage"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\ProfileImage", $results);
+
+		// grab the result from the array and validate it
+		$pdoProfileImage = $results[0];
+		$this->assertEquals($pdoProfileImage->getProfileImageProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfileImage->getProfileImageImageId(), $this->image->getImageId());
+	}
+
+	/**
 	 * test grabbing all ProfileImage Primary Composite Keys
 	 **/
 	public function testGetAllValidProfileImage() {
