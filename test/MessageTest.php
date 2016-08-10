@@ -185,7 +185,7 @@ class MessageTest extends DevConnectTest {
 	/**
 	 * test grabbing a Message by sent profile id
 	 **/
-	public function testGetValidMessageBySentProfileId() {
+	public function testGetValidMessageByMessageSentProfileId() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("message");
 
@@ -194,7 +194,7 @@ class MessageTest extends DevConnectTest {
 		$message->insert($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
-		$results = Message::getMessageBySentProfileId($this->getPDO(), $message->getMessageContent());
+		$results = Message::getMessageByMessageSentProfileId($this->getPDO(), $message->getMessageContent());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Message", $results);
@@ -212,16 +212,16 @@ class MessageTest extends DevConnectTest {
 	/**
 	 * test grabbing a Message by a sent profile id that does not exist
 	 **/
-	public function testGetInvalidMessageBySentProfileId() {
+	public function testGetInvalidMessageByMessageSentProfileId() {
 		//grab a message by searching for a sent profile id that does not exist
-		$message = Message::getMessageBySentProfileId($this->getPDO(), "you will find nada");
+		$message = Message::getMessageByMessageSentProfileId($this->getPDO(), "you will find nada");
 		$this->assertCount(0, $message);
 	}
 
 	/**
 	 * test grabbing a Message by received profile id
 	 **/
-	public function testGetValidMessageByReceiveProfileId() {
+	public function testGetValidMessageByMessageReceiveProfileId() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("message");
 
@@ -230,7 +230,7 @@ class MessageTest extends DevConnectTest {
 		$message->insert($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
-		$results = Message::getMessageByReceiveProfileId($this->getPDO(), $message->getMessageContent());
+		$results = Message::getMessageByMessageReceiveProfileId($this->getPDO(), $message->getMessageContent());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Message", $results);
@@ -248,9 +248,9 @@ class MessageTest extends DevConnectTest {
 	/**
 	 * test grabbing a Message by a receive profile id that does not exist
 	 **/
-	public function testGetInvalidMessageByReceiveProfileId() {
+	public function testGetInvalidMessageByMessageReceiveProfileId() {
 		//grab a message by searching for a receive profile id that does not exist
-		$message = Message::getMessageByReceiveProfileId($this->getPDO(), "you will find nada");
+		$message = Message::getMessageByMessageReceiveProfileId($this->getPDO(), "you will find nada");
 		$this->assertCount(0, $message);
 	}
 
