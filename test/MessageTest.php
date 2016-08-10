@@ -95,8 +95,8 @@ class MessageTest extends DevConnectTest {
 		//grab the data from MySQL and enforce that the fields match our expectations
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-		$this->assertEquals($pdoMessage->getProfileId(), $this->receiver->getProfileId());
-		$this->assertEquals($pdoMessage->getProfileId(), $this->sender->getProfileId());
+		$this->assertEquals($pdoMessage->getProfileId(), $this->receiveProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getProfileId(), $this->sentProfileId->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageMailgunId(), $this->VALID_MAILGUNID);
