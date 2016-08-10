@@ -308,6 +308,34 @@ class Message implements \JsonSerializable {
 		$this->messageSubject = $newMessageSubject;
 	}
 
+	/**
+	 * inserts this Message into MySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when MySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) {
+		//enforce that messageId is null (don't insert a message that already exists)
+		if($this->messageId !== null) {
+			throw(new \PDOException("not a new message"));
+		}
+
+		//create query template
+		$query = "INSERT INTO message(messageReceiveProfileId, messageSentProfileId, messageContent, messageDateTime, messageMailgunId, messageSubject) VALUES (:messageReceiveProfileId, :messageSentProfileId, :messageContent, :messageDateTime, :messageMailgunId, :messageSubject)";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the placeholders in the template
+		$formattedDate = $this->messageDateTime->format("Y-m-d H:i:s");
+		$parameters = ["messageReceiveProfileId" => $this->messageReceiveProfileId, "messageSentProfileId" => $this->messageSentProfileId, "messageContent" => $this->messageContent, "messageDateTime" => $this->$formattedDate, "messageMailgunId" => $this->messageMailgunId, "messageSubject" => $this->messageSubject];
+		$statement->execute($parameters);
+
+		//update the null messageId with what MySQL just gave us
+		$this->messageId = intval($pdo->lastInsertId());
+	}
+
+
+
 
 
 
