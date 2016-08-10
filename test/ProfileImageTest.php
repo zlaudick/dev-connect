@@ -2,7 +2,7 @@
 
 namespace Edu\Cnm\DevConnect\Test;
 
-use Edu\Cnm\DevConnect\{Profile, Image};
+use Edu\Cnm\DevConnect\{ProfileImage, Profile, Image};
 
 // grab the project test parameters
 require_once("DevConnectTest.php");
@@ -40,7 +40,7 @@ class ProfileImageTest extends DevConnectTest {
 		parent::setUp();
 
 		// create and insert a Profile to own the test Profile Image
-		$this->profile = new Profile(null, "Zac", "zlaudick@cnm.edu");
+		$this->profile = new Profile(null, "Q", "12345678901234567890123456789012", false, 1, null, "content", "foo@bar.com", "1234567890123456789012345678901234567890123456789012345678901234", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "Abq, NM", "Zac", "1234567890123456789012345678901234567890123456789012345678901234");
 		$this->profile->insert($this->getPDO());
 
 		// create and insert an Image to own the test Profile Image
@@ -60,7 +60,7 @@ class ProfileImageTest extends DevConnectTest {
 		$profileImage->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProfileImage = ProfileImage::getProfileImagebyProfileImageProfileIdAndImageId($this->getPDO(), $profileImage->getProfileImageProfileId(), $profileImage->getProfileImageImageId());
+		$pdoProfileImage = ProfileImage::getProfileImageByProfileImageProfileIdAndImageId($this->getPDO(), $profileImage->getProfileImageProfileId(), $profileImage->getProfileImageImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profileImage"));
 		$this->assertEquals($pdoProfileImage->getProfileImageProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoProfileImage->getProfileImageImageId(), $this->image->getImageId());
@@ -113,7 +113,7 @@ class ProfileImageTest extends DevConnectTest {
 		$profileImage->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce the profileImage does not exist
-		$pdoProfileImage = ProfileImage::getProfileImagebyProfileImageProfileIdAndImageId($this->getPDO(), $profileImage->getProfileImageProfileId(), $profileImage->getProfileImageImageId());
+		$pdoProfileImage = ProfileImage::getProfileImageByProfileImageProfileIdAndImageId($this->getPDO(), $profileImage->getProfileImageProfileId(), $profileImage->getProfileImageImageId());
 		$this->assertNull($pdoProfileImage);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profileImage"));
 	}
