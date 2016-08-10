@@ -95,10 +95,10 @@ class MessageTest extends DevConnectTest {
 		//grab the data from MySQL and enforce that the fields match our expectations
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-		$this->assertEquals($pdoMessage->getProfileId(), $this->messageReceiveProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getProfileId(), $this->messageSentProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageReceiveProfileId(), $this->messageReceiveProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSentProfileId(), $this->messageSentProfileId->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
-		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
+		$this->assertEquals($pdoMessage->getMessageDateTime(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageMailgunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
@@ -131,10 +131,10 @@ class MessageTest extends DevConnectTest {
 		//grab the data from MySQL and enforce that it matches our expectations
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-		$this->assertEquals($pdoMessage->getProfileId(), $this->messageReceiveProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getProfileId(), $this->messageSentProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageReceiveProfileId(), $this->messageReceiveProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSentProfileId(), $this->messageSentProfileId->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
-		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
+		$this->assertEquals($pdoMessage->getMessageDateTime(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageMailgunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
@@ -201,10 +201,10 @@ class MessageTest extends DevConnectTest {
 
 		//grab the result from the array and validate it
 		$pdoMessage =$results[0];
-		$this->assertEquals($pdoMessage->getProfileId(), $this->messageReceiveProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getProfileId(), $this->messageSentProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageReceiveProfileId(), $this->messageReceiveProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSentProfileId(), $this->messageSentProfileId->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
-		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
+		$this->assertEquals($pdoMessage->getMessageDateTime(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageMailgunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
@@ -237,10 +237,10 @@ class MessageTest extends DevConnectTest {
 
 		//grab the result from the array and validate it
 		$pdoMessage =$results[0];
-		$this->assertEquals($pdoMessage->getProfileId(), $this->messageReceiveProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getProfileId(), $this->messageSentProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageReceiveProfileId(), $this->messageReceiveProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSentProfileId(), $this->messageSentProfileId->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
-		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
+		$this->assertEquals($pdoMessage->getMessageDateTime(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageMailgunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
@@ -273,10 +273,10 @@ class MessageTest extends DevConnectTest {
 
 		//grab the result from the array and validate it
 		$pdoMessage =$results[0];
-		$this->assertEquals($pdoMessage->getProfileId(), $this->messageReceiveProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getProfileId(), $this->messageSentProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageReceiveProfileId(), $this->messageReceiveProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSentProfileId(), $this->messageSentProfileId->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
-		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
+		$this->assertEquals($pdoMessage->getMessageDateTime(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageMailgunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
