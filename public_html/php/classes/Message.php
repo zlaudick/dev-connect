@@ -418,6 +418,45 @@ class Message implements \JsonSerializable {
 		return($messages);
 	}
 
+	/**
+	 * gets the Message by Message sent profile id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $messageSentProfileId to search for
+	 * @return \SplFixedArray SplFixedArray of Messages found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getMessageByMessageSentProfileId(\PDO $pdo, int $messageSentProfileId) {
+		//sanitize the messageSentProfileId before searching
+		if($messageSentProfileId <= 0) {
+			throw(new \PDOException("message sent profile id is not positive"));
+		}
+
+		//create query template
+		$query = "SELECT messageId, messageReceiveProfileId, messageSentProfileId, messageContent, messageDateTime, messageMailgunId, messageSubject FROM message WHERE messageSentProfileId = :messageSentProfileId";
+		$statement = $pdo->prepare($query);
+
+		//bind the message receive profile id to the placeholder in the template
+		$parameters = ["messageSentProfileId" => $messageSentProfileId];
+		$statement->execute($parameters);
+
+		//build an array of messages
+		$messages = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row =$statement->fetch()) !== false) {
+			try {
+				$message = new Message($row["messageId"], $row["messageReceiveProfileId"], $row["messageSentProfileId"], $row["messageContent"], $row["messageDateTime"], $row["messageMailgunId"], $row["messageSubject"]);
+				$messages[$messages->key()] = $message;
+				$messages->next();
+			} catch(\Exception $exception) {
+				//if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($messages);
+	}
+
 
 
 
