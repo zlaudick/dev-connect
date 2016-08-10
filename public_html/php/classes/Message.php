@@ -457,20 +457,45 @@ class Message implements \JsonSerializable {
 		return($messages);
 	}
 
+	/**
+	 * gets the Message by Message subject
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $messageSubject message subject to search for
+	 * @return \SplFixedArray SplFixedArray of messages found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getMessageByMessageSubject (\PDO $pdo, string $messageSubject) {
+		//sanitize the description before searching
+		$messageSubject = trim($messageSubject);
+		$messageSubject = filter_var($messageSubject, FILTER_SANITIZE_STRING);
+		if(empty($messageSubject) === true) {
+			throw(new \PDOException("message subject is invalid"));
+		}
 
+		//query the template
+		$query = "SELECT messageId, messageReceiveProfileId, messageSentProfileId, messageContent, messageDateTime, messageMailgunId, messageSubject FROM message WHERE messageSubject LIKE :messageSubject";
+		$statement = $pdo->prepare($query);
 
+		//bind the message subject to the placeholder in the template
+		$messageSubject = "%$messageSubject%";
+		$parameters = ["messageSubject" => $messageSubject];
+		$statement->execute($parameters);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+		//build an array of messages
+		$messages = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row =$statement->fetch()) !== false) {
+			try {
+				$message = new Message($row["messageId"], $row["messageReceiveProfileId"], $row["messageSentProfileId"], $row["messageContent"], $row["messageDateTime"], $row["messageMailgunId"], $row["messageSubject"]);
+				$messages[$messages->key()] = $message;
+				$messages->next();
+			} catch(\Exception $exception) {
+				//if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($messages);
+	}
 }
