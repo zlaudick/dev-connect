@@ -214,7 +214,7 @@ class MessageTest extends DevConnectTest {
 	 **/
 	public function testGetInvalidMessageByMessageSentProfileId() {
 		//grab a message by searching for a sent profile id that does not exist
-		$message = Message::getMessageByMessageSentProfileId($this->getPDO(), "you will find nada");
+		$message = Message::getMessageByMessageSentProfileId($this->getPDO(), 12);
 		$this->assertCount(0, $message);
 	}
 
@@ -250,7 +250,7 @@ class MessageTest extends DevConnectTest {
 	 **/
 	public function testGetInvalidMessageByMessageReceiveProfileId() {
 		//grab a message by searching for a receive profile id that does not exist
-		$message = Message::getMessageByMessageReceiveProfileId($this->getPDO(), "you will find nada");
+		$message = Message::getMessageByMessageReceiveProfileId($this->getPDO(), 24);
 		$this->assertCount(0, $message);
 	}
 
