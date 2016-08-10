@@ -84,7 +84,7 @@ class MessageTest extends DevConnectTest {
 	/**
 	 * test inserting a valid Message and verifying that actual MySQL data matches
 	 **/
-	public function testInsertValidMessageContent() {
+	public function testInsertValidMessage() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("message");
 
@@ -107,7 +107,7 @@ class MessageTest extends DevConnectTest {
 	 * test inserting a Message that already exists
 	 * @expectedException \PDOException
 	 **/
-	public function testInsertInvalidMessageContent() {
+	public function testInsertInvalidMessage() {
 		//create a Message with a non null message id and watch it fail
 		$message = new Message(DevConnectTest::INVALID_KEY, $this->messageReceiveProfileId->getProfileId(), $this->messageSentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
