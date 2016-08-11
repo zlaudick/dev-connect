@@ -117,7 +117,7 @@ class Project implements \JsonSerializable {
 	 * @throws \RangeException if $newProjectProfileId is not positive
 	 * @throws \TypeError is $newProjectProfileId is not an integer
 	 **/
-	public function setProjectProfileId($newProjectProfileId) {
+	public function setProjectProfileId(int $newProjectProfileId) {
 		//verify that the project profile id is positive
 		if($newProjectProfileId <= 0) {
 			throw(new \RangeException("Project Profile Id is not positive"));
@@ -247,10 +247,10 @@ class Project implements \JsonSerializable {
 			throw(new \PDOException("Cannot delete a project that doesn't exist"));
 		}
 		//create a query template
-		$query = "DELETE FROM project WHERE projectId = :project";
+		$query = "DELETE FROM project WHERE projectId = :projectId";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holders in the template
-		$parameters = ["project" => $this->projectId];
+		$parameters = ["projectId" => $this->projectId];
 		$statement->execute($parameters);
 	}
 	/**
@@ -263,14 +263,15 @@ class Project implements \JsonSerializable {
 	public function update(\PDO $pdo) {
 		//enforce that the project id is not null (aka don't update a project that doesn't exist)
 		if($this->projectId === null) {
-			throw(new \PDOException("Project is not new"));
+			throw(new \PDOException("Unable to update project that does not exist"));
 		}
 		//create a query template
-		$query = "UPDATE project SET projectId = :projectId, projectProfileId = :projectProfileId, projectContent = :projectContent,  projectDate = :projectDate, projectName = :projectName WHERE projectId = :projectId";
+		$query = "UPDATE project SET projectProfileId = :projectProfileId, projectContent = :projectContent,  projectDate = :projectDate, projectName = :projectName WHERE projectId = :projectId";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holders in the template
 		$formattedDate = $this->projectDate->format("Y-m-d H:i:s");
-		$parameters = ["projectId"=> $this->projectId,"projectProfileId" => $this->projectProfileId, "projectContent" => $this->projectContent, "projectDate" => $formattedDate, "projectName" => $this->projectName];$statement->execute($parameters);
+		$parameters = ["projectProfileId" => $this->projectProfileId, "projectContent" => $this->projectContent, "projectDate" => $formattedDate, "projectName" => $this->projectName, "projectId" => $this->getProjectId()];
+		$statement->execute($parameters);
 	}
 	/**
 	 * get the project by projectId
@@ -298,7 +299,8 @@ class Project implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$project = new project($row["projectId"], $row["projectProfileId"], $row["projectContent"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["projectDate"]), $row["projectName"]);
+				$project = new Project($row["projectId"], $row["projectProfileId"], $row["projectContent"],
+					$row["projectDate"], $row["projectName"]);
 			}
 		} catch(\Exception $exception) {
 			//if the row couldn't be converted rethrow it
@@ -314,10 +316,10 @@ class Project implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors are found
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getProjectByProfileId(\PDO $pdo, $projectProfileId) {
+	public static function getProjectByProjectProfileId(\PDO $pdo, int $projectProfileId) {
 		//sanitize the projectId before searching
 		if($projectProfileId <= 0) {
-			throw(new \PDOException ("project id is not positive"));
+			throw(new \PDOException ("project profile id is not positive"));
 		}
 		//create query template
 		$query = "SELECT projectId, projectProfileId, projectContent, projectDate, projectName FROM project WHERE projectProfileId = :projectProfileId";
