@@ -52,15 +52,15 @@ class MessageTest extends DevConnectTest {
 	protected $VALID_MESSAGESUBJECT = "PHPUnit message subject test great success";
 	/**
 	 * Profile that created the Message, this is for foreign key relations
-	 * @var Profile sentProfileId
+	 * @var Profile messageSentProfileId
 	 **/
-	protected $sentProfileId = null;
+	protected $messageSentProfileId = null;
 
 	/**
 	 * Profile that received the Message, this is for foreign key relations
-	 * @var Profile receiveProfileId
+	 * @var Profile messageReceiveProfileId
 	 **/
-	protected $receiveProfileId = null;
+	protected $messageReceiveProfileId = null;
 
 	/**
 	 * create dependent objects first before running each test
@@ -70,12 +70,12 @@ class MessageTest extends DevConnectTest {
 		parent::setUp();
 
 		//create and insert a Profile to send the test Message
-		$this->sentProfileId = new Profile(null, "Q", "1234567", true, 1, null, "Hi, I'm Markimoo!", "foo@bar.com", "4018725372539424208555279506880426447359803448671421461653568500", null, "Los Angeles", "Mark Fischbach", null);
-		$this->sentProfileId->insert($this->getPDO());
+		$this->messageSentProfileId = new Profile(null, "Q", "12345678901234567890123456789012", true, 1, null, "Hi, I'm Markimoo!", "foo@bar.com", "4018725372539424208555279506880426447359803448671421461653568500", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "Los Angeles", "Mark Fischbach", "1234567890123456789012345678901234567890123456789012345678901234");
+		$this->messageSentProfileId->insert($this->getPDO());
 
 		//create and insert a Profile to receive the test Message
-		$this->receiveProfileId = new Profile(null, "T", "9876543", true, 2, null, "Hi, I'm Irelia!", "bar@foo.com", "4018725372539424208555279506880426447359803448671421461653568500", null, "Ionia", "Irelia Ionia", null);
-		$this->receiveProfileId->insert($this->getPDO());
+		$this->messageReceiveProfileId = new Profile(null, "T", "12345678901234567890123456789012", true, 2, null, "Hi, I'm Irelia!", "bar@foo.com", "4018725372539424208555279506880426447359803448671421461653568500", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "Ionia", "Irelia Ionia", "1234567890123456789012345678901234567890123456789012345678901234");
+		$this->messageReceiveProfileId->insert($this->getPDO());
 
 		//calculate the date using the time the unit test was set up
 		$this->VALID_MESSAGEDATE = new \DateTime();
@@ -84,21 +84,21 @@ class MessageTest extends DevConnectTest {
 	/**
 	 * test inserting a valid Message and verifying that actual MySQL data matches
 	 **/
-	public function testInsertValidMessageContent() {
+	public function testInsertValidMessage() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new message and insert into MySQL
-		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->messageReceiveProfileId->getProfileId(), $this->messageSentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-		$this->assertEquals($pdoMessage->getProfileId(), $this->receiver->getProfileId());
-		$this->assertEquals($pdoMessage->getProfileId(), $this->sender->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageReceiveProfileId(), $this->messageReceiveProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSentProfileId(), $this->messageSentProfileId->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
-		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
+		$this->assertEquals($pdoMessage->getMessageDateTime(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageMailgunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
@@ -107,9 +107,9 @@ class MessageTest extends DevConnectTest {
 	 * test inserting a Message that already exists
 	 * @expectedException \PDOException
 	 **/
-	public function testInsertInvalidMessageContent() {
+	public function testInsertInvalidMessage() {
 		//create a Message with a non null message id and watch it fail
-		$message = new Message(DevConnectTest::INVALID_KEY, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(DevConnectTest::INVALID_KEY, $this->messageReceiveProfileId->getProfileId(), $this->messageSentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 	}
 
@@ -121,7 +121,7 @@ class MessageTest extends DevConnectTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new Message and insert it into MySQL
-		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->messageReceiveProfileId->getProfileId(), $this->messageSentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		//edit the Message and update it in MySQL
@@ -131,10 +131,10 @@ class MessageTest extends DevConnectTest {
 		//grab the data from MySQL and enforce that it matches our expectations
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-		$this->assertEquals($pdoMessage->getProfileId(), $this->receiveProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getProfileId(), $this->sentProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageReceiveProfileId(), $this->messageReceiveProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSentProfileId(), $this->messageSentProfileId->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
-		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
+		$this->assertEquals($pdoMessage->getMessageDateTime(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageMailgunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
@@ -146,7 +146,7 @@ class MessageTest extends DevConnectTest {
 	 **/
 	public function testUpdateInvalidMessage() {
 		//create a Message and try to update it without actually updating it and watch it fail
-		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->messageReceiveProfileId->getProfileId(), $this->messageSentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->update($this->getPDO());
 	}
 
@@ -158,7 +158,7 @@ class MessageTest extends DevConnectTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new Message and insert it into MySQL
-		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->messageReceiveProfileId->getProfileId(), $this->messageSentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		//delete the message from MySQL
@@ -178,33 +178,33 @@ class MessageTest extends DevConnectTest {
 	 **/
 	public function testDeleteInvalidMessage() {
 		//create a Message and try to delete it without inserting it
-		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->messageReceiveProfileId->getProfileId(), $this->messageSentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->delete($this->getPDO());
 	}
 
 	/**
 	 * test grabbing a Message by sent profile id
 	 **/
-	public function testGetValidMessageBySentProfileId() {
+	public function testGetValidMessageByMessageSentProfileId() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new Message and insert it into MySQL
-		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->messageReceiveProfileId->getProfileId(), $this->messageSentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
-		$results = Message::getMessageBySentProfileId($this->getPDO(), $message->getMessageContent());
+		$results = Message::getMessageByMessageSentProfileId($this->getPDO(), $message->getMessageSentProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Message", $results);
 
 		//grab the result from the array and validate it
 		$pdoMessage =$results[0];
-		$this->assertEquals($pdoMessage->getProfileId(), $this->receiveProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getProfileId(), $this->sentProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
-		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
+		$this->assertEquals($pdoMessage->getMessageReceiveProfileId(), $this->messageReceiveProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSentProfileId(), $this->messageSentProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
+		$this->assertEquals($pdoMessage->getMessageDateTime(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageMailgunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
@@ -212,35 +212,35 @@ class MessageTest extends DevConnectTest {
 	/**
 	 * test grabbing a Message by a sent profile id that does not exist
 	 **/
-	public function testGetInvalidMessageBySentProfileId() {
+	public function testGetInvalidMessageByMessageSentProfileId() {
 		//grab a message by searching for a sent profile id that does not exist
-		$message = Message::getMessageBySentProfileId($this->getPDO(), "you will find nada");
+		$message = Message::getMessageByMessageSentProfileId($this->getPDO(), 12);
 		$this->assertCount(0, $message);
 	}
 
 	/**
 	 * test grabbing a Message by received profile id
 	 **/
-	public function testGetValidMessageByReceiveProfileId() {
+	public function testGetValidMessageByMessageReceiveProfileId() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new Message and insert it into MySQL
-		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->messageReceiveProfileId->getProfileId(), $this->messageSentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
-		$results = Message::getMessageByReceiveProfileId($this->getPDO(), $message->getMessageContent());
+		$results = Message::getMessageByMessageReceiveProfileId($this->getPDO(), $message->getMessageReceiveProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Message", $results);
 
 		//grab the result from the array and validate it
 		$pdoMessage =$results[0];
-		$this->assertEquals($pdoMessage->getProfileId(), $this->receiveProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getProfileId(), $this->sentProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
-		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
+		$this->assertEquals($pdoMessage->getMessageReceiveProfileId(), $this->messageReceiveProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSentProfileId(), $this->messageSentProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
+		$this->assertEquals($pdoMessage->getMessageDateTime(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageMailgunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
@@ -248,9 +248,9 @@ class MessageTest extends DevConnectTest {
 	/**
 	 * test grabbing a Message by a receive profile id that does not exist
 	 **/
-	public function testGetInvalidMessageByReceiveProfileId() {
+	public function testGetInvalidMessageByMessageReceiveProfileId() {
 		//grab a message by searching for a receive profile id that does not exist
-		$message = Message::getMessageByReceiveProfileId($this->getPDO(), "you will find nada");
+		$message = Message::getMessageByMessageReceiveProfileId($this->getPDO(), 24);
 		$this->assertCount(0, $message);
 	}
 
@@ -262,21 +262,21 @@ class MessageTest extends DevConnectTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new Message and insert it into MySQL
-		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->messageReceiveProfileId->getProfileId(), $this->messageSentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
-		$results = Message::getMessageByMessageSubject($this->getPDO(), $message->getMessageContent());
+		$results = Message::getMessageByMessageSubject($this->getPDO(), $message->getMessageSubject());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Message", $results);
 
 		//grab the result from the array and validate it
 		$pdoMessage =$results[0];
-		$this->assertEquals($pdoMessage->getProfileId(), $this->receiveProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getProfileId(), $this->sentProfileId->getProfileId());
-		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
-		$this->assertEquals($pdoMessage->getMessageDate(), $this->VALID_MESSAGEDATE);
+		$this->assertEquals($pdoMessage->getMessageReceiveProfileId(), $this->messageReceiveProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSentProfileId(), $this->messageSentProfileId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
+		$this->assertEquals($pdoMessage->getMessageDateTime(), $this->VALID_MESSAGEDATE);
 		$this->assertEquals($pdoMessage->getMessageMailgunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
@@ -288,30 +288,6 @@ class MessageTest extends DevConnectTest {
 		//grab a message by searching for a message subject that does not exist
 		$message = Message::getMessageByMessageSubject($this->getPDO(), "you will find nada");
 		$this->assertCount(0, $message);
-	}
-
-	/**
-	 * tests the JSON serialization
-	 **/
-	public function testJsonSerialize() {
-		//count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("message");
-
-		//create a new Message and insert it into MySQL
-		$message = new Message(null, $this->receiveProfileId->getProfileId(), $this->sentProfileId->getProfileId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEDATE, $this->VALID_MAILGUNID, $this->VALID_MESSAGESUBJECT);
-		$message->insert($this->getPDO());
-
-		//grab the data from MySQL and enforce that the JSON data matches our expectations
-		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-
-		$messageId = $message->getMessageId();
-		$receiveProfileId = $this->receiveProfileId->getProfileId();
-		$sentProfileId = $this->sentProfileId->getProfileId();
-		$expectedJson = <<< EOF
-{"messageId": $messageId, "messageReceiveProfileId": $receiveProfileId, "messageSentProfileId": $sentProfileId, "messageContent": "$this->VALID_MESSAGECONTENT", "messageDateTime": "$this->VALID_MESSAGEDATE", "messageMailgunId": "$this->VALID_MAILGUNID", "messageSubject": "$this->VALID_MESSAGESUBJECT"}
-EOF;
-		$this->assertJsonStringEqualsJsonString($expectedJson, json_encode($pdoMessage));
 	}
 }
 

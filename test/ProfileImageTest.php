@@ -78,26 +78,6 @@ class ProfileImageTest extends DevConnectTest {
 	}
 
 	/**
-	 * test updating a Profile Image
-	 **/
-	public function testUpdateValidProfileImage() {
-		// create a profileImage with a non null profileImage id and watch it fail
-		$profileImage = new ProfileImage($this->profile->getProfileId(), $this->image->getImageId());
-		$profileImage->update($this->getPDO());
-	}
-
-	/**
-	 * test updating a Profile Image
-	 *
-	 * @expectedException \PDOException
-	 **/
-	public function testUpdateInvalidProfileImage() {
-		// create a profileImage with a non null profileImage id and watch it fail
-		$profileImage = new ProfileImage(DevConnectTest::INVALID_KEY, DevConnectTest::INVALID_KEY);
-		$profileImage->update($this->getPDO());
-	}
-
-	/**
 	 * test creating a ProfileImage using a profileId and imageId and then deleting it
 	 **/
 	public function testDeleteValidProfileImageProfileIdAndImageId() {
@@ -134,6 +114,52 @@ class ProfileImageTest extends DevConnectTest {
 		// grab a profile image profileId and imageId that exceed the maximum allowable profileId and imageId
 		$profileImage = ProfileImage::getProfileImageByProfileImageProfileIdAndImageId($this->getPDO(), DevConnectTest::INVALID_KEY, DevConnectTest::INVALID_KEY);
 		$this->assertNull($profileImage);
+	}
+
+	/**
+	 * test grabbing a ProfileImage by ProfileImageProfileId
+	 **/
+	public function testGetProfileImageByProfileImageProfileId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profileImage");
+
+		// create a new profileImage and insert into mySQL
+		$profileImage = new ProfileImage($this->profile->getProfileId(), $this->image->getImageId());
+		$profileImage->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = ProfileImage::getProfileImageByProfileImageProfileId($this->getPDO(), $profileImage->getProfileImageProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profileImage"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\ProfileImage", $results);
+
+		// grab the result from the array and validate it
+		$pdoProfileImage = $results[0];
+		$this->assertEquals($pdoProfileImage->getProfileImageProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfileImage->getProfileImageImageId(), $this->image->getImageId());
+	}
+
+	/**
+	 * test grabbing a ProfileImage by ProfileImageImageId
+	 **/
+	public function testGetProfileImageByProfileImageImageId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profileImage");
+
+		// create a new profileImage and insert into mySQL
+		$profileImage = new ProfileImage($this->profile->getProfileId(), $this->image->getImageId());
+		$profileImage->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = ProfileImage::getProfileImageByProfileImageImageId($this->getPDO(), $profileImage->getProfileImageImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profileImage"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\ProfileImage", $results);
+
+		// grab the result from the array and validate it
+		$pdoProfileImage = $results[0];
+		$this->assertEquals($pdoProfileImage->getProfileImageProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfileImage->getProfileImageImageId(), $this->image->getImageId());
 	}
 
 	/**
