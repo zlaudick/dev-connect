@@ -302,7 +302,50 @@ class Review implements \JsonSerializable {
 		$statement->execute($parameters);
 	}
 	/**
-	 * gets the Review by content
+	 * query review by reviewReceiveProfileId and reviewWriteProfileId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $reviewReceiveProfileId reviewWriteProfileId to search by
+	 * @return review found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getReviewByReceiveProfileIdAndWriteProfileId(\PDO $pdo, int $reviewReceiveProfileId, int $reviewWriteProfileId) {
+		// sanitize the reviewReceiveProfileId before searching
+		if($reviewReceiveProfileId <= 0) {
+			throw(new \PDOException("reviewReceiveProfileId is not positive"));
+		}
+
+		// sanitize the reviewWriteProfileId before searching
+		if($reviewWriteProfileId <= 0) {
+			throw(new \PDOException("reviewWriteProfileId is not positive"));
+		}
+
+		// create query template
+		$query = "SELECT reviewReceiveProfileId, reviewWriteProfileId 
+        FROM review WHERE reviewReceiveProfileId = :reviewReceiveProfileId AND reviewWriteProfileId = :reviewWriteProfileId";
+		$statement = $pdo->prepare($query);
+
+		// bind the composite key to the place holder in the template
+		$parameters = array("reviewReceiveProfileId" => $reviewReceiveProfileId, "reviewWriteProfileId" => $reviewWriteProfileId);
+		$statement->execute($parameters);
+
+		// grab the category from mySQL
+		try {
+			$review = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$review = new Review($row["reviewReceiveProfileId"], $row["reviewWriteProfileId"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($review);
+	}
+	/**
+	 * query review by content
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $reviewContent review content to search for
@@ -346,7 +389,7 @@ class Review implements \JsonSerializable {
 		return($reviews);
 	}
 	/**
-	 * get Reviews by reviewReceiveProfileId
+	 * query review by reviewReceiveProfileId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $reviewReceiveProfileId review receive id to search for
@@ -387,7 +430,7 @@ class Review implements \JsonSerializable {
 		return($reviews);
 	}
 	/**
-	 * get Reviews by reviewWriteProfileId
+	 * query review by reviewWriteProfileId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $reviewWriteProfileId review write id to search for
@@ -429,7 +472,7 @@ class Review implements \JsonSerializable {
 	}
 
 	/**
-	 * get all Reviews
+	 * query all Reviews
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @return \SplFixedArray SplFixedArray of Reviews found or null if not found

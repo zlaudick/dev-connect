@@ -16,21 +16,41 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  **/
 class ReviewTest extends DevConnectTest {
 	/**
+	 * content of the Profile Activation Token
+	 * @var string $VALID_PROFILEACTIVETOKEN
+	 **/
+	protected $VALID_PROFILEACTIVETOKEN = "12345678901234567890123456789012";
+	/**
+	 * content of the Profile GITHUB Activation Token and Salt
+	 * @var string $VALID_PROFILEACTIVETOKENANDSALT
+	 **/
+	protected $VALID_PROFILEGITHUBANDSALT= "1234567890123456789012345678901234567890123456789012345678901234";
+	/**
+	 * content of the Profile Hash
+	 * @var string $VALID_PROFILEHASH
+	 **/
+	protected $VALID_PROFILEHASH= "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678";
+	/**
 	 * content of the Review
 	 * @var string $VALID_REVIEWONTENT
 	 **/
-	protected $VALID_REVIEWONTENT = "Valid Review Content 1";
+	protected $VALID_REVIEWCONTENT = "Valid Review Content 1";
 	/**
 	 * content of the updated Review
 	 * @var string $VALID_TAGCONTENT2
 	 **/
-	protected $VALID_TAGCONTENT2 = "Valid Review Content 2";
+	protected $VALID_REVIEWCONTENT2 = "Valid Review Content 2";
 
 	/**
 	 * timestamp of the Review; this starts as null and is assigned later
 	 * @var DateTime $VALID_REVIEWDATE
 	 **/
 	protected $VALID_REVIEWDATE = null;
+	/**
+	 * content of the Review Rating
+	 * @var int $VALID_REVIEWRATING
+	 **/
+	protected $VALID_REVIEWRATING = 1;
 	/**
 	 * Profile that created the Review; this is for foreign key relations
 	 * @var Profile profile
@@ -51,8 +71,8 @@ class ReviewTest extends DevConnectTest {
 		parent::setUp();
 
 		// create and insert a Profile to own the test Tweet
-		$this->profileWrite = new Profile(null, "Q", "12345678901234567890123456789012", false, 1, null, "content", "foo@bar.com", "1234567890123456789012345678901234567890123456789012345678901234", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "Abq, NM", "Elvis", "1234567890123456789012345678901234567890123456789012345678901234");
-		$this->profileReceive = new Profile(null, "Q", "12345678901234567890123456789012", false, 1, null, "content", "foofoo@bar.com", "1234567890123456789012345678901234567890123456789012345678901234", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "Abq, NM", "Priscilla", "1234567890123456789012345678901234567890123456789012345678901234");
+		$this->profileWrite = new Profile(null, "Q", $this->VALID_PROFILEACTIVETOKEN, false, 1, null, "content", "foo@bar.com", $this->VALID_PROFILEGITHUBANDSALT, $this->VALID_PROFILEHASH, "Abq, NM", "Elvis", $this->VALID_PROFILEGITHUBANDSALT);
+		$this->profileReceive = new Profile(null, "Q", $this->VALID_PROFILEACTIVETOKEN, false, 1, null, "content", "foofoo@bar.com", $this->VALID_PROFILEGITHUBANDSALT, $this->VALID_PROFILEHASH, "Abq, NM", "Priscilla", $this->VALID_PROFILEGITHUBANDSALT);
 
 		$this->profileWrite->insert($this->getPDO());
 		$this->profileReceive->insert($this->getPDO());
@@ -71,13 +91,27 @@ class ReviewTest extends DevConnectTest {
 
 		// create a new Review and insert to into mySQL
 		$review = new Review($this->profileWrite->getProfileId(),
-									$this->profileReceive->getProfileId(), "sucks", null, 1);
+									$this->profileReceive->getProfileId(),
+									$this->VALID_REVIEWCONTENT,
+									$this->VALID_REVIEWDATE,
+									$this->VALID_REVIEWRATING);
 		$review->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoReview = Review::getReviewByReviewReceiveProfileId($this->getPDO(), $review->getReviewReceiveProfileId());
 
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("review"));
+
+
+		//$x = $this->profileWrite->getProfileId();
+		//$x = $pdoReview::getReviewWriteProfileId();
+
+		//$x = getReviewReceiveProfileId();
+		//$x = $pdoReview->getReviewWriteProfileId();
+		//$x = $pdoReview->getReviewContent();
+		//$x = $pdoReview->getReviewReceiveProfileId();
+
+
 
 		$this->assertEquals($pdoReview->getReviewReceiveProfileId(), $this->profileReceive->getProfileId());
 	} /*
