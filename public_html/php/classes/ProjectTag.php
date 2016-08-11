@@ -65,20 +65,20 @@ public function getprojectTagProjectId() {
  * @throws \RangeException if $newprojectTagProjectId is not positive
  * @throws \TypeError if $newprojectTagProjectId is not an integer
  **/
-public function setprojectTagProjectId(int $projectTagProjectId) {
+public function setprojectTagProjectId(int $newProjectTagProjectId) {
 	//verify the project tag project id content is positive
-	if($newprojectTagProjectId <= 0) {
+	if($newProjectTagProjectId <= 0) {
 		throw (new \RangeException("project tag project id is not positive"));
 	}
 	// convert and store the new project tag project id
-	$this->projectTagProjectId = $newprojectTagProjectId;
+	$this->projectTagProjectId = $newProjectTagProjectId;
 }
 /**
  * accessor method for projectTagTagId
  * @return int value of projectTag tag Id, foreign key
  **/
 public function getProjectTagTagId() {
-	return ($this->ProjectTagTagId);
+	return ($this->getProjectTagTagId);
 }
 /**
  * mutator method for projectTag tag Id
@@ -88,7 +88,7 @@ public function getProjectTagTagId() {
  **/
 public function setProjectTagTagId(int $newProjectTagTagId) {
 	//verify the project tag tag Id content is positive
-	if($ProjectTagTagId < 0) {
+	if($newProjectTagTagId < 0) {
 		throw (new \RangeException("project tag tag Id is not positive"));
 	}
 	//convert and store the project tag tag Id

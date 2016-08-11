@@ -46,7 +46,7 @@ CREATE TABLE tag (
 CREATE TABLE project (
 	projectId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	projectContent VARCHAR(2000) NOT NULL,
-	projectDate INT UNSIGNED NOT NULL,
+	projectDate DATETIME NOT NULL,
 	projectName VARCHAR(64) NOT NULL,
 	projectProfileId INT UNSIGNED NOT NULL,
 	FOREIGN KEY(projectProfileId) REFERENCES profile(profileId),

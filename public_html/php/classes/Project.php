@@ -45,7 +45,7 @@ class Project implements \JsonSerializable {
 	 * @param int|null $newProjectId of this project or null if this is a new project
 	 * @param int $newProjectProfileId for the project that is being considered
 	 * @param string $newProjectContent for associated project, containing actual project data
-	 * @param \DateTime|project|null $projectDate date and time project was posted or null if set to current date and time
+	 * @param \DateTime|string|null $projectDate date and time project was posted or null if set to current date and time
 	 * @param string $newProjectName string that contains the text of the project
 	 * @throws \InvalidArgumentException if the data types are not valid
 	 * @throws \RangeException if the data values are out of bounds (e.g., strings are too long, integers are negative or out of range, etc)
