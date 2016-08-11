@@ -45,7 +45,7 @@ class Project implements \JsonSerializable {
 	 * @param int|null $newProjectId of this project or null if this is a new project
 	 * @param int $newProjectProfileId for the project that is being considered
 	 * @param string $newProjectContent for associated project, containing actual project data
-	 * @param \DateTime|string|null $projectDate date and time project was posted or null if set to current date and time
+	 * @param \DateTime|string|null $newProjectDate date and time project was posted or null if set to current date and time
 	 * @param string $newProjectName string that contains the text of the project
 	 * @throws \InvalidArgumentException if the data types are not valid
 	 * @throws \RangeException if the data values are out of bounds (e.g., strings are too long, integers are negative or out of range, etc)
@@ -86,7 +86,7 @@ class Project implements \JsonSerializable {
 	/**
 	 * mutator method for project id
 	 *
-	 * @param int|null $projectId creates new value for project id
+	 * @param int|null $newProjectId creates new value for project id
 	 * @throws \RangeException if $newProjectId is not positive
 	 * @throws \TypeError if $newProjectId is not an integer
 	 **/
@@ -135,7 +135,7 @@ class Project implements \JsonSerializable {
 	}
 	/**
 	 * mutator method for project content
-	 * @param int $newProjectContent creates a new value for project content
+	 * @param string $newProjectContent creates a new value for project content
 	 * @throws \RangeException if $newProjectContent is not positive
 	 * @throws \TypeError if $newProjectContent is not an integer
 	 **/
@@ -192,14 +192,20 @@ class Project implements \JsonSerializable {
 	 * mutator method for project name
 	 *
 	 * @param string $newProjectName sets new value for the project name
-	 * @throws \RangeException if project name is not 1-15
+	 * @throws \InvalidArgumentException if $newProjectName is not a string or insecure
+	 * @throws \RangeException if $newProjectName is > 64 characters
 	 * @throws \TypeError if the project name is not an string
 	 **/
-	public function setProjectName($newProjectName) {
-		//check that the project name is 1-15
-		//or is either 'or' or '||'. || has higher precedence
-		if($newProjectName < 1 || $newProjectName > 15) {
-			throw(new \RangeException("project name must be between 1 and 15"));
+	public function setProjectName(string $newProjectName) {
+		//verify the content is secure
+		$newProjectName = trim($newProjectName);
+		$newProjectName = filter_var($newProjectName, FILTER_SANITIZE_STRING);
+		if(empty($newProjectName) === true) {
+			throw(new \InvalidArgumentException("project name is empty or insecure"));
+		}
+		//verify the project name will fit the database
+		if(strlen($newProjectName) > 64) {
+			throw(new \RangeException("project name is too large"));
 		}
 		//Store the project name
 		$this->projectName = $newProjectName;
