@@ -229,6 +229,7 @@ class Review implements \JsonSerializable {
 			$this->reviewWriteProfileId === null) {
 			throw(new \PDOException("not a valid like"));
 		}
+
 		// create query template
 		$query = "INSERT INTO review(reviewReceiveProfileId, 
                                     reviewWriteProfileId,
@@ -237,15 +238,22 @@ class Review implements \JsonSerializable {
                                     reviewRating) 
                    VALUES(:reviewReceiveProfileId, :reviewWriteProfileId, 
                            :reviewContent, :reviewDateTime, :reviewRating)";
+
 		$statement = $pdo->prepare($query);
+
 		// bind the member variables to the place holders in the template
 		$formattedDate = $this->reviewDateTime->format("Y-m-d H:i:s");
+
 		$parameters = ["reviewReceiveProfileId" => $this->reviewReceiveProfileId,
 			"reviewWriteProfileId" => $this->reviewWriteProfileId,
 			"reviewContent" => $this->reviewContent,
 			"reviewDateTime" => $formattedDate,
-			"likeDate" => $this->reviewRating];
+			"reviewRating" => $this->reviewRating];
+
+		echo "before execute ";
 		$statement->execute($parameters);
+		echo "after execute ";
+
 	}
 	/**
 	 * deletes this Review from mySQL
