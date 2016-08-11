@@ -98,7 +98,9 @@ class ReviewTest extends DevConnectTest {
 		$review->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoReview = Review::getReviewByReviewReceiveProfileId($this->getPDO(), $review->getReviewReceiveProfileId());
+		$pdoReview = Review::getReviewByReceiveProfileIdAndWriteProfileId($this->getPDO(),
+																						$review->getReviewReceiveProfileId(),
+																						$review->getReviewWriteProfileId());
 
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("review"));
 
@@ -110,8 +112,6 @@ class ReviewTest extends DevConnectTest {
 		//$x = $pdoReview->getReviewWriteProfileId();
 		//$x = $pdoReview->getReviewContent();
 		//$x = $pdoReview->getReviewReceiveProfileId();
-
-
 
 		$this->assertEquals($pdoReview->getReviewReceiveProfileId(), $this->profileReceive->getProfileId());
 	} /*
