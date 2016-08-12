@@ -126,9 +126,9 @@ class Project implements \JsonSerializable {
 		$this->projectProfileId = $newProjectProfileId;
 	}
 	/**
-	 * accessor method for project content id
+	 * accessor method for project content
 	 *
-	 * @return int value of project content id, a foreign key
+	 * @return string value of project content
 	 **/
 	public function getProjectContent() {
 		return ($this->projectContent);
@@ -136,15 +136,21 @@ class Project implements \JsonSerializable {
 	/**
 	 * mutator method for project content
 	 * @param string $newProjectContent creates a new value for project content
-	 * @throws \RangeException if $newProjectContent is not positive
-	 * @throws \TypeError if $newProjectContent is not an integer
+	 * @throws \InvalidArgumentException if $newProjectContent is not a string or insecure
+	 * @throws \RangeException if $newProjectContent if > 2000 characters
+	 * @throws \TypeError if $newProjectContent is not a string
 	 **/
 	public function setProjectContent(string $newProjectContent) {
-		//verify that the project content id is a positive integer
+		//verify that the project content is a positive integer
 		$newProjectContent = trim($newProjectContent);
 		$newProjectContent = filter_var($newProjectContent, FILTER_SANITIZE_STRING);
-		if(empty($newProjectContent) <= 0) {
-			throw(new \RangeException("Project Content id is not positive"));
+		if(empty($newProjectContent) === true) {
+			throw(new \InvalidArgumentException("Project Content is empty or insecure"));
+		}
+
+		//verify the project content will fit in the database
+		if(strlen($newProjectContent) > 2000) {
+			throw(new \RangeException("project content is too large"));
 		}
 		//convert and store the project content id
 		$this->projectContent = $newProjectContent;
@@ -351,15 +357,18 @@ class Project implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getProjectByProjetName(\PDO $pdo, $projectName) {
-		//check that the project length is 1-15
-		if($projectName < 1 || $projectName > 15) {
-			throw(new \RangeException("Project Name must be between 1 and 15"));
+	public static function getProjectByProjectName(\PDO $pdo, $projectName) {
+		//sanitize the project name before searching
+		$projectName = trim($projectName);
+		$projectName = filter_var($projectName, FILTER_SANITIZE_STRING);
+		if(empty($projectName) === true) {
+			throw(new \PDOException("project name is invalid"));
 		}
 		//create query template
 		$query = "SELECT projectId, projectProfileId, projectContent, projectDate, projectName FROM project WHERE projectName LIKE :projectName";
 		$statement = $pdo->prepare($query);
 		//bind the project name to the place holder in the template
+		$projectName = "%$projectName%";
 		$parameters = array("projectName" => $projectName);
 		$statement->execute($parameters);
 		//build an array of projects
@@ -367,7 +376,7 @@ class Project implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$project = new Project($row["projectId"], $row["projectProfieIdId"], $row["projectContent"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["projectDate"]), $row["projectDate"]);
+				$project = new Project($row["projectId"], $row["projectProfileId"], $row["projectContent"], $row["projectDate"], $row["projectDate"]);
 				$projects[$projects->key()] = $project;
 				$projects->next();
 			} catch(\Exception $exception) {
@@ -386,7 +395,7 @@ class Project implements \JsonSerializable {
 	 **/
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
-		$fields["projectDate"] = intval($this->projectDate->format("U")) * 1000;
+		$fields["projectDate"] = ($this->projectDate->format("U")) * 1000;
 		return ($fields);
 	}
 }
