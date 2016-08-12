@@ -332,81 +332,12 @@ class Project implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$project = new project($row["projectId"], $row["projectProfileId"], $row["projectContent"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["projectDate"]));
+				$project = new project($row["projectId"], $row["projectProfileId"], $row["projectContent"], $row["projectDate"], $row["projectName"]);
 				$projects[$projects->key()] = $project;
 				$projects->next();
 			} catch(\Exception $exception) {
 				//if the row couldn't be converted rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($projects);
-	}
-	/** get the project by project content id
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param int $projectContentId the projectContetId to search for
-	 * @return \SplFixedArray SplFixedArray of projects or null if not found
-	 * @throws \PDOException when mySQL related errors are found
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getProjectByProjectContent(\PDO $pdo, string $projectContent) {
-		//sanitize the contetId before searching
-		if($projectContent <= 0) {
-			throw(new \PDOException ("content id is not positive"));
-		}
-		//create query template
-		$query = "SELECT projectId, projectProfileId, projectContent, projectDate, projectName FROM project
- WHERE projectContent = :projectContentId";
-		$statement = $pdo->prepare($query);
-		//bind the content id to the place holder in the template
-		$parameters = array("projectContent" => $projectContent);
-		$statement->execute($parameters);
-		//build an array of projects
-		$projects = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$project = new project($row["projectId"], $row["projectProfileId"], $row["projectContent"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["projectDate"]), $row["projectName"]);
-				$projects[$projects->key()] = $project;
-				$projects->next();
-			} catch(\Exception $exception) {
-				//if the row couldn't be converted rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($projects);
-	}
-	/** get the project by project date
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param int $projectDate the projectDate to search for
-	 * @return \SplFixedArray SplFixedArray of projects or null if not found
-	 * @throws \PDOException when mySQL related errors are found
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getProjectByDate(\PDO $pdo, $projectDate) {
-		//sanitize the projectName before searching
-		if($projectDate <= 0) {
-			throw(new \PDOException ("project id is not positive"));
-		}
-		//create query template
-		$query = "SELECT projectId, projectProfileId, projectContent, projectDate, projectName FROM project WHERE projectDate = :projectDate";
-		$statement = $pdo->prepare($query);
-		//bind the project id to the place holder in the template
-		$parameters = array("projectDate" => $projectDate);
-		$statement->execute($parameters);
-		//build an array of projects
-			$projects = new \SplFixedArray($statement->rowCount());
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			while(($row = $statement->fetch()) !== false) {
-				try {
-					$project = new Project($row["ProjectId"], $row["projectProfileId"], $row["projectContent"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["projectDate"],$row["projectDate"]));
-					$projects[$projects->key()] = $project;
-					$projects->next();
-				} catch(\Exception $exception) {
-					//if the row couldn't be converted rethrow it
-					throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
 		return ($projects);
