@@ -310,7 +310,8 @@ class Review implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getReviewByReceiveProfileIdAndWriteProfileId(\PDO $pdo, int $reviewReceiveProfileId, int $reviewWriteProfileId) {
+	public static function getReviewByReceiveProfileIdAndWriteProfileId(\PDO $pdo,
+											 int $reviewReceiveProfileId, int $reviewWriteProfileId) {
 		// sanitize the reviewReceiveProfileId before searching
 		if($reviewReceiveProfileId <= 0) {
 			throw(new \PDOException("reviewReceiveProfileId is not positive"));
