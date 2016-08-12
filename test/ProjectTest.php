@@ -91,4 +91,27 @@ class ProjectTest extends DevConnectTest {
 		$project = new Project(DevConnectTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE, $this->VALID_PROJECTNAME);
 		$project->insert($this->getPDO());
 	}
+
+	/**
+	 * test inserting a Project, editing it, and then updating it
+	 **/
+	public function testUpdateValidProject() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("project");
+		// create a new Project and insert to into mySQL
+		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE, $this->VALID_PROJECTNAME);
+		$project->insert($this->getPDO());
+		// edit the Project and update it in mySQL
+		$project->setProjectContent($this->VALID_PROJECTCONTENT2);
+		$project->setProjectName($this->VALID_PROJECTNAME2);
+		$project->update($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoProject = Project::getProjectByProjectId($this->getPDO(), $project->getProjectId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("project"));
+		$this->assertEquals($pdoProject->getProjectProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProject->getProjectContent(), $this->VALID_PROJECTCONTENT2);
+		$this->assertEquals($pdoProject->getProjectDate(), $this->VALID_PROJECTDATE);
+		$this->assertEquals($pdoProject->getProjectName(), $this->VALID_PROJECTNAME2);
+	}
 }
+
