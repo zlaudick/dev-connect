@@ -28,7 +28,7 @@ class ProjectTest extends DevConnectTest {
 	protected $VALID_PROJECTCONTENT2 = "Valid Project Content 2";
 	/**
 	 * timestamp of the Project; this starts as null and is assigned later
-	 * @var DateTime $VALID_PROJECTDATE
+	 * @var \DateTime $VALID_PROJECTDATE
 	 **/
 	protected $VALID_PROJECTDATE = null;
 	/**
@@ -79,5 +79,16 @@ class ProjectTest extends DevConnectTest {
 		$this->assertEquals($pdoProject->getProjectContent(), $this->VALID_PROJECTCONTENT);
 		$this->assertEquals($pdoProject->getProjectDate(), $this->VALID_PROJECTDATE);
 		$this->assertEquals($pdoProject->getProjectName(), $this->VALID_PROJECTNAME);
+	}
+
+	/**
+	 * test inserting a Project that already exists
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testInsertInvalidProject() {
+		// create a Project with a non null Project id and watch it fail
+		$project = new Project(DevConnectTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE, $this->VALID_PROJECTNAME);
+		$project->insert($this->getPDO());
 	}
 }

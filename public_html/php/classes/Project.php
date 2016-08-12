@@ -178,7 +178,7 @@ class Project implements \JsonSerializable {
 		}
 		//store the project date
 		try {
-			$newProjectDate = $this->validateDate($newProjectDate);
+			$newProjectDate = self::validateDateTime($newProjectDate);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(\RangeException $range) {
