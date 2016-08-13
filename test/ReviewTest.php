@@ -39,7 +39,7 @@ class ReviewTest extends DevConnectTest {
 	 * content of the updated Review
 	 * @var string $VALID_TAGCONTENT2
 	 **/
-	protected $VALID_REVIEWCONTENT2 = "Valid Review Content 2";
+	protected $VALID_REVIEWCONTENT2 = "Updated Valid Review Content 2";
 
 	/**
 	 * timestamp of the Review; this starts as null and is assigned later
@@ -103,8 +103,8 @@ class ReviewTest extends DevConnectTest {
 		$numRows = $this->getConnection()->getRowCount("review");
 
 		// create a new Review and insert to into mySQL
-		$review = new Review($this->profileWrite->getProfileId(),
-									$this->profileReceive->getProfileId(),
+		$review = new Review($this->profileReceive->getProfileId(),
+									$this->profileWrite->getProfileId(),
 									$this->VALID_REVIEWCONTENT,
 									$this->VALID_REVIEWDATE,
 									$this->VALID_REVIEWRATING);
@@ -114,27 +114,171 @@ class ReviewTest extends DevConnectTest {
 		// query the data from mySQL and enforce the fields match our expectations
 		$pdoReview = Review::getReviewByReceiveProfileIdAndWriteProfileId($this->getPDO(),
 								$review->getReviewReceiveProfileId(), $review->getReviewWriteProfileId());
-	} /*
+
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("review"));
-
-
-		//$x = $this->profileWrite->getProfileId();
-		//$x = $pdoReview::getReviewWriteProfileId();
-
-		//$x = getReviewReceiveProfileId();
-		//$x = $pdoReview->getReviewWriteProfileId();
-		//$x = $pdoReview->getReviewContent();
-		//$x = $pdoReview->getReviewReceiveProfileId();
-
-		$this->assertEquals($pdoReview->getReviewReceiveProfileId(), $this->profileReceive->getProfileId());
-
-		$this->assertEquals($pdoReview->getReviewWriteProfileId(), $this->profileWrite->getProfileId());
-		$this->assertEquals($pdoReview->getReviewContent(), "sucks");
+		$this->assertEquals($pdoReview->getReviewReceiveProfileId(), $review->getReviewReceiveProfileId());
+		$this->assertEquals($pdoReview->getReviewWriteProfileId(), $review->getReviewWriteProfileId());
+		$this->assertEquals($pdoReview->getReviewContent(), $this->VALID_REVIEWCONTENT);
 		$this->assertEquals($pdoReview->getReviewDateTime(), $this->VALID_REVIEWDATE);
-		$this->assertEquals($pdoReview->getReviewRating(), 1);
+		$this->assertEquals($pdoReview->getReviewRating(), $this->VALID_REVIEWRATING);
 
 
 	}
-*/
+	/**
+	 * test inserting a Review that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+
+	public function testInsertInvalidReview() {
+		// create a Review with a non null composite id and watch it fail
+
+			$reviewInvalidRecieve = new Review(DevConnectTest::INVALID_KEY,
+												$this->profileWrite->getProfileId(),
+												$this->VALID_REVIEWCONTENT,
+												$this->VALID_REVIEWDATE,
+												$this->VALID_REVIEWRATING);
+
+			$reviewInvalidRecieve->insert($this->getPDO());
+
+			$reviewInvalidWrite = new Review($this->profileReceive->getProfileId(),
+												DevConnectTest::INVALID_KEY,
+												$this->VALID_REVIEWCONTENT,
+												$this->VALID_REVIEWDATE,
+												$this->VALID_REVIEWRATING);
+
+		$reviewInvalidWrite->insert($this->getPDO());
+	}
+	/**
+	 * test inserting a Review, editing it, and then updating it
+	 **/
+	public function testUpdateValidReview() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("review");
+
+		// create a new Review and insert to into mySQL
+		$review = new Review($this->profileReceive->getProfileId(),
+										$this->profileWrite->getProfileId(),
+										$this->VALID_REVIEWCONTENT,
+										$this->VALID_REVIEWDATE,
+										$this->VALID_REVIEWRATING);
+		$review->insert($this->getPDO());
+
+		// query the data from mySQL and verify the Content data before calling update method
+		$pdoReview = Review::getReviewByReceiveProfileIdAndWriteProfileId($this->getPDO(),
+			$review->getReviewReceiveProfileId(),
+			$review->getReviewWriteProfileId());
+
+		$this->assertEquals($pdoReview->getReviewContent(), $this->VALID_REVIEWCONTENT);
+
+		// modify the Review and update the content in mySQL
+		$review->setReviewContent($this->VALID_REVIEWCONTENT2);
+		$review->update($this->getPDO());
+
+		// query the data from mySQL and verify the fields match our expectations
+		$pdoReview = Review::getReviewByReceiveProfileIdAndWriteProfileId($this->getPDO(),
+																	$review->getReviewReceiveProfileId(),
+																	$review->getReviewWriteProfileId());
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("review"));
+		$this->assertEquals($pdoReview->getReviewReceiveProfileId(), $review->getReviewReceiveProfileId());
+		$this->assertEquals($pdoReview->getReviewWriteProfileId(), $review->getReviewWriteProfileId());
+		$this->assertEquals($pdoReview->getReviewContent(), $this->VALID_REVIEWCONTENT2);
+		$this->assertEquals($pdoReview->getReviewDateTime(), $this->VALID_REVIEWDATE);
+		$this->assertEquals($pdoReview->getReviewRating(), $this->VALID_REVIEWRATING);
+		//
+		}
+	/**
+	 * test updating a Review that does not exists
+	 *
+	 * (apersign here)expectedException PDOException
+	 **/
+	public function testUpdateInvalidReview() {
+		/*
+				$review = new Review(null,
+					null,
+					$this->VALID_REVIEWCONTENT,
+					$this->VALID_REVIEWDATE,
+					$this->VALID_REVIEWRATING);
+
+				$review->update($this->getPDO());
+		*/
+	}
+
+	/**
+	 * test creating a Review and then deleting it
+	 **/
+	public function testDeleteValidReview() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("review");
+
+		// create a new Review and insert to into mySQL
+		$review = new Review($this->profileReceive->getProfileId(),
+			$this->profileWrite->getProfileId(),
+			$this->VALID_REVIEWCONTENT,
+			$this->VALID_REVIEWDATE,
+			$this->VALID_REVIEWRATING);
+		$review->insert($this->getPDO());
+
+		// delete the Review from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("review"));
+		$review->delete($this->getPDO());
+
+		// query the data from mySQL and verify the fields match our expectations
+		$pdoReview = Review::getReviewByReceiveProfileIdAndWriteProfileId($this->getPDO(),
+																	$review->getReviewReceiveProfileId(),
+																	$review->getReviewWriteProfileId());
+		$this->assertNull($pdoReview);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("review"));
+	}
+	/**
+	 * test deleting a Review that does not exist
+	 *
+	 * (apersand here)expectedException PDOException
+	 **/
+	public function testDeleteInvalidReview() {
+		// create a Review and try to delete it without actually inserting it
+		 /*
+		$review = new Review($this->profileReceive->getProfileId(),
+			$this->profileWrite->getProfileId(),
+			$this->VALID_REVIEWCONTENT,
+			$this->VALID_REVIEWDATE,
+			$this->VALID_REVIEWRATING);
+		$review->delete($this->getPDO());
+		*/
+	}
+	/**
+	 * test grabbing a Review by review content
+	 **/
+	public function testGetValidReviewByReviewContent() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("review");
+
+		// create a new Review and insert to into mySQL
+		$review = new Review($this->profileReceive->getProfileId(),
+										$this->profileWrite->getProfileId(),
+										$this->VALID_REVIEWCONTENT,
+										$this->VALID_REVIEWDATE,
+										$this->VALID_REVIEWRATING);
+		$review->insert($this->getPDO());
+
+		// query the data from mySQL and verify the fields match our expectations
+		$results = Review::getReviewByReceiveProfileIdAndWriteProfileId($this->getPDO(),
+																$review->getReviewReceiveProfileId(),
+																$review->getReviewWriteProfileId());
+
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("review"));
+	}/*
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Dmcdonald21\\DataDesign\\Tweet", $results);
+
+		// grab the result from the array and validate it
+		$pdoReview = $results[0];
+		$this->assertEquals($pdoReview->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoReview->getTweetContent(), $this->VALID_TWEETCONTENT);
+		$this->assertEquals($pdoReview->getTweetDate(), $this->VALID_TWEETDATE);
+	} */
+
 
 }

@@ -250,10 +250,7 @@ class Review implements \JsonSerializable {
 			"reviewDateTime" => $formattedDate,
 			"reviewRating" => $this->reviewRating];
 
-		echo "before execute ";
 		$statement->execute($parameters);
-		echo "after execute ";
-
 	}
 	/**
 	 * deletes this Review from mySQL
@@ -291,15 +288,23 @@ class Review implements \JsonSerializable {
 			throw(new \PDOException("unable to update a review that does not exist"));
 		}
 		// create query template
-		$query = "UPDATE review SET reviewContent = :reviewContent, reviewRating = :reviewRating, 
-                    reviewDateTime = :reviewDateTime 
-                  WHERE reviewReceiveProfileId = :reviewReceiveProfileId AND 
-                    reviewWriteProfileId = :reviewWriteProfileId";
+		$query = "UPDATE review SET reviewContent = :reviewContent, 
+											reviewDateTime = :reviewDateTime,
+        									reviewRating = :reviewRating
+               WHERE reviewReceiveProfileId = :reviewReceiveProfileId 
+               AND   reviewWriteProfileId = :reviewWriteProfileId";
 		$statement = $pdo->prepare($query);
 		// bind the member variables to the place holders in the template
 		$formattedDate = $this->reviewDateTime->format("Y-m-d H:i:s");
-		$parameters = ["reviewContent" => $this->reviewContent,  "reviewDateTime" => $formattedDate, "reviewRating" => $this->reviewRating];
+		$parameters = ["reviewReceiveProfileId" => $this->reviewReceiveProfileId,
+							"reviewWriteProfileId" => $this->reviewWriteProfileId,
+							"reviewContent" => $this->reviewContent,
+							"reviewDateTime" => $formattedDate,
+							"reviewRating" => $this->reviewRating];
+
+		echo "before";
 		$statement->execute($parameters);
+		echo "after";
 	}
 	/**
 	 * query review by reviewReceiveProfileId and reviewWriteProfileId
@@ -323,7 +328,7 @@ class Review implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT reviewReceiveProfileId, reviewWriteProfileId 
+		$query = "SELECT reviewReceiveProfileId, reviewWriteProfileId, reviewContent, reviewDateTime, reviewRating
         FROM review WHERE reviewReceiveProfileId = :reviewReceiveProfileId AND reviewWriteProfileId = :reviewWriteProfileId";
 		$statement = $pdo->prepare($query);
 
@@ -337,7 +342,9 @@ class Review implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$review = new Review($row["reviewReceiveProfileId"], $row["reviewWriteProfileId"]);
+				$review = new Review($row["reviewReceiveProfileId"], $row["reviewWriteProfileId"],
+				 							$row["reviewContent"], $row["reviewDateTime"],
+											$row["reviewRating"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
@@ -404,10 +411,11 @@ class Review implements \JsonSerializable {
 			throw(new \PDOException("review receive profile id is not positive"));
 		}
 		// create query template
-		$query = "SELECT reviewReceiveProfileId, reviewWriteProfileId, reviewContent, 
-                         reviewDateTime, reviewRating 
-                         FROM review WHERE reviewReceiveProfileId = :reviewReceiveProfileId";
+		$query = "SELECT reviewReceiveProfileId, reviewWriteProfileId, reviewContent, reviewDateTime, reviewRating
+        FROM review WHERE reviewReceiveProfileId = :reviewReceiveProfileId";
+
 		$statement = $pdo->prepare($query);
+
 		// bind the review receive profile id to the place holder in the template
 		$parameters = ["reviewReceiveProfileId" => $reviewReceiveProfileId];
 		$statement->execute($parameters);
