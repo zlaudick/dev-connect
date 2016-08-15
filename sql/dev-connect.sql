@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS image;
 DROP TABLE IF EXISTS profile;
 
 -- create profile entity
-CREATE TABLE profile(
+CREATE TABLE profile (
 	profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	profileAccountType CHAR(1) NOT NULL,
 	profileActivationToken CHAR(32) NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE review (
 );
 
 -- create profileImage entity (weak entity)
-CREATE TABLE profileImage(
+CREATE TABLE profileImage (
 	profileImageImageId INT UNSIGNED NOT NULL,
 	profileImageProfileId INT UNSIGNED NOT NULL,
 	FOREIGN KEY (profileImageImageId) REFERENCES image(imageId),
