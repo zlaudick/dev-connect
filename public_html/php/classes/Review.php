@@ -302,9 +302,8 @@ class Review implements \JsonSerializable {
 							"reviewDateTime" => $formattedDate,
 							"reviewRating" => $this->reviewRating];
 
-		echo "before";
 		$statement->execute($parameters);
-		echo "after";
+
 	}
 	/**
 	 * query review by reviewReceiveProfileId and reviewWriteProfileId
@@ -397,7 +396,7 @@ class Review implements \JsonSerializable {
 		return($reviews);
 	}
 	/**
-	 * query review by reviewReceiveProfileId
+	 * query reviews by reviewReceiveProfileId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $reviewReceiveProfileId review receive id to search for
@@ -439,7 +438,7 @@ class Review implements \JsonSerializable {
 		return($reviews);
 	}
 	/**
-	 * query review by reviewWriteProfileId
+	 * query reviews by reviewWriteProfileId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $reviewWriteProfileId review write id to search for

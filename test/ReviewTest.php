@@ -166,8 +166,8 @@ class ReviewTest extends DevConnectTest {
 
 		// query the data from mySQL and verify the Content data before calling update method
 		$pdoReview = Review::getReviewByReceiveProfileIdAndWriteProfileId($this->getPDO(),
-			$review->getReviewReceiveProfileId(),
-			$review->getReviewWriteProfileId());
+																	$review->getReviewReceiveProfileId(),
+																	$review->getReviewWriteProfileId());
 
 		$this->assertEquals($pdoReview->getReviewContent(), $this->VALID_REVIEWCONTENT);
 
@@ -263,22 +263,163 @@ class ReviewTest extends DevConnectTest {
 		$review->insert($this->getPDO());
 
 		// query the data from mySQL and verify the fields match our expectations
-		$results = Review::getReviewByReceiveProfileIdAndWriteProfileId($this->getPDO(),
-																$review->getReviewReceiveProfileId(),
-																$review->getReviewWriteProfileId());
+		$results = Review::getReviewByReviewContent($this->getPDO(),
+																	$this->VALID_REVIEWCONTENT);
 
 
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("review"));
-	}/*
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Dmcdonald21\\DataDesign\\Tweet", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Review", $results);
 
 		// grab the result from the array and validate it
 		$pdoReview = $results[0];
-		$this->assertEquals($pdoReview->getProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoReview->getTweetContent(), $this->VALID_TWEETCONTENT);
-		$this->assertEquals($pdoReview->getTweetDate(), $this->VALID_TWEETDATE);
-	} */
+		$this->assertEquals($pdoReview->getReviewReceiveProfileId(), $review->getReviewReceiveProfileId());
+		$this->assertEquals($pdoReview->getReviewWriteProfileId(), $review->getReviewWriteProfileId());
+		$this->assertEquals($pdoReview->getReviewContent(), $this->VALID_REVIEWCONTENT);
+		$this->assertEquals($pdoReview->getReviewDateTime(), $this->VALID_REVIEWDATE);
+		$this->assertEquals($pdoReview->getReviewRating(), $this->VALID_REVIEWRATING);
+	}
+	/**
+	 * query a Review by content that does not exist
+	 **/
+	public function testGetInvalidReviewByReviewContent() {
+		// query a review by searching for content that does not exist
+		$review = Review::getReviewByReviewContent($this->getPDO(), "you will find nothing");
+		$this->assertCount(0, $review);
+	}
 
+	/**
+	 * test:  query all Reviews
+	 **/
+	public function testGetAllValidReviews() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("review");
+
+
+		// create a new Review and insert to into mySQL
+		$review = new Review($this->profileReceive->getProfileId(),
+										$this->profileWrite->getProfileId(),
+										$this->VALID_REVIEWCONTENT,
+										$this->VALID_REVIEWDATE,
+										$this->VALID_REVIEWRATING);
+		$review->insert($this->getPDO());
+
+		// query the data from mySQL and verify the fields match our expectations
+		$results = Review::getAllReviews($this->getPDO());
+
+$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("review"));
+$this->assertCount(1, $results);
+
+
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Review", $results);
+
+		// grab the result from the array and validate it
+		$pdoReview = $results[0];
+		$this->assertEquals($pdoReview->getReviewReceiveProfileId(), $review->getReviewReceiveProfileId());
+		$this->assertEquals($pdoReview->getReviewWriteProfileId(), $review->getReviewWriteProfileId());
+		$this->assertEquals($pdoReview->getReviewContent(), $this->VALID_REVIEWCONTENT);
+		$this->assertEquals($pdoReview->getReviewDateTime(), $this->VALID_REVIEWDATE);
+		$this->assertEquals($pdoReview->getReviewRating(), $this->VALID_REVIEWRATING);
+	}
+	/**
+	 * test:  query all Reviews by Receive Id's
+	 **/
+	public function testGetAllReviewsByReceiveProfileId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("review");
+
+
+		// create a new Review and insert to into mySQL
+		$review = new Review($this->profileReceive->getProfileId(),
+			$this->profileWrite->getProfileId(),
+			$this->VALID_REVIEWCONTENT,
+			$this->VALID_REVIEWDATE,
+			$this->VALID_REVIEWRATING);
+		$review->insert($this->getPDO());
+/*
+		// query the data from mySQL and verify the Content data before calling update method
+		$pdoReview = Review::getReviewByReceiveProfileIdAndWriteProfileId($this->getPDO(),
+			$review->getReviewReceiveProfileId(),
+			$review->getReviewWriteProfileId());   !!!!!!!!!!!!!!!!!!
+		*/
+
+		// query the data from mySQL and verify the fields match our expectations
+		$pdoReview = Review::getReviewByReviewReceiveProfileId($this->getPDO(), $review->getReviewReceiveProfileId());
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("review"));
+		$this->assertEquals($pdoReview->getReviewReceiveProfileId(), $review->getReviewReceiveProfileId());
+		$this->assertEquals($pdoReview->getReviewWriteProfileId(), $review->getReviewWriteProfileId());
+		$this->assertEquals($pdoReview->getReviewContent(), $this->VALID_REVIEWCONTENT);
+		$this->assertEquals($pdoReview->getReviewDateTime(), $this->VALID_REVIEWDATE);
+		$this->assertEquals($pdoReview->getReviewRating(), $this->VALID_REVIEWRATING);
+
+	}
+	/**
+	 * test:  query all Reviews by Write Id's
+	 **/
+	public function testGetAllReviewsByWriteProfileId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("review");
+
+
+		// create a new Review and insert to into mySQL
+		$review = new Review($this->profileReceive->getProfileId(),
+			$this->profileWrite->getProfileId(),
+			$this->VALID_REVIEWCONTENT,
+			$this->VALID_REVIEWDATE,
+			$this->VALID_REVIEWRATING);
+		$review->insert($this->getPDO());
+		/*
+				// query the data from mySQL and verify the Content data before calling update method
+				$pdoReview = Review::getReviewByReceiveProfileIdAndWriteProfileId($this->getPDO(),
+					$review->getReviewReceiveProfileId(),
+					$review->getReviewWriteProfileId());   !!!!!!!!!!!!!!!!!!
+				*/
+
+		// query the data from mySQL and verify the fields match our expectations
+		$pdoReview = Review::getReviewByReviewWriteProfileId($this->getPDO(), $review->getReviewWriteProfileId());
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("review"));
+		$this->assertEquals($pdoReview->getReviewReceiveProfileId(), $review->getReviewReceiveProfileId());
+		$this->assertEquals($pdoReview->getReviewWriteProfileId(), $review->getReviewWriteProfileId());
+		$this->assertEquals($pdoReview->getReviewContent(), $this->VALID_REVIEWCONTENT);
+		$this->assertEquals($pdoReview->getReviewDateTime(), $this->VALID_REVIEWDATE);
+		$this->assertEquals($pdoReview->getReviewRating(), $this->VALID_REVIEWRATING);
+
+	}
+	/**
+	 * tests the JSON serialization
+	 **/
+	public function testJsonSerialize() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("review");
+
+		// create a new Review object and insert to into mySQL
+		$review = new Review($this->profileReceive->getProfileId(),
+			$this->profileWrite->getProfileId(),
+			$this->VALID_REVIEWCONTENT,
+			$this->VALID_REVIEWDATE,
+			$this->VALID_REVIEWRATING);
+		$review->insert($this->getPDO());
+
+		// query the data from mySQL and verify the fields match our expectations
+		$pdoReview = Review::getReviewByReceiveProfileIdAndWriteProfileId($this->getPDO(),
+																	$review->getReviewReceiveProfileId(),
+																	$review->getReviewWriteProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("review"));
+
+		$receiveId = $review->getReviewReceiveProfileId();
+		$writeId = $review->getReviewWriteProfileId();
+
+/*
+		$expectedJson = <<< EOF {"reviewReceiveProfileId": $receiveId, 
+										 "reviewWriteProfileId": $writeId, 
+										 "reviewContent": "$this->VALID_REVIEWCONTENT",
+										 "ReviewDateTime": "$this->VALID_REVIEWDATE", 
+										 "reviewRating": "$this->VALID_REVIEWRATING"]  EOF;
+
+		$this->assertJsonStringEqualsJsonString($expectedJson, json_encode($pdoReview));
+*/
+	}
 
 }
