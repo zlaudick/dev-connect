@@ -168,7 +168,7 @@ class ProjectTest extends DevConnectTest {
 	}
 
 	/**
-	 * test grabbing all Projects by project profile id
+	 * test grabbing a Project by project profile id
 	 **/
 	public function testGetValidProjectByProjectProfileId() {
 		// count the number of rows and save it for later
@@ -224,6 +224,15 @@ class ProjectTest extends DevConnectTest {
 		$this->assertEquals($pdoProject->getProjectContent(), $this->VALID_PROJECTCONTENT);
 		$this->assertEquals($pdoProject->getProjectDate(), $this->VALID_PROJECTDATE);
 		$this->assertEquals($pdoProject->getProjectName(), $this->VALID_PROJECTNAME);
+	}
+
+	/**
+	 * test grabbing a Project by project name that does not exist
+	 **/
+	public function testGetInvalidProjectByProjectName() {
+		//grab a project by searching for a project name that does not exist
+		$project = Project::getProjectByProjectName($this->getPDO(), "you will find nada");
+		$this->assertCount(0, $project);
 	}
 }
 
