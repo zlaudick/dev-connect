@@ -325,24 +325,25 @@ $this->assertCount(1, $results);
 			$this->VALID_REVIEWDATE,
 			$this->VALID_REVIEWRATING);
 		$review->insert($this->getPDO());
-/*
-		// query the data from mySQL and verify the Content data before calling update method
-		$pdoReview = Review::getReviewByReceiveProfileIdAndWriteProfileId($this->getPDO(),
-			$review->getReviewReceiveProfileId(),
-			$review->getReviewWriteProfileId());   !!!!!!!!!!!!!!!!!!
-		*/
 
-		// query the data from mySQL and verify the fields match our expectations
-		$pdoReview = Review::getReviewByReviewReceiveProfileId($this->getPDO(), $review->getReviewReceiveProfileId());
+		// query the data from mySQL and verify the Content data before calling update method
+		$results = Review::getReviewByReviewReceiveProfileId($this->getPDO(),
+																$review->getReviewReceiveProfileId());
 
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("review"));
+		$this->assertCount(1, $results);
+
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Review", $results);
+
+		// grab the results from the array and validate it
+		$pdoReview = $results[0];
 		$this->assertEquals($pdoReview->getReviewReceiveProfileId(), $review->getReviewReceiveProfileId());
 		$this->assertEquals($pdoReview->getReviewWriteProfileId(), $review->getReviewWriteProfileId());
 		$this->assertEquals($pdoReview->getReviewContent(), $this->VALID_REVIEWCONTENT);
 		$this->assertEquals($pdoReview->getReviewDateTime(), $this->VALID_REVIEWDATE);
 		$this->assertEquals($pdoReview->getReviewRating(), $this->VALID_REVIEWRATING);
 
-	}
+ 	}
 	/**
 	 * test:  query all Reviews by Write Id's
 	 **/
@@ -350,24 +351,26 @@ $this->assertCount(1, $results);
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("review");
 
+
 		// create a new Review and insert to into mySQL
 		$review = new Review($this->profileReceive->getProfileId(),
-			$this->profileWrite->getProfileId(),
-			$this->VALID_REVIEWCONTENT,
-			$this->VALID_REVIEWDATE,
-			$this->VALID_REVIEWRATING);
+										$this->profileWrite->getProfileId(),
+										$this->VALID_REVIEWCONTENT,
+										$this->VALID_REVIEWDATE,
+										$this->VALID_REVIEWRATING);
 		$review->insert($this->getPDO());
-		/*
-				// query the data from mySQL and verify the Content data before calling update method
-				$pdoReview = Review::getReviewByReceiveProfileIdAndWriteProfileId($this->getPDO(),
-					$review->getReviewReceiveProfileId(),
-					$review->getReviewWriteProfileId());   !!!!!!!!!!!!!!!!!!
-				*/
 
-		// query the data from mySQL and verify the fields match our expectations
-		$pdoReview = Review::getReviewByReviewWriteProfileId($this->getPDO(), $review->getReviewWriteProfileId());
+		// query the data from mySQL and verify the Content data before calling update method
+		$results = Review::getReviewByReviewWriteProfileId($this->getPDO(),
+												$review->getReviewWriteProfileId());
 
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("review"));
+		$this->assertCount(1, $results);
+
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Review", $results);
+
+		// grab the results from the array and validate it
+		$pdoReview = $results[0];
 		$this->assertEquals($pdoReview->getReviewReceiveProfileId(), $review->getReviewReceiveProfileId());
 		$this->assertEquals($pdoReview->getReviewWriteProfileId(), $review->getReviewWriteProfileId());
 		$this->assertEquals($pdoReview->getReviewContent(), $this->VALID_REVIEWCONTENT);
