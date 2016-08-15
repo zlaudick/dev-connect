@@ -7,7 +7,7 @@ require_once("autoload.php");
  *
  * This class contains everything for a user to be able to link project tags with the project that they browse
  *
- * @author Marcelo Ibarra <mibarra%@cnm.edu>
+ * @author Marcelo Ibarra <mibarra5@cnm.edu>
  **/
 	class ProjectTag implements \JsonSerializable {
 		/**

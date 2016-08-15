@@ -117,7 +117,7 @@ class ProjectTest extends DevConnectTest {
 	/**
 	 * test updating a Project that does not exists
 	 *
-	 * @expectedException PDOException
+	 * @expectedException \PDOException
 	 **/
 	public function testUpdateInvalidProject() {
 		// create a Project with a non null Project id and watch it fail
@@ -150,7 +150,7 @@ class ProjectTest extends DevConnectTest {
 	/**
 	 * test deleting a project that does not exist
 	 *
-	 * @expectedException PDOException
+	 * @expectedException \PDOException
 	 **/
 	public function testDeleteInvalidProject() {
 		// create a project and try to delete it without actually inserting it
@@ -190,6 +190,15 @@ class ProjectTest extends DevConnectTest {
 		$this->assertEquals($pdoProject->getProjectContent(), $this->VALID_PROJECTCONTENT);
 		$this->assertEquals($pdoProject->getProjectDate(), $this->VALID_PROJECTDATE);
 		$this->assertEquals($pdoProject->getProjectName(), $this->VALID_PROJECTNAME);
+	}
+
+	/**
+	 * test grabbing a Project profile id that does not exist
+	 **/
+	public function testGetInvalidProjectByProjectProfileId() {
+		// grab a project profile id that exceeds the maximum allowable project profile  id
+		$project = Project::getProjectByProjectProfileId($this->getPDO(), DevConnectTest::INVALID_KEY);
+		$this->assertCount(0, $project);
 	}
 }
 
