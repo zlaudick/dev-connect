@@ -62,8 +62,8 @@ public function getProjectTagProjectId() {
 /**
  * mutator method for projectTagProjectId
  * @param int $newProjectTagProjectId
- * @throws \RangeException if $newprojectTagProjectId is not positive
- * @throws \TypeError if $newprojectTagProjectId is not an integer
+ * @throws \RangeException if $newProjectTagProjectId is not positive
+ * @throws \TypeError if $newProjectTagProjectId is not an integer
  **/
 public function setProjectTagProjectId(int $newProjectTagProjectId) {
 	//verify the project tag project id content is positive
@@ -78,7 +78,7 @@ public function setProjectTagProjectId(int $newProjectTagProjectId) {
  * @return int value of projectTag tag Id, foreign key
  **/
 public function getProjectTagTagId() {
-	return ($this->getProjectTagTagId);
+	return ($this->projectTagTagId);
 }
 /**
  * mutator method for projectTag tag Id
@@ -92,7 +92,7 @@ public function setProjectTagTagId(int $newProjectTagTagId) {
 		throw (new \RangeException("project tag tag Id is not positive"));
 	}
 	//convert and store the project tag tag Id
-	$this->ProjectTagTagId = $newProjectTagTagId;
+	$this->projectTagTagId = $newProjectTagTagId;
 }
 /**
  * inserts this projectTag into mySQL
@@ -109,7 +109,7 @@ public function setProjectTagTagId(int $newProjectTagTagId) {
 		$query = "INSERT INTO projectTag(projectTagProjectId, projectTagTagId) VALUES (:projectTagProjectId, :projectTagTagId)";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holders in the template
-		$parameters = ["projectTagProjectId" => $this->projectTagProjectId, "projectTagTagId" => $this->projectTagProjectId];
+		$parameters = ["projectTagProjectId" => $this->projectTagProjectId, "projectTagTagId" => $this->projectTagTagId];
 		$statement->execute($parameters);
 	}
 	/**
@@ -124,7 +124,7 @@ public function setProjectTagTagId(int $newProjectTagTagId) {
 			throw (new \PDOException ("project or tag not valid"));
 		}
 		//create a query template
-		$query = "DELETE FROM projectTag WHERE projectTagProjectId = :projectTagProjectId AND projectTagProjectId = :projectTagTagId";
+		$query = "DELETE FROM projectTag WHERE projectTagProjectId = :projectTagProjectId AND projectTagTagId = :projectTagTagId";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holder in the template
 		$parameters = ["projectTagProjectId" => $this->projectTagProjectId, "projectTagTagId" => $this->projectTagTagId];
@@ -204,7 +204,7 @@ public function setProjectTagTagId(int $newProjectTagTagId) {
 	/**
 	 * gets the project tag by both project and tag id
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $projectTagProjectID project id to search for
+	 * @param int $projectTagProjectId project id to search for
 	 * @param int $projectTagTagId tag id to search for
 	 * @return ProjectTag|null projectTag if found, null if not
 	 * @throws \PDOException when mySQL errors occur
@@ -219,7 +219,7 @@ public function setProjectTagTagId(int $newProjectTagTagId) {
 		throw (new \PDOException("tag id is not positive"));
 	}
 	//create a query template
-	$query = "SELECT projectTagProjectID, projectTagTagId FROM projectTag WHERE projectTagProjectID = :projectTagProjectID AND projectTagTagId = :projectTagTagId;";
+	$query = "SELECT projectTagProjectId, projectTagTagId FROM projectTag WHERE projectTagProjectId = :projectTagProjectId AND projectTagTagId = :projectTagTagId;";
 	$statement = $pdo->prepare($query);
 	//bind the variables to the placeholders in the template
 	$parameters = ["projectTagProjectId" => $projectTagProjectId, "projectTagTagId" => $projectTagTagId];
