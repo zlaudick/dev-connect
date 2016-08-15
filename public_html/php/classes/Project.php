@@ -376,7 +376,7 @@ class Project implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$project = new Project($row["projectId"], $row["projectProfileId"], $row["projectContent"], $row["projectDate"], $row["projectDate"]);
+				$project = new Project($row["projectId"], $row["projectProfileId"], $row["projectContent"], $row["projectDate"], $row["projectName"]);
 				$projects[$projects->key()] = $project;
 				$projects->next();
 			} catch(\Exception $exception) {
