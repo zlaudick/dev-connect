@@ -116,4 +116,34 @@ class ProjectTagTest extends DevConnectTest {
 		$projectTag = new ProjectTag($this->project->getProjectId(), $this->tag->getTagId());
 		$projectTag->delete($this->getPDO());
 	}
+
+	/**
+	 * test grabbing a projectTag by a project id and tag id that does not exist
+	 **/
+	public function testGetProjectTagByInvalidProjectIdAndTagId() {
+		// grab a project tag project id and tag id that do not exist
+		$projectTag = ProjectTag::getProjectTagByProjectIdAndTagId($this->getPDO(), DevConnectTest::INVALID_KEY, DevConnectTest::INVALID_KEY);
+		$this->assertNull($projectTag);
+	}
+
+	/**
+	 * Test grabbing a project tag by Project Tag Project id
+	 **/
+	public function testGetProjectTagByProjectId() {
+		// count number of rows and save them for later
+		$numRows = $this->getConnection()->getRowCount("projectTag");
+
+		// create a new projectTag and insert into mySQL
+		$projectTag = new ProjectTag($this->project->getProjectId(), $this->tag->getTagId());
+		$projectTag->insert($this->getPDO());
+		//Grab the data from mySQL and enforce it matches its expectations
+		$results = ProjectTag::getProjectTagByProjectId($this->getPDO(), $projectTag->getProjectTagProjectId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("projectTag"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\ProjectTag", $results);
+		// grab the result from the array and validate it
+		$pdoProjectTag = $results[0];
+		$this->assertEquals($pdoProjectTag->getProjectTagProjectId(), $this->project->getProjectId());
+		$this->assertEquals($pdoProjectTag->getProjectTagTagId(), $this->tag->getTagId());
+	}
 }
