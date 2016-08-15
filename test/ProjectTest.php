@@ -99,7 +99,7 @@ class ProjectTest extends DevConnectTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("project");
 		// create a new Project and insert to into mySQL
-		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE, $this->VALID_PROJECTNAME);
+		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE,$this->VALID_PROJECTNAME);
 		$project->insert($this->getPDO());
 		// edit the Project and update it in mySQL
 		$project->setProjectContent($this->VALID_PROJECTCONTENT2);
@@ -112,6 +112,84 @@ class ProjectTest extends DevConnectTest {
 		$this->assertEquals($pdoProject->getProjectContent(), $this->VALID_PROJECTCONTENT2);
 		$this->assertEquals($pdoProject->getProjectDate(), $this->VALID_PROJECTDATE);
 		$this->assertEquals($pdoProject->getProjectName(), $this->VALID_PROJECTNAME2);
+	}
+
+	/**
+	 * test updating a Project that does not exists
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testUpdateInvalidProject() {
+		// create a Project with a non null Project id and watch it fail
+		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE, $this->VALID_PROJECTNAME);
+		$project->update($this->getPDO());
+	}
+
+	/**
+	 * test creating a project and then deleting it
+	 **/
+	public function testDeleteValidProject() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("project");
+
+		// create a new project and insert to into mySQL
+		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE,$this->VALID_PROJECTNAME);
+		$project->insert($this->getPDO());
+
+		// delete the project from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("project"));
+		$project->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the project does not exist
+		$pdoProject = Project::getProjectByProjectId($this->getPDO(), $project->getProjectId());
+		$this->assertNull($pdoProject);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("project"));
+	}
+
+
+	/**
+	 * test deleting a project that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testDeleteInvalidProject() {
+		// create a project and try to delete it without actually inserting it
+		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE, $this->VALID_PROJECTNAME);
+		$project->delete($this->getPDO());
+	}
+
+	/**
+	 * test grabbing a Project that does not exist
+	 **/
+	public function testGetInvalidProjectByProjectId() {
+		// grab a profile id that exceeds the maximum allowable profile id
+		$project = Project::getProjectByProjectId($this->getPDO(), DevConnectTest::INVALID_KEY);
+		$this->assertNull($project);
+	}
+
+	/**
+	 * test grabbing all Projects by project profile id
+	 **/
+	public function testGetValidProjectByProjectProfileId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("project");
+
+		// create a new Project and insert it in mySQL
+		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE,$this->VALID_PROJECTNAME);
+		$project->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Project::getProjectByProjectProfileId($this->getPDO(), $this->profile->getProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("project"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Project", $results);
+
+		// grab the result from the array and validate it
+		$pdoProject = $results [0];
+		$this->assertEquals($pdoProject->getProjectProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProject->getProjectContent(), $this->VALID_PROJECTCONTENT);
+		$this->assertEquals($pdoProject->getProjectDate(), $this->VALID_PROJECTDATE);
+		$this->assertEquals($pdoProject->getProjectName(), $this->VALID_PROJECTNAME);
 	}
 }
 
