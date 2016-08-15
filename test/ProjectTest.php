@@ -200,5 +200,30 @@ class ProjectTest extends DevConnectTest {
 		$project = Project::getProjectByProjectProfileId($this->getPDO(), DevConnectTest::INVALID_KEY);
 		$this->assertCount(0, $project);
 	}
+
+	/**
+	 * test grabbing a Project by project name subject
+	 **/
+	public function testGetValidProjectByProjectName() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("project");
+
+		// create a new Project and insert it in mySQL
+		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE,$this->VALID_PROJECTNAME);
+		$project->insert($this->getPDO());
+
+		//grab the data from MySQL and enforce that the fields match our expectations
+		$results = Project::getProjectByProjectName($this->getPDO(), $project->getProjectName());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("project"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DevConnect\\Project", $results);
+
+		// grab the result from the array and validate it
+		$pdoProject = $results [0];
+		$this->assertEquals($pdoProject->getProjectProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProject->getProjectContent(), $this->VALID_PROJECTCONTENT);
+		$this->assertEquals($pdoProject->getProjectDate(), $this->VALID_PROJECTDATE);
+		$this->assertEquals($pdoProject->getProjectName(), $this->VALID_PROJECTNAME);
+	}
 }
 
