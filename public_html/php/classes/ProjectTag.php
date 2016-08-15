@@ -2,6 +2,7 @@
 namespace Edu\Cnm\DevConnect;
 
 require_once("autoload.php");
+
 /**
  * Class ProjectTag
  *
@@ -9,17 +10,17 @@ require_once("autoload.php");
  *
  * @author Marcelo Ibarra <mibarra5@cnm.edu>
  **/
-	class ProjectTag implements \JsonSerializable {
-		/**
-		 * this is the Id for this project that this project tag refers to, this is the foreign key
-		 * @var int $projectTagProjectId
-		 **/
-		private $projectTagProjectId;
-		/**
-		 * this is the Id for this tag that was applied to this specific project tag, this is a foreign key
-		 * @var int $projectTagTagId
-		 **/
-		private $projectTagTagId;
+class ProjectTag implements \JsonSerializable {
+	/**
+	 * this is the Id for this project that this project tag refers to, this is the foreign key
+	 * @var int $projectTagProjectId
+	 **/
+	private $projectTagProjectId;
+	/**
+	 * this is the Id for this tag that was applied to this specific project tag, this is a foreign key
+	 * @var int $projectTagTagId
+	 **/
+	private $projectTagTagId;
 
 	/**
 	 * Constructor for class ProjectTag
@@ -49,57 +50,58 @@ require_once("autoload.php");
 		}
 	}
 
-/**
- * accessors and mutators for class projectTagProjectId
- */
-/**
- * accessor method for projectTagProjectId
- * @return int value of projectTagProjectId, foreign key
- **/
-public function getProjectTagProjectId() {
-	return ($this->projectTagProjectId);
-}
-/**
- * mutator method for projectTagProjectId
- * @param int $newProjectTagProjectId
- * @throws \RangeException if $newProjectTagProjectId is not positive
- * @throws \TypeError if $newProjectTagProjectId is not an integer
- **/
-public function setProjectTagProjectId(int $newProjectTagProjectId) {
-	//verify the project tag project id content is positive
-	if($newProjectTagProjectId <= 0) {
-		throw (new \RangeException("project tag project id is not positive"));
+	/**
+	 * accessor method for projectTagProjectId
+	 * @return int value of projectTagProjectId, foreign key
+	 **/
+	public function getProjectTagProjectId() {
+		return ($this->projectTagProjectId);
 	}
-	// convert and store the new project tag project id
-	$this->projectTagProjectId = $newProjectTagProjectId;
-}
-/**
- * accessor method for projectTagTagId
- * @return int value of projectTag tag Id, foreign key
- **/
-public function getProjectTagTagId() {
-	return ($this->projectTagTagId);
-}
-/**
- * mutator method for projectTag tag Id
- * @param int $newProjectTagTagId new value of the tag id assigned to this project
- * @throws \RangeException if $newProjectTagTagId is not positive
- * @throws \TypeError if $newProjectTagTagId is not an integer
- **/
-public function setProjectTagTagId(int $newProjectTagTagId) {
-	//verify the project tag tag Id content is positive
-	if($newProjectTagTagId <= 0) {
-		throw (new \RangeException("project tag tag Id is not positive"));
+
+	/**
+	 * mutator method for projectTagProjectId
+	 * @param int $newProjectTagProjectId
+	 * @throws \RangeException if $newProjectTagProjectId is not positive
+	 * @throws \TypeError if $newProjectTagProjectId is not an integer
+	 **/
+	public function setProjectTagProjectId(int $newProjectTagProjectId) {
+		//verify the project tag project id content is positive
+		if($newProjectTagProjectId <= 0) {
+			throw (new \RangeException("project tag project id is not positive"));
+		}
+		// convert and store the new project tag project id
+		$this->projectTagProjectId = $newProjectTagProjectId;
 	}
-	//convert and store the project tag tag Id
-	$this->projectTagTagId = $newProjectTagTagId;
-}
-/**
- * inserts this projectTag into mySQL
- * @param \PDO $pdo PDO connection object
- * @throws \PDOException when mySQL related errors occur
- * @throws \TypeError if $pdo is not a PDO connection object
- **/
+
+	/**
+	 * accessor method for projectTagTagId
+	 * @return int value of projectTag tag Id, foreign key
+	 **/
+	public function getProjectTagTagId() {
+		return ($this->projectTagTagId);
+	}
+
+	/**
+	 * mutator method for projectTag tag Id
+	 * @param int $newProjectTagTagId new value of the tag id assigned to this project
+	 * @throws \RangeException if $newProjectTagTagId is not positive
+	 * @throws \TypeError if $newProjectTagTagId is not an integer
+	 **/
+	public function setProjectTagTagId(int $newProjectTagTagId) {
+		//verify the project tag tag Id content is positive
+		if($newProjectTagTagId <= 0) {
+			throw (new \RangeException("project tag tag Id is not positive"));
+		}
+		//convert and store the project tag tag Id
+		$this->projectTagTagId = $newProjectTagTagId;
+	}
+
+	/**
+	 * inserts this projectTag into mySQL
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
 	public function insert(\PDO $pdo) {
 		//check that the project tag exists before inserting into SQL
 		if($this->projectTagProjectId === null || $this->projectTagTagId === null) {
@@ -112,6 +114,7 @@ public function setProjectTagTagId(int $newProjectTagTagId) {
 		$parameters = ["projectTagProjectId" => $this->projectTagProjectId, "projectTagTagId" => $this->projectTagTagId];
 		$statement->execute($parameters);
 	}
+
 	/**
 	 * deletes this project tag from mySQL
 	 * @param \PDO $pdo PDO connection object
@@ -130,6 +133,7 @@ public function setProjectTagTagId(int $newProjectTagTagId) {
 		$parameters = ["projectTagProjectId" => $this->projectTagProjectId, "projectTagTagId" => $this->projectTagTagId];
 		$statement->execute($parameters);
 	}
+
 	/**
 	 * gets the projectTag by project Id
 	 *
@@ -165,6 +169,7 @@ public function setProjectTagTagId(int $newProjectTagTagId) {
 		}
 		return ($projectTags);
 	}
+
 	/**
 	 * gets the project tag by tag Id
 	 *
@@ -200,8 +205,7 @@ public function setProjectTagTagId(int $newProjectTagTagId) {
 		}
 		return ($projectTags);
 	}
-	//get project tag by project id and tag id
-	/**
+		/**
 	 * gets the project tag by both project and tag id
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $projectTagProjectId project id to search for
@@ -211,32 +215,32 @@ public function setProjectTagTagId(int $newProjectTagTagId) {
 	 * @throws \TypeError when variables are not of the correct data type
 	 **/
 	public static function getProjectTagByProjectIdAndTagId(\PDO $pdo, int $projectTagProjectId, int $projectTagTagId) {
-	//sanitize the project id and the tag id before searching
-	if($projectTagProjectId <=0) {
-		throw (new \PDOException("project id is not positive"));
-	}
-	if($projectTagTagId <= 0) {
-		throw (new \PDOException("tag id is not positive"));
-	}
-	//create a query template
-	$query = "SELECT projectTagProjectId, projectTagTagId FROM projectTag WHERE projectTagProjectId = :projectTagProjectId AND projectTagTagId = :projectTagTagId;";
-	$statement = $pdo->prepare($query);
-	//bind the variables to the placeholders in the template
-	$parameters = ["projectTagProjectId" => $projectTagProjectId, "projectTagTagId" => $projectTagTagId];
-	$statement->execute($parameters);
-	//grab the project tag from mySQL
-	try {
-		$projectTag = null;
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		$row = $statement->fetch();
-		if($row !== false) {
-			$projectTag = new ProjectTag($row["projectTagProjectId"], $row["projectTagTagId"]);
+		//sanitize the project id and the tag id before searching
+		if($projectTagProjectId <= 0) {
+			throw (new \PDOException("project id is not positive"));
 		}
-	} catch(\Exception $exception) {
-		throw(new \PDOException($exception->getMessage(), 0, $exception));
+		if($projectTagTagId <= 0) {
+			throw (new \PDOException("tag id is not positive"));
+		}
+		//create a query template
+		$query = "SELECT projectTagProjectId, projectTagTagId FROM projectTag WHERE projectTagProjectId = :projectTagProjectId AND projectTagTagId = :projectTagTagId;";
+		$statement = $pdo->prepare($query);
+		//bind the variables to the placeholders in the template
+		$parameters = ["projectTagProjectId" => $projectTagProjectId, "projectTagTagId" => $projectTagTagId];
+		$statement->execute($parameters);
+		//grab the project tag from mySQL
+		try {
+			$projectTag = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$projectTag = new ProjectTag($row["projectTagProjectId"], $row["projectTagTagId"]);
+			}
+		} catch(\Exception $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($projectTag);
 	}
-	return ($projectTag);
-}
 	//jsonSerialize
 	/**
 	 * formats the state variables for JSON serialization
@@ -244,7 +248,7 @@ public function setProjectTagTagId(int $newProjectTagTagId) {
 	 * @return array resulting state variables to serialize
 	 **/
 	public function jsonSerialize() {
-	$fields = get_object_vars($this);
-	return ($fields);
-}
+		$fields = get_object_vars($this);
+		return ($fields);
+	}
 }

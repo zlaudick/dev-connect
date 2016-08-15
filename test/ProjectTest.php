@@ -1,19 +1,24 @@
 <?php
 namespace Edu\Cnm\DevConnect\Test;
-use Edu\Cnm\DevConnect\{Project, Profile};
+
+use Edu\Cnm\DevConnect\{
+	Project, Profile
+};
+
 // grab the project test parameters
 require_once("DevConnectTest.php");
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
+
 /**
-* Full PHPUnit test for the Project class
-*
-* This is a complete PHPUnit test of the Project class. It is complete because *ALL* mySQL/PDO enabled methods
-* are tested for both invalid and valid inputs.
-*
-* @see Project
-* @author Marcelo Ibarra <mibarra5@cnm.edu>
-**/
+ * Full PHPUnit test for the Project class
+ *
+ * This is a complete PHPUnit test of the Project class. It is complete because *ALL* mySQL/PDO enabled methods
+ * are tested for both invalid and valid inputs.
+ *
+ * @see Project
+ * @author Marcelo Ibarra <mibarra5@cnm.edu>
+ **/
 class ProjectTest extends DevConnectTest {
 	/**
 	 * content of the Project
@@ -99,7 +104,7 @@ class ProjectTest extends DevConnectTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("project");
 		// create a new Project and insert to into mySQL
-		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE,$this->VALID_PROJECTNAME);
+		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE, $this->VALID_PROJECTNAME);
 		$project->insert($this->getPDO());
 		// edit the Project and update it in mySQL
 		$project->setProjectContent($this->VALID_PROJECTCONTENT2);
@@ -133,7 +138,7 @@ class ProjectTest extends DevConnectTest {
 		$numRows = $this->getConnection()->getRowCount("project");
 
 		// create a new project and insert to into mySQL
-		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE,$this->VALID_PROJECTNAME);
+		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE, $this->VALID_PROJECTNAME);
 		$project->insert($this->getPDO());
 
 		// delete the project from mySQL
@@ -175,7 +180,7 @@ class ProjectTest extends DevConnectTest {
 		$numRows = $this->getConnection()->getRowCount("project");
 
 		// create a new Project and insert it in mySQL
-		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE,$this->VALID_PROJECTNAME);
+		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE, $this->VALID_PROJECTNAME);
 		$project->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -209,7 +214,7 @@ class ProjectTest extends DevConnectTest {
 		$numRows = $this->getConnection()->getRowCount("project");
 
 		// create a new Project and insert it in mySQL
-		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE,$this->VALID_PROJECTNAME);
+		$project = new Project(null, $this->profile->getProfileId(), $this->VALID_PROJECTCONTENT, $this->VALID_PROJECTDATE, $this->VALID_PROJECTNAME);
 		$project->insert($this->getPDO());
 
 		//grab the data from MySQL and enforce that the fields match our expectations
