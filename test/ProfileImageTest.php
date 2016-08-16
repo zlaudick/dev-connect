@@ -40,7 +40,11 @@ class ProfileImageTest extends DevConnectTest {
 		parent::setUp();
 
 		// create and insert a Profile to own the test Profile Image
-		$this->profile = new Profile(null, "Q", "12345678901234567890123456789012", false, 1, null, "content", "foo@bar.com", "1234567890123456789012345678901234567890123456789012345678901234", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "Abq, NM", "Zac", "1234567890123456789012345678901234567890123456789012345678901234");
+		$this->VALID_PROFILEGITHUBACCESSTOKEN = bin2hex(random_bytes(32));
+		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
+		$this->salt = bin2hex(random_bytes(32));
+		$this->hash = hash_pbkdf2("sha512", "123456", $this->salt, 4096, 128);
+		$this->profile = new Profile(null, "Q", $this->VALID_PROFILEACTIVATIONTOKEN, false, 1, null, "content", "foo@bar.com", $this->VALID_PROFILEGITHUBACCESSTOKEN, $this->hash, "Abq, NM", "Zac", $this->salt);
 		$this->profile->insert($this->getPDO());
 
 		// create and insert an Image to own the test Profile Image
