@@ -161,6 +161,7 @@ Class ProfileTest extends DevConnectTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert it in mySQL
+		$profile = new Profile(null, $this->VALID_PROFILEACCOUNTTYPE, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEAPPROVED, $this->VALID_PROILEAPPROVEDBYID, $this->VALID_PROFILEAPPROVEDDATETIME, $this->VALID_PROFILECONTENT, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEGITHUBACCESSTOKEN, $this->hash, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->salt);
 		$profile->insert($this->getPDO());
 
 		// edit the Profile and update it in mySQL

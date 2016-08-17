@@ -188,10 +188,9 @@ class ImageTest extends DevConnectTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 
 		$imageId = $image->getImageId();
-
-
-
-
+		$expectedJson = <<< EOF
+{"imageId": $imageId, "imagePath": "$this->VALID_IMAGEPATH", "imageType": "$this->VALID_IMAGETYPE"}
+EOF;
 
 		$this->assertJsonStringEqualsJsonString($expectedJson, json_encode($pdoImage));
 
