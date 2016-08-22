@@ -99,8 +99,45 @@ try {
 		} elseif($method === "POST") {
 
 			// create the new project and insert it into the database
-			$project = new Project(null, $requestObject->profileContent, $requestObject->projectDate, $requestObject->projectName, null);
+			$project = new Project(null, $requestObject->projectContent, $requestObject->projectDate, $requestObject->projectName, $requestObject->profileContent);
+			$project->insert($pdo);
+
+			// update reply
+			$reply->project = "Project created OK";
 		}
+	} elseif($method === "DELETE") {
+
+		verifyXsrf();
+
+		// retrieve the project to be deleted
+		$project = Project::getProjectByProjectId($pdo, $id);
+		if($project === null) {
+			throw(new \RuntimeException("Project does not exist", 404));
+		}
+
+		// delete the project
+		$project->delete($pdo);
+
+		// update reply
+		$reply->project = "Project deleted OK";
+	} else {
+		throw (new \InvalidArgumentException("Invalid HTTP method request"));
 	}
 
+	// update the reply with exception information
+} catch(Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+	$reply->trace = $exception->getTraceAsString();
+} catch(TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
 }
+
+header("Content type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
+
+// encode and return the reply to the front end caller
+echo json_encode($reply);
