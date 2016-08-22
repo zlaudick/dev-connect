@@ -31,7 +31,7 @@ try {
 
 	// sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$imagePath = filter_input(INPUT_GET, "imagePath", FILTER_SANITIZE_STRING);
+	$imagePath = filter_input(INPUT_GET, "imagePath", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	// make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
@@ -62,6 +62,35 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		// make sure image content is available
+		if(empty($requestObject->imagePath) === true) {
+			throw(new \InvalidArgumentException("No content for the image",405));
+		}
+
+		// perform the actual put or post
+		if($method === "PUT") {
+
+			// retrieve the image to update
+			$image = Image::getImageByImageId($pdo, $id);
+			if($image === null) {
+				throw(new \RuntimeException("Image does not exist", 404));
+			}
+
+			// put the image path into the image and update
+			$image->setImagePath($requestObject->imagePath);
+			$image->update($pdo);
+
+			// update reply
+			$reply->message = "Image updated OK";
+
+		} else if($method === "POST") {
+
+			// create a new image and insert it into the database
+			$image = new Image(null, $requestObject->imagePath, $requestObject->imageType);
+			$image->insert($pdo);
+
+			// update reply
+			$reply->message = "Image created OK";
+		}
 	}
 
 }
