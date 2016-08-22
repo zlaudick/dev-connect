@@ -90,22 +90,39 @@ try {
 
 			// update reply
 			$reply->message = "Image created OK";
-		} else if($method === "DELETE") {
-			verifyXsrf();
-
-			// retrieve the image to be deleted
-			$image = Image::getImageByImageId($pdo, $id);
-			if($image === null) {
-				throw(new \RuntimeException("Image does not exist", 404));
-			}
-
-			// delete the image
-			$image->delete($pdo);
-
-			//update reply
-			$reply->message = "Image deleted OK";
 		}
+	} else if($method === "DELETE") {
+		verifyXsrf();
+
+		// retrieve the image to be deleted
+		$image = Image::getImageByImageId($pdo, $id);
+		if($image === null) {
+			throw(new \RuntimeException("Image does not exist", 404));
+		}
+
+		// delete the image
+		$image->delete($pdo);
+
+		//update reply
+		$reply->message = "Image deleted OK";
+	} else {
+		throw (new \InvalidArgumentException("Invalid HTTP method request"));
 	}
 
+	// update reply with exception information
+} catch(Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+	$reply->trace = $exception->getTraceAsString();
+} catch (TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $exception->getMessage();
 }
 
+header("Content type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
+
+// encode and return the reply to the front end caller
+echo json_encode($reply);
