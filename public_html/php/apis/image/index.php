@@ -90,6 +90,20 @@ try {
 
 			// update reply
 			$reply->message = "Image created OK";
+		} else if($method === "DELETE") {
+			verifyXsrf();
+
+			// retrieve the image to be deleted
+			$image = Image::getImageByImageId($pdo, $id);
+			if($image === null) {
+				throw(new \RuntimeException("Image does not exist", 404));
+			}
+
+			// delete the image
+			$image->delete($pdo);
+
+			//update reply
+			$reply->message = "Image deleted OK";
 		}
 	}
 
