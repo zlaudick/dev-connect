@@ -9,7 +9,7 @@ use Edu\Cnm\DevConnect\Image;
 /**
  * API for the Image class
  *
- * @author Devon Beets <dbeetzz@gmail.com>
+ * @author Devon Beets <dbeetzz@gmail.com> based on code by Derek Mauldin
  **/
 
 // verify the session, start if not active
