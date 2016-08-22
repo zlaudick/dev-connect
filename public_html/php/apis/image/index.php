@@ -43,19 +43,19 @@ try {
 		// set XSRF cookie
 		setXsrfCookie();
 
-		// get a specific image or all images and update reply
+		// get a specific image and update reply
 		if(empty($id) === false) {
 			$image = Image::getImageByImageId($pdo, $id);
 			if($image !== null) {
 				$reply->data = $image;
 			}
-		} else if(empty($imagePath) === false) {
+		} elseif(empty($imagePath) === false) {
 			$images = Image::getImageByImagePath($pdo, $imagePath);
 			if($images !== null) {
 				$reply->data = $images;
 			}
 		}
-	} else if($method === "PUT" || $method === "POST") {
+	} elseif($method === "PUT" || $method === "POST") {
 
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
@@ -82,7 +82,7 @@ try {
 			// update reply
 			$reply->message = "Image updated OK";
 
-		} else if($method === "POST") {
+		} elseif($method === "POST") {
 
 			// create a new image and insert it into the database
 			$image = new Image(null, $requestObject->imagePath, $requestObject->imageType);
@@ -91,7 +91,7 @@ try {
 			// update reply
 			$reply->message = "Image created OK";
 		}
-	} else if($method === "DELETE") {
+	} elseif($method === "DELETE") {
 		verifyXsrf();
 
 		// retrieve the image to be deleted

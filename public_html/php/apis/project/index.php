@@ -11,3 +11,73 @@ use Edu\Cnm\DevConnect\Project;
  *
  * @author Devon Beets <dbeetzz@gmail.com> based on code by Derek Mauldin
  **/
+
+// verify the session, start if not active
+if(session_status() !== PHP_SESSION_ACTIVE) {
+	session_start();
+}
+
+// prepare an empty reply
+$reply = new stdClass();
+$reply->status = 200;
+$reply->data = null;
+
+try {
+	// grab the mySQL connection
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/dev-connect.ini");
+
+	// determine which HTTP method was used
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+
+	//sanitize input
+	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$profileId = filter_input(INPUT_GET, "profileId", FILTER_VALIDATE_INT);
+	$projectContent = filter_input(INPUT_GET, "projectContent", FILTER_SANITIZE_STRING);
+	$projectName = filter_input(INPUT_GET, "projectName", FILTER_SANITIZE_STRING);
+
+	// make sure the id is valid for methods that require it
+	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
+		throw (new InvalidArgumentException("id cannot be empty or negative", 405));
+	}
+
+	// handle GET request, if id is present that project is returned
+	if($method === "GET") {
+		// set XSRF cookie
+		setXsrfCookie();
+
+		// get a specific project and update reply
+		if(empty($id) === false) {
+			$project = Project::getProjectByProjectId($pdo, $id);
+			if($project !== null) {
+				$reply->data = $project;
+			}
+			// project by profile id
+		} elseif(empty($profileId) === false) {
+			$project = Project::getProjectByProjectProfileId($pdo, $profileId);
+			if($project !== null) {
+				$reply->data = $project;
+			}
+		} elseif(empty($projectName) === false) {
+			$project = Project::getProjectByProjectName($pdo, $projectName);
+			if($project !== null) {
+				$reply->data = $project;
+			}
+		}
+	} elseif($method === "PUT" || $method === "POST") {
+
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+
+		// make sure that the project content is available
+		if(empty($requestObject) === true) {
+			throw(new \InvalidArgumentException("No content for project", 405));
+		}
+
+		// make sure the profile id is available
+		if(empty($requestObject->profileId) === true) {
+			throw(new \InvalidArgumentException("No profile id", 405));
+		}
+	}
+
+}
