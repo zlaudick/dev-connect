@@ -78,6 +78,29 @@ try {
 		if(empty($requestObject->profileId) === true) {
 			throw(new \InvalidArgumentException("No profile id", 405));
 		}
+
+		// perform the actual put or post
+		if($method === "PUT") {
+
+			// retrieve the project to update
+			$project = Project::getProjectByProjectId($pdo, $id);
+			if($project === null) {
+				throw(new \RuntimeException("Project does not exist", 404));
+			}
+
+			// update all attributes
+			$project->setProjectContent($requestObject->projectContent);
+			$project->setProjectDate($requestObject->projectDate);
+			$project->setProjectName($requestObject->projectName);
+			$project->update($pdo);
+
+			// update reply
+			$reply->message = "Project updated OK";
+		} elseif($method === "POST") {
+
+			// create the new project and insert it into the database
+			$project = new Project(null, $requestObject->profileContent, $requestObject->projectDate, $requestObject->projectName, null);
+		}
 	}
 
 }
