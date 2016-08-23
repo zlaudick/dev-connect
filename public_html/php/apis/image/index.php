@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__DIR__, 2) . "../classes/autoload.php"; /**this don't work still**/
+require_once dirname(__DIR__, 2) . "/classes/autoload.php"; /**this don't work still**/
 require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
@@ -31,7 +31,6 @@ try {
 
 	// sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$imagePath = filter_input(INPUT_GET, "imagePath", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	// make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
