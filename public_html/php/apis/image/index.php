@@ -12,37 +12,37 @@ use Edu\Cnm\DevConnect\Image;
  * @author Devon Beets <dbeetzz@gmail.com> based on code by Derek Mauldin
  **/
 
-// verify the session, start if not active
+//verify the session, start if not active
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
 
-// prepare an empty reply
+//prepare an empty reply
 $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 
 try {
-	// grab the MySQL connection
+	//grab the MySQL connection
 	$pdo = connectToEncryptedMySQL("etc/apache2/capstone-mysql/dev-connect.ini");
 
-	// determine which HTTP method was used
+	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
-	// sanitize input
+	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
-	// make sure the id is valid for methods that require it
+	//make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
 		throw (new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 
-	// handle GET request, if id is present, return that image
+	//handle GET request, if id is present, return that image
 	if($method === "GET") {
-		// set XSRF cookie
+		//set XSRF cookie
 		setXsrfCookie();
 
-		// get a specific image and update reply
+		//get a specific image and update reply
 		if(empty($id) === false) {
 			$image = Image::getImageByImageId($pdo, $id);
 			if($image !== null) {
@@ -60,46 +60,46 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-		// make sure image content is available
+		//make sure image content is available
 		if(empty($requestObject->imagePath) === true) {
 			throw(new \InvalidArgumentException("No content for the image",405));
 		}
 
-		// perform the actual put or post
+		//perform the actual put or post
 		if($method === "PUT") {
 
-			// retrieve the image to update
+			//retrieve the image to update
 			$image = Image::getImageByImageId($pdo, $id);
 			if($image === null) {
 				throw(new \RuntimeException("Image does not exist", 404));
 			}
 
-			// put the image path into the image and update
+			//put the image path into the image and update
 			$image->setImagePath($requestObject->imagePath);
 			$image->update($pdo);
 
-			// update reply
+			//update reply
 			$reply->message = "Image updated OK";
 
 		} elseif($method === "POST") {
 
-			// create a new image and insert it into the database
+			//create a new image and insert it into the database
 			$image = new Image(null, $requestObject->imagePath, $requestObject->imageType);
 			$image->insert($pdo);
 
-			// update reply
+			//update reply
 			$reply->message = "Image created OK";
 		}
 	} elseif($method === "DELETE") {
 		verifyXsrf();
 
-		// retrieve the image to be deleted
+		//retrieve the image to be deleted
 		$image = Image::getImageByImageId($pdo, $id);
 		if($image === null) {
 			throw(new \RuntimeException("Image does not exist", 404));
 		}
 
-		// delete the image
+		//delete the image
 		$image->delete($pdo);
 
 		//update reply
@@ -108,7 +108,7 @@ try {
 		throw (new \InvalidArgumentException("Invalid HTTP method request"));
 	}
 
-	// update reply with exception information
+	//update reply with exception information
 } catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
@@ -123,5 +123,5 @@ if($reply->data === null) {
 	unset($reply->data);
 }
 
-// encode and return the reply to the front end caller
+//encode and return the reply to the front end caller
 echo json_encode($reply);
