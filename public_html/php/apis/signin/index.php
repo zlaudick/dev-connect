@@ -63,13 +63,15 @@ try {
 		if($hash !== $profile->getProfileHash()) {
 			throw (new \InvalidArgumentException("Email or password is incorrect"));
 		}
+
+		//grab profile from database and put into a session
+		$profile = Profile::getProfileByProfileId($pdo, $profile->getProfileId());
+		$_SESSION["profile"] = $profile;
+
+		$reply->message = "Log In Success!";
+	} else {
+		throw (new \InvalidArgumentException("Invalid HTTP method request"));
 	}
-
-
-
-
-
-
 
 } catch(\Exception $exception) {
 	$reply->status = $exception->getCode();
