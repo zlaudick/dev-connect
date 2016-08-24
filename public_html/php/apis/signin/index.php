@@ -72,7 +72,6 @@ try {
 	} else {
 		throw (new \InvalidArgumentException("Invalid HTTP method request"));
 	}
-
 } catch(\Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
