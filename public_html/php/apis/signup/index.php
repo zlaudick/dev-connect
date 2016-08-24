@@ -66,11 +66,11 @@ try {
 	$profile->insert($pdo);
 
 	//send the user a message based on accountType
-	if(profileAccountType = "O") {
-		$emailContent = "Thank you for signing up with DevConnect! We will be reviewing your request pending approval and email activation.";
-	} elseif(profileAccountType = "D") {
-		$emailContent = "Thank you for signing up with DevConnect! Please click the link to activate your account, thank you!";
-	}
+	//if(profileAccountType = "O") {
+		//$emailContent = "Thank you for signing up with DevConnect! We will be reviewing your request pending approval and email activation.";
+	//} elseif(profileAccountType = "D") {
+		//$emailContent = "Thank you for signing up with DevConnect! Please click the link to activate your account, thank you!";
+	//}
 
 	//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 	// FIXME: make sure URL is /public_html/activation/$activation
