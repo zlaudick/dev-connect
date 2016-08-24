@@ -28,7 +28,7 @@ try {
 			session_start();
 		}
 		$_SESSION = [];
-		$reply->message = "You are now signed out";
+		$reply->message = "You are now signed out, have a great day!";
 	}
 	else {
 		throw (new InvalidArgumentException("Invalid HTTP method request"));
