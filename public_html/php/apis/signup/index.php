@@ -30,17 +30,18 @@ try {
 
 	//sanitize input
 	$profileName = filter_input(INPUT_POST, "profileName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$profileEmail = filter_input(INPUT_POST, "profileEmail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileEmail = filter_input(INPUT_POST, "profileEmail", FILTER_SANITIZE_EMAIL, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$confirmPassword = filter_input(INPUT_POST, "confirmPassword", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//perform the actual post
 	if($method === "POST"){
 
+		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-		//check if the user selected developer or non-profit organization for account type and offer developers to sign up with Github?
+		//check if the user selected developer and offer developers to sign up with Github?
 
 		//check that the user fields that are required have been sent and filled out correctly
 		if(empty($requestObject->profileName) === true) {
@@ -57,12 +58,12 @@ try {
 
 
 	//create a new user, password salt and hash, and activation token
-	$activationToken = bin2hex(random_bytes(16));
+	$profileActivationToken = bin2hex(random_bytes(16));
 	$salt = bin2hex(random_bytes(32));
 	$hash = hash_pbkdf2("sha512", $password, $salt, 262144);
 
 	//create a new profile for the user
-	$profile = new Profile(null, $profileName, $profileEmail);
+	$profile = new Profile(null, $profileName, $profileEmail, $hash, $salt, $profileActivationToken);
 	$profile->insert($pdo);
 
 	//send the user a message based on accountType
@@ -75,7 +76,7 @@ try {
 	//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 	// FIXME: make sure URL is /public_html/activation/$activation
 	$basePath = dirname($_SERVER["SCRIPT_NAME"], 4);
-	$urlglue = $basePath . "/activation/" . $activationToken;
+	$urlglue = $basePath . "/activation/" . $profileActivationToken;
 	$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
 	$message = <<< EOF
 <h2>Welcome to DevConnect, thank you for signing up with us!</h2>
