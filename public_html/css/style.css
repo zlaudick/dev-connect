@@ -1,0 +1,158 @@
+/**********************************************
+* Bootstrap Practice Exercise
+* Custom CSS for Tier II Solution
+* @author: rlewis37@cnm.edu
+/*********************************************/
+
+/**********************************************
+* Global Styles
+/*********************************************/
+body {
+	background: url("../images/earth.jpg") no-repeat center center;
+	background-size: cover;
+	background-attachment: fixed;
+	color: #000;
+}
+
+main {
+	padding-top: 50px;
+}
+
+/**********************************************
+* Utility Styles
+/*********************************************/
+/* this is a "spacer" class */
+.p-x-10 {
+	padding-bottom: 10rem;
+	padding-top: 10rem;
+}
+
+/**********************************************
+* Header and Navbar Styles
+/*********************************************/
+/* removes the margin-bottom that Bootstrap sets by default */
+.navbar {
+	margin-bottom: 0;
+}
+
+/* override Bootstrap default .navbar-inverse styles */
+.navbar-inverse {
+	background-image: none;
+	background-color: #2F394A;
+}
+
+/**********************************************
+* Welcome Section Styles
+/*********************************************/
+/* this adds padding to compensate for the fixed navbar on mobile */
+#welcome {
+	padding-top: 70px;
+}
+
+/* overrides bootstrap default styles */
+#welcome .jumbotron {
+	background: rgba(0,0,0,0.5);
+	border-radius: 0;
+	/*
+	color: #fff;
+	*/
+	color: deepskyblue;
+}
+
+/* set text-shadow on the <h1> in the jumbotron */
+#welcome .jumbotron h1 {
+	text-shadow: 2px 2px 0 blue;
+
+}
+
+.click {
+	color: deepskyblue;
+	text-shadow: 2px 2px 0 blue;
+
+}
+
+/* sets a larger welcome area height on sm, md, and lg breakpoints */
+@media only screen and (min-width: 768px) {
+	#welcome {
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+	}
+}
+
+/**********************************************
+* Content Section Styles
+/*********************************************/
+#content {
+	background-color: #01B3ED;
+	color: #fff;
+}
+
+/* add margin-bottom to bill murray img, to add space above stacked paragraph on mobile */
+img[alt="fillmurray.com"] {
+	margin-bottom: 2rem;
+}
+
+/**********************************************
+* Thumbnails Section Styles
+/*********************************************/
+#thumbnails {
+	/*
+	background-color: rgba(255,255,255,0.75);
+
+
+	background-color: transparent;
+	*/
+	background: rgba(255,255,255,0.5);
+	border-radius: 1px;
+	border-color: #FFCB05;
+}
+
+/* add padding around the image thumbnails and text */
+.image-tile {
+	padding: 2rem;
+}
+
+.well {
+	background: rgba(0,0,0,0.7);
+	border-radius: 1px;
+	border-color: deepskyblue;
+	color: deepskyblue;
+	transition: all 0.2s;
+}
+
+.well:hover,
+.well:active {
+	background-color: darkblue;
+	color deepskyblue;
+}
+
+a:hover,
+a:active {
+	text-decoration: none;
+}
+
+.well h2{
+	color: deepskyblue;
+	text-shadow: 2px 2px 0 blue;
+}
+
+.img-bot-margin {
+	margin-bottom: 2em;
+}
+
+.text-justify {
+
+	color: deepskyblue;
+}
+/**********************************************
+* Footer Styles
+/*********************************************/
+footer {
+	padding: 1rem 0;
+	background-color: #2F394A;
+	/*
+	color: #FFCB05;
+	*/
+	color: deepskyblue;
+}
