@@ -1,7 +1,24 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: STEMulus
- * Date: 7/29/2016
- * Time: 11:01 AM
- */
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>Hello World</title>
+	</head>
+
+	<body>
+		<h1>Hello World!</h1>
+		<?php
+		# Include the Autoloader (see "Libraries" for install instructions)
+		require 'vendor/mailgun';
+
+		use Mailgun\Mailgun;
+
+
+		?>
+
+
+
+
+	</body>
+
+</html>
