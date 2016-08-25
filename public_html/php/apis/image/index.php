@@ -1,6 +1,7 @@
 <?php
 
-require_once dirname(__DIR__, 2) . "/classes/autoload.php"; /**this don't work still**/
+require_once dirname(__DIR__, 2) . "/classes/autoload.php";
+/**this don't work still**/
 require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
@@ -31,9 +32,12 @@ try {
 
 	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$imagePath = filter_input(INPUT_GET, "imagePath", FILTER_SANITIZE_STRING);
+	$imageType = filter_input(INPUT_GET, "imageType", FILTER_SANITIZE_STRING);
+
 
 	//make sure the id is valid for methods that require it
-	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
+	if(($method === "DELETE") && (empty($id) === true || $id < 0)) {
 		throw (new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 
@@ -54,7 +58,7 @@ try {
 				$reply->data = $images;
 			}
 		}
-	} elseif($method === "PUT" || $method === "POST") {
+	} elseif($method === "POST") {
 
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
@@ -62,34 +66,66 @@ try {
 
 		//make sure image content is available
 		if(empty($requestObject->imagePath) === true) {
-			throw(new \InvalidArgumentException("No content for the image",405));
+			throw(new \InvalidArgumentException("No content for the image", 405));
+		}
+		//make a check to make sure only a user can only upload to their own account
+		//some code here to to dat ^
+
+
+		//image sanitization
+
+		//create arrays for valid image extensions and valid image MIME types
+		$validExtensions = [".jpg,", ".jpeg", ".png"];
+		$validTypes = ["image/jpg", "image/jpeg", "image/png"];
+
+		//assign variables to the user image name, MIME type, and image extension
+		$tempImagePath = $_FILES["imagePath"]["tmp_name"];
+		$imageType = $_FILES["imageType"]["type"];
+		$imageFileExtension = strtolower(strchr($_FILES["profileImage"]["name"], "."));
+
+
+		//check to ensure the file has correct extension and MIME type
+		if(!in_array($imageFileExtension, $validExtensions) || (!in_array($imageType, $validTypes))) {
+			throw (new \InvalidArgumentException("This is not a valid image"));
 		}
 
-		//perform the actual put or post
-		if($method === "PUT") {
+		//image creation if file is .jpg .jpeg or .png
+		if($imageFileExtension === ".jpg" || $imageFileExtension === ".jpeg") {
+			$sanitizedUserImage = imagecreatefromjpeg($tempImagePath);
+		} elseif($imageFileExtension === ".png") {
+			$sanitizedUserImage = imagecreatefrompng($tempImagePath);
+		} else {
+			throw(new InvalidArgumentException("This image is not valid."));
+		}
 
-			//retrieve the image to update
-			$image = Image::getImageByImageId($pdo, $id);
-			if($image === null) {
-				throw(new \RuntimeException("Image does not exist", 404));
-			}
 
-			//put the image path into the image and update
-			$image->setImagePath($requestObject->imagePath);
-			$image->update($pdo);
+		//sanitize the profile image
+		if($sanitizedImagePath === false) {
+			throw (new \InvalidArgumentException("This image is not valid."));
+		}
 
-			//update reply
-			$reply->message = "Image updated OK";
+		//image scale to 500px width, leave height auto
+		$sanitizedImagePath = imagescale($sanitizedImagePath, 500);
 
-		} elseif($method === "POST") {
 
-			//create a new image and insert it into the database
-			$image = new Image(null, $requestObject->imagePath, $requestObject->imageType);
+		//rename the file to make it unique using hash
+		$newImagePath = "/var/www/html/public_html/dev-connect" . hash("ripemd160", microtime(true) + random_int(0, 4294967296));
+
+		//finalize image creation after sanitization, resizing and unique renaming
+		if($imageFileExtension === ".jpg" || $imageFileExtension === ".jpeg") {
+			$createdProperly = imagejpeg($sanitizedUserImage, $newImagePath);
+		} elseif($imageFileExtension === ".png") {
+			$createdProperly = imagepng($sanitizedUserImage, $newImagePath);
+		}
+
+		//put the new image into the database
+		if($createdProperly === true) {
+			$image = new Image(null, $newImagePath, $imageType);
 			$image->insert($pdo);
-
-			//update reply
-			$reply->message = "Image created OK";
 		}
+
+		//update reply
+		$reply->message = "Image created OK";
 	} elseif($method === "DELETE") {
 		verifyXsrf();
 
@@ -98,6 +134,8 @@ try {
 		if($image === null) {
 			throw(new \RuntimeException("Image does not exist", 404));
 		}
+
+		unlink($image->getImagePath());
 
 		//delete the image
 		$image->delete($pdo);
@@ -113,7 +151,7 @@ try {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 	$reply->trace = $exception->getTraceAsString();
-} catch (TypeError $typeError) {
+} catch(TypeError $typeError) {
 	$reply->status = $typeError->getCode();
 	$reply->message = $exception->getMessage();
 }
