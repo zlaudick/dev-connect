@@ -71,9 +71,6 @@ try {
 		//make a check to make sure only a user can only upload to their own account
 		//some code here to to dat ^
 
-
-		//image sanitization
-
 		//create arrays for valid image extensions and valid image MIME types
 		$validExtensions = [".jpg,", ".jpeg", ".png"];
 		$validTypes = ["image/jpg", "image/jpeg", "image/png"];
@@ -82,7 +79,6 @@ try {
 		$tempImagePath = $_FILES["imagePath"]["tmp_name"];
 		$imageType = $_FILES["imageType"]["type"];
 		$imageFileExtension = strtolower(strchr($_FILES["profileImage"]["name"], "."));
-
 
 		//check to ensure the file has correct extension and MIME type
 		if(!in_array($imageFileExtension, $validExtensions) || (!in_array($imageType, $validTypes))) {
@@ -116,6 +112,8 @@ try {
 			$createdProperly = imagejpeg($sanitizedUserImage, $newImagePath);
 		} elseif($imageFileExtension === ".png") {
 			$createdProperly = imagepng($sanitizedUserImage, $newImagePath);
+		} else {
+			throw (new \InvalidArgumentException("This image is not valid"));
 		}
 
 		//put the new image into the database
@@ -126,6 +124,7 @@ try {
 
 		//update reply
 		$reply->message = "Image created OK";
+
 	} elseif($method === "DELETE") {
 		verifyXsrf();
 
