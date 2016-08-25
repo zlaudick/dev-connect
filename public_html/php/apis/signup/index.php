@@ -80,7 +80,7 @@ try {
 	$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
 	$message = <<< EOF
 <h2>Welcome to DevConnect, thank you for signing up with us!</h2>
-<p>In order to get started, please visit the following URL to activate your account. Thank you!</P>
+<p>In order to get started, please visit the following URL to activate your account. Thank you!</p>
 EOF;
 
 	$response = sendEmail($profileEmail, $profileName, $emailContent, $message);
