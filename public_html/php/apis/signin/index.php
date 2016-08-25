@@ -57,7 +57,7 @@ try {
 		}
 
 		//hash for the password
-		$hash =  hash_pbkdf2("sha512", $password, $user->getUserSalt(), 262144);
+		$hash =  hash_pbkdf2("sha512", $password, $profile->getUserSalt(), 262144);
 
 		//verify the hash is correct
 		if($hash !== $profile->getProfileHash()) {
