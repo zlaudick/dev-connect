@@ -18,7 +18,7 @@ CREATE TABLE profile (
 	profileApprovedDateTime DATETIME NOT NULL,
 	profileContent VARCHAR(2000),
 	profileEmail VARCHAR(128) NOT NULL,
-	profileGithubAccessToken CHAR(64),
+	profileGithubAccessToken VARCHAR(64),
 	profileHash CHAR(128),
 	profileLocation VARCHAR(64),
 	profileName VARCHAR(32) NOT NULL,
