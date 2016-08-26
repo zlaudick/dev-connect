@@ -2,7 +2,7 @@
 
 require_once dirname(__DIR__, 2) . "/classes/autoload.php";
 require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
-require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
+require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\DevConnect\Profile;
 
@@ -35,7 +35,7 @@ try {
 	$confirmPassword = filter_input(INPUT_POST, "confirmPassword", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//perform the actual post
-	if($method === "POST"){
+	if($method === "POST") {
 
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
@@ -57,38 +57,39 @@ try {
 		}
 
 
-	//create a new user, password salt and hash, and activation token
-	$profileActivationToken = bin2hex(random_bytes(16));
-	$salt = bin2hex(random_bytes(32));
-	$hash = hash_pbkdf2("sha512", $password, $salt, 262144);
+		//create a new user, password salt and hash, and activation token
+		$profileActivationToken = bin2hex(random_bytes(16));
+		$salt = bin2hex(random_bytes(32));
+		$hash = hash_pbkdf2("sha512", $password, $salt, 262144);
 
-	//create a new profile for the user
-	$profile = new Profile(null, $profileName, $profileEmail, $hash, $salt, $profileActivationToken);
-	$profile->insert($pdo);
+		//create a new profile for the user
+		$profile = new Profile(null, $profileName, $profileEmail, $hash, $salt, $profileActivationToken);
+		$profile->insert($pdo);
 
-	//send the user a message based on accountType
-	//if(profileAccountType = "O") {
+		//some peudo code
+		//send the user a message based on accountType
+		//if(profileAccountType = "O") {
 		//$emailContent = "Thank you for signing up with DevConnect! We will be reviewing your request pending approval and email activation.";
-	//} elseif(profileAccountType = "D") {
+		//} elseif(profileAccountType = "D") {
 		//$emailContent = "Thank you for signing up with DevConnect! Please click the link to activate your account, thank you!";
-	//}
+		//}
 
-	//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
-	// FIXME: make sure URL is /public_html/activation/$activation
-	$basePath = dirname($_SERVER["SCRIPT_NAME"], 4);
-	$urlglue = $basePath . "/activation/" . $profileActivationToken;
-	$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
-	$message = <<< EOF
+		//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
+		// FIXME: make sure URL is /public_html/activation/$activation
+		$basePath = dirname($_SERVER["SCRIPT_NAME"], 4);
+		$urlglue = $basePath . "/activation/" . $profileActivationToken;
+		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
+		$message = <<< EOF
 <h2>Welcome to DevConnect, thank you for signing up with us!</h2>
 <p>In order to get started, please visit the following URL to activate your account. Thank you!</p>
 EOF;
 
-	$response = sendEmail($profileEmail, $profileName, $message);
-	if($response === "Email sent.") {
-		$reply->message = "Sign up was successful. Please check your email for account activation information.";
-	} else {
-		throw(new \InvalidArgumentException("Error sending email."));
-	}
+		$response = sendEmail($profileEmail, $profileName, $message);
+		if($response === "Email sent.") {
+			$reply->message = "Sign up was successful. Please check your email for account activation information.";
+		} else {
+			throw(new \InvalidArgumentException("Error sending email."));
+		}
 	} else {
 		throw(new \InvalidArgumentException("Invalid HTTP request."));
 	}
