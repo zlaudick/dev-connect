@@ -102,7 +102,7 @@ try {
 				$profileEmail = $result['email'];
 			}
 		}
-		// TODO: get profile by email to see if it exists, if it does not then create a new one
+		// get profile by email to see if it exists, if it does not then create a new one
 		$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
 		if(empty($profile) === true) {
 			// create a new profile
