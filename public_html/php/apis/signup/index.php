@@ -41,8 +41,6 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-		//check if the user selected developer and offer developers to sign up with Github?
-
 		//check that the user fields that are required have been sent and filled out correctly
 		if(empty($requestObject->profileName) === true) {
 			throw(new \InvalidArgumentException("Please fill in a name."));
@@ -66,7 +64,7 @@ try {
 		$profile = new Profile(null, $profileName, $profileEmail, $hash, $salt, $profileActivationToken);
 		$profile->insert($pdo);
 
-		//some peudo code
+		//some pseudo code
 		//send the user a message based on accountType
 		//if(profileAccountType = "O") {
 		//$emailContent = "Thank you for signing up with DevConnect! We will be reviewing your request pending approval and email activation.";
