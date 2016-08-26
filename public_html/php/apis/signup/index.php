@@ -83,7 +83,7 @@ try {
 <p>In order to get started, please visit the following URL to activate your account. Thank you!</p>
 EOF;
 
-	$response = sendEmail($profileEmail, $profileName, $emailContent, $message);
+	$response = sendEmail($profileEmail, $profileName, $message);
 	if($response === "Email sent.") {
 		$reply->message = "Sign up was successful. Please check your email for account activation information.";
 	} else {
