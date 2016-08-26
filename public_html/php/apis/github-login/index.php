@@ -50,27 +50,37 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU Lesser General Public License for more details.  **/
 
+
+// verify the session, start if not active
+if(session_status() !== PHP_SESSION_ACTIVE) {
+	session_start();
+}
+
+// prepare an empty reply
+$reply = new stdClass();
+$reply->status = 200;
+$reply->data = null;
+
 try {
 
 	$config = readConfig("/etc/apache2/capstone-mysql/devconnect.ini");
-
 	$oauth = json_decode($config["oauth"]);
 
 // now $oauth->github->clientId and $oauth->github->clientKey exist
 
 
-	const REDIRECT_URI = 'https://bootcamp-coders.cnm.edu/~zlaudick/dev-connect/public_html/php/apis/github-login/';
-	const AUTHORIZATION_ENDPOINT = 'https://github.com/login/oauth/authorize';
-	const TOKEN_ENDPOINT = 'https://github.com/login/oauth/access_token';
+	$REDIRECT_URI = 'https://bootcamp-coders.cnm.edu/~zlaudick/dev-connect/public_html/php/apis/github-login/';
+	$AUTHORIZATION_ENDPOINT = 'https://github.com/login/oauth/authorize';
+	$TOKEN_ENDPOINT = 'https://github.com/login/oauth/access_token';
 
 	$client = new OAuth2\Client($oauth->github->clientId, $oauth->github->clientKey);
 	if(!isset($_GET['code'])) {
-		$auth_url = $client->getAuthenticationUrl(AUTHORIZATION_ENDPOINT, REDIRECT_URI, ['scope' => 'user:email']);
+		$auth_url = $client->getAuthenticationUrl($AUTHORIZATION_ENDPOINT, $REDIRECT_URI, ['scope' => 'user:email']);
 		header('Location: ' . $auth_url);
 		die('Redirect');
 	} else {
-		$params = array('code' => $_GET['code'], 'redirect_uri' => REDIRECT_URI);
-		$response = $client->getAccessToken(TOKEN_ENDPOINT, 'authorization_code', $params);
+		$params = array('code' => $_GET['code'], 'redirect_uri' => $REDIRECT_URI);
+		$response = $client->getAccessToken($TOKEN_ENDPOINT, 'authorization_code', $params);
 		parse_str($response['result'], $info);
 		$client->setAccessToken($info['access_token']);
 		var_dump($client);
