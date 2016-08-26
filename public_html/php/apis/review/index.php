@@ -30,7 +30,6 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	// sanitize input
-	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$reviewReceiveProfileId = filter_input(INPUT_GET, "reviewReceiveProfileId", FILTER_VALIDATE_INT);
 	$reviewWriteProfileId = filter_input(INPUT_GET, "reviewWriteProfileId", FILTER_VALIDATE_INT);
 	$reviewContent = filter_input(INPUT_GET, "reviewContent", FILTER_SANITIZE_STRING);
@@ -48,7 +47,7 @@ try {
 
 		// get a specific review and update reply
 		if(empty($id) === false) {
-			$review = DevConnect\Review::getReviewByReceiveProfileIdAndWriteProfileId($pdo, $id);
+			$review = DevConnect\Review::getReviewByReceiveProfileIdAndWriteProfileId($pdo, $reviewReceiveProfileId, $reviewWriteProfileId);
 			if($review !== null) {
 				$reply->data = $review;
 			}
@@ -91,7 +90,7 @@ try {
 		if($method === "PUT") {
 
 			// retrieve the review to update
-			$review = DevConnect\Review::getReviewByReceiveProfileIdAndWriteProfileId($pdo, $id);
+			$review = DevConnect\Review::getReviewByReceiveProfileIdAndWriteProfileId($pdo, $reviewReceiveProfileId, $reviewWriteProfileId);
 			if($review === null) {
 				throw(new RuntimeException("review does not exist", 404));
 			}
@@ -122,7 +121,7 @@ try {
 		verifyXsrf();
 
 		// retrieve the review to be deleted
-		$review = DevConnect\Review::getReviewByReceiveProfileIdAndWriteProfileId($pdo, $id);
+		$review = DevConnect\Review::getReviewByReceiveProfileIdAndWriteProfileId($pdo, $reviewReceiveProfileId, $reviewWriteProfileId);
 		if($review === null) {
 			throw(new RuntimeException("review does not exist", 404));
 		}
