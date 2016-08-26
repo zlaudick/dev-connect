@@ -8,20 +8,26 @@
 
 require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
 
+require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-function mail ( $domain, $senderName, $senderMail, $receiverName, $receiverMail, $subject, $message) {
 
 
-	//prepare an empty reply
-	$reply = new stdClass();
-	$reply->status = 200;
+
+function mailGunner ( $domain, $senderName, $senderMail, $receiverName, $receiverMail, $subject, $message) {
+
+
+	$config = readConfig("/etc/apache2/capstone-mysql/devconnect.ini");
+	$mailgun = json_decode($config["mailgun"]);
+
+// now $mailgun->domain and $mailgun->apiKey exist
+
 
 	// start the mailgun client
 	$client = new \Http\Adapter\Guzzle6\Client();
-	$mailgun = new \Mailgun\Mailgun($config["mailgunKey"], $client);
+	$mailGunner = new \Mailgun\Mailgun($mailgun->apiKey, $client);
 
 	// send the message
-	$result = $mailgun->sendMessage("$domain", [
+	$result = $mailGunner->sendMessage($mailgun->domain, [
 			"from" => "$senderName <$senderMail>",
 			"to" => "$receiverName <$receiverMail>",
 			"subject" => $subject,
@@ -38,14 +44,6 @@ function mail ( $domain, $senderName, $senderMail, $receiverName, $receiverMail,
 		throw(new InvalidArgumentException("Invalid HTTP method request", 405));
 	}
 
-	// update reply with exception information
-	} catch(Exception $exception) {
-		$reply->status = $exception->getCode();
-		$reply->message = $exception->getMessage();
-	} catch(TypeError $typeError) {
-		$reply->status = $typeError->getCode();
-		$reply->message = $typeError->getMessage();
-	}
 */
 
 	# Iterate through the results and echo the message IDs.
