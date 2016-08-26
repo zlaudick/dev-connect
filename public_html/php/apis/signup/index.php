@@ -41,9 +41,16 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
+
+
+		//some pseudo code
+		//send the user a message based on accountType
+
 		//check that the user fields that are required have been sent and filled out correctly
 		if(empty($requestObject->profileName) === true) {
 			throw(new \InvalidArgumentException("Please fill in a name."));
+		} elseif(empty($requestObject->profileAccountType) === true) {
+			throw(new \InvalidArgumentException("Please select an account type."));
 		} elseif(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException("Please fill in an email."));
 		} elseif(empty($requestObject->password) === true) {
@@ -53,6 +60,19 @@ try {
 		} elseif($requestObject->password !== $requestObject->confirmPassword) {
 			throw(new \InvalidArgumentException("Password does not match"));
 		}
+
+		if($requestObject->profileAccountType = "O") {
+			$emailContent = "Thank you for signing up with DevConnect! We will be reviewing your request pending approval and email activation.";
+		} elseif($requestObject->profileAccountType = "D") {
+			$emailContent = "Thank you for signing up with DevConnect! Please click the link to activate your account, thank you!";
+		}
+
+		$profileApproved = true;
+		if($requestObject->profileAccountType === "O") {
+			$profileApproved = false;
+		}
+		$profileApprovedId = null;
+		$profileApprovedDateTime = null;
 
 
 		//create a new user, password salt and hash, and activation token
@@ -64,23 +84,12 @@ try {
 		$profile = new Profile(null, $profileName, $profileEmail, $hash, $salt, $profileActivationToken);
 		$profile->insert($pdo);
 
-		//some pseudo code
-		//send the user a message based on accountType
-		//if(profileAccountType = "O") {
-		//$emailContent = "Thank you for signing up with DevConnect! We will be reviewing your request pending approval and email activation.";
-		//} elseif(profileAccountType = "D") {
-		//$emailContent = "Thank you for signing up with DevConnect! Please click the link to activate your account, thank you!";
-		//}
-
 		//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 		// FIXME: make sure URL is /public_html/activation/$activation
 		$basePath = dirname($_SERVER["SCRIPT_NAME"], 4);
 		$urlglue = $basePath . "/activation/" . $profileActivationToken;
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
-		$message = <<< EOF
-<h2>Welcome to DevConnect, thank you for signing up with us!</h2>
-<p>In order to get started, please visit the following URL to activate your account. Thank you!</p>
-EOF;
+		$message = $emailContent;
 
 		$response = sendEmail($profileEmail, $profileName, $message);
 		if($response === "Email sent.") {
