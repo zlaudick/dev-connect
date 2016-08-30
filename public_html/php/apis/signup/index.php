@@ -71,7 +71,7 @@ try {
 		if($requestObject->profileAccountType === "O") {
 			$profileApproved = false;
 		}
-		$profileApprovedId = null;
+		$profileApprovedById = null;
 		$profileApprovedDateTime = null;
 
 
@@ -81,7 +81,7 @@ try {
 		$hash = hash_pbkdf2("sha512", $password, $salt, 262144);
 
 		//create a new profile for the user
-		$profile = new Profile(null, $profileName, $profileEmail, $hash, $salt, $profileActivationToken);
+		$profile = new Profile(null, $requestObject->profileAccountType, "", $profileApproved, $profileApprovedById, null, null, $profileEmail, null, $hash, null, $profileName, $salt);
 		$profile->insert($pdo);
 
 		//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
