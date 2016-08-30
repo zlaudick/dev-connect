@@ -35,8 +35,8 @@ try {
 	$reviewContent = filter_input(INPUT_GET, "reviewContent", FILTER_SANITIZE_STRING);
 	$reviewRating = filter_input(INPUT_GET, "reviewRating", FILTER_VALIDATE_INT);
 
-	// make sure the id is valid for methods that require it
-	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id<0)) {
+	// make sure the id's are valid for methods that require it
+	if(($method === "DELETE" || $method === "PUT") && (empty($reviewReceiveProfileId) === true || $reviewReceiveProfileId<0) && empty($reviewWriteProfileId) === true || $reviewWriteProfileId<0) {
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 
@@ -46,7 +46,7 @@ try {
 		setXsrfCookie();
 
 		// get a specific review and update reply
-		if(empty($id) === false) {
+		if((empty($reviewReceiveProfileId) === false) && (empty($reviewWriteProfileId) === false)) {
 			$review = DevConnect\Review::getReviewByReceiveProfileIdAndWriteProfileId($pdo, $reviewReceiveProfileId, $reviewWriteProfileId);
 			if($review !== null) {
 				$reply->data = $review;
