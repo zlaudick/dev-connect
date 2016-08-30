@@ -79,6 +79,10 @@ try {
 			throw(new \InvalidArgumentException("No profile id", 405));
 		}
 
+		if(empty($requestObject->projectDate) === true) {
+			$requestObject->projectDate = new \DateTime();
+		}
+
 		// perform the actual put or post
 		if($method === "PUT") {
 
@@ -99,7 +103,7 @@ try {
 		} elseif($method === "POST") {
 
 			// create the new project and insert it into the database
-			$project = new Project(null, $requestObject->projectContent, $requestObject->projectDate, $requestObject->projectName, $requestObject->profileContent);
+			$project = new Project(null, $requestObject->profileId, $requestObject->projectContent, $requestObject->projectDate, $requestObject->projectName);
 			$project->insert($pdo);
 
 			// update reply
