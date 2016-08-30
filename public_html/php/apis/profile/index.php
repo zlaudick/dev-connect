@@ -34,29 +34,39 @@ try {
 	// Sanitize and trim other fields
 	$profileLocation = filter_input(INPUT_GET, "profileLocation", FILTER_VALIDATE_INT);
 	$profileName = filter_input(INPUT_GET, "profileName", FILTER_VALIDATE_INT);
+	$profileEmail = filter_input(INPUT_GET, "profileEmail", FILTER_SANITIZE_EMAIL);
 	$profileActivationToken = filter_input(INPUT_GET, "profileActivationToken", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileContent = filter_input(INPUT_GET, "profileContent", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	// Handle rest calls, while only allowing admins to access database-modifying methods
 	if($method === "GET") {
 		// Set XSRF cookie
 		setXsrfCookie("/");
+
 		// Get the profile based on the given
-		if(empty($profileName) === false) {
-			$profile = Profile::getProfileByProfileEmail($pdo, $profileName);
+		if(empty($profileEmail) === false) {
+			$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
-
-		} else {
-			if(empty($_SESSION["profile"]) === false) {
-				$reply->data = $_SESSION["profile"];
-			} else {
-				$reply->data = new stdClass();
+		} else if(empty($id) === false) {
+			$profile = Profile::getProfileByProfileId($pdo, $id);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+		}else if(empty($profileActivationToken) === false) {
+			$profile = Profile::getProfileByProfileActivationToken($pdo, $profileActivationToken);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+		} else{
+			$profile = Profile::getAllProfiles($pdo);
+			if($profile !== null) {
+				$reply->data = $profile;
 			}
 		}
 
 	} else if($method === "PUT") {
-		verifyXsrf();
+	//	verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 		// Make sure all fields are present in order to prevent database issues
@@ -73,12 +83,6 @@ try {
 		if(empty($requestObject->profileName) === true) {
 			throw(new InvalidArgumentException ("Profile name cannot be empty", 405));
 		}
-		if(empty($requestObject->profileLocation) === true)
-		// Perform the actual put
-		$profile = Profile::getProfileByProfileEmail($pdo, $id);
-		if($profile === null) {
-			throw(new RuntimeException("Profile does not exist.", 404));
-		}
 
 		// If there's a password, hash it and set it
 		if(isset($requestObject->profilePassword) === true && isset($requestObject->confirmPassword) === true) {
@@ -89,6 +93,12 @@ try {
 				$profile->setProfileHash($hash);
 			}
 		}
+
+		$profile = Profile::getProfileByProfileId($pdo,$id);
+		if($profile === null) {
+			throw(new RuntimeException("Profile does not exist.", 404));
+		}
+
 		// Put the new profile content into the profile and update
 		$profile->setProfileLocation($requestObject->profileLocation);
 		$profile->setProfileContent($requestObject->profileContent);
@@ -96,13 +106,15 @@ try {
 		$profile->update($pdo);
 		$reply->message = "Profile updated successfully.";
 	} else if($method === "DELETE") {
-		$profile = Profile::getProfileByProfileEmail($pdo, $id);
+
+		$profile = Profile::getProfileByProfileId($pdo, $id);
 		if($profile === null) {
 			throw(new RuntimeException("Profile does not exist.", 404));
 		}
 		$profile->delete($pdo);
 		$deletedObject = new stdClass();
 		$reply->message = "Profile deleted successfully.";
+
 	} else {
 		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}

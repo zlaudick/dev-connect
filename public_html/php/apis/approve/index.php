@@ -3,6 +3,7 @@ require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
 require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 use Edu\Cnm\DevConnect\Approve;
+use Edu\Cnm\DevConnect\Profile;
 /**
  * API for approve class
  *
@@ -26,15 +27,11 @@ try {
 	if($method === "POST") {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-		if(empty($requestObject->projectName) === true) {
-			throw(new \InvalidArgumentException ("Must fill in project name", 405));
-		} else {
-			$projectName = filter_var($requestObject->projectName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		}
+
 		if(empty($requestObject->profileName) === true) {
 			throw(new \InvalidArgumentException ("Must fill in valid profile name", 405));
 		} else {
-			$profileName = filter_var($requestObject->profileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$profileName = filter_var($requestObject->profileName, FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 		if(empty($requestObject->password) === true) {
 			throw(new \InvalidArgumentException ("Must input valid password", 405));
@@ -48,10 +45,19 @@ try {
 		}
 		$salt = bin2hex(random_bytes(32));
 		$hash = hash_pbkdf2("sha512", $password, $salt, 262144);
-		$userAccessLevel = 0;
-		$userActivationToken = bin2hex(random_bytes(16));
-		$user = new \User(null, null, $projectName, $profileName, $password, $userEmail);
-		$user->insert($pdo);
+		$accoutType = "d";
+		$profileApprove = true;
+		$profileActivationToken = bin2hex(random_bytes(16));
+		$approveById = 100;
+		$content = "caramel";
+		$gitHubToken = bin2hex(random_bytes(32));
+		$location = "Albuquerque";
+
+		$profile = new Profile(null, $accoutType, $profileActivationToken, $profileApprove, $approveById, null, $content, $userEmail, $gitHubToken, $hash, $location, $profileName, $salt);
+		$profile->insert($pdo);
+
+		$reply->message = "new profile successfully inserted";
+	/*
 		$messageSubject = "Dec-Connect Welcomes You! -- Account Activation";
 		//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 		// FIXME: make sure URL is /public_html/php/apis/activation/$activation
@@ -68,7 +74,7 @@ EOF;
 			$reply->message = "Sign up was successful, please check your email for activation message.";
 		} else {
 			throw(new InvalidArgumentException("Error sending email."));
-		}
+		}*/
 	} else{
 		throw (new InvalidArgumentException("invalid http request"));
 	}
