@@ -586,7 +586,11 @@ class Profile implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$formattedDate = $this->profileApprovedDateTime->format("Y-m-d H:i:s");
+		if (empty($this->profileApprovedDateTime) === true) {
+			$formattedDate = null;
+		} else {
+			$formattedDate = $this->profileApprovedDateTime->format("Y-m-d H:i:s");
+		}
 		$formattedProfileApproved = 1;
 		if ($this->profileApproved === false) {
 			$formattedProfileApproved = 0;
@@ -648,7 +652,11 @@ class Profile implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// Format values
-		$formattedDate = $this->profileApprovedDateTime->format("Y-m-d H:i:s");
+		if (empty($this->profileApprovedDateTime) === true) {
+			$formattedDate = null;
+		} else {
+			$formattedDate = $this->profileApprovedDateTime->format("Y-m-d H:i:s");
+		}
 		$formattedProfileApproved = 1;
 		if ($this->profileApproved === false) {
 			$formattedProfileApproved = 0;
@@ -806,6 +814,10 @@ class Profile implements \JsonSerializable {
 		$fields = get_object_vars($this);
 		unset($fields["profileHash"]);
 		unset($fields["profileSalt"]);
+		unset($fields["profileGithubAccessToken"]);
+		if (empty($this->profileApprovedDateTime) === false) {
+			$fields["profileApprovedDateTime"] = $this->profileApprovedDateTime->getTimestamp() * 1000;
+		}
 		return ($fields);
 	}
 }
