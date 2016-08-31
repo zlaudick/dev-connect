@@ -13,7 +13,7 @@ require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 
 
-function mailGunner ( $domain, $senderName, $senderMail, $receiverName, $receiverMail, $subject, $message) {
+function mailGunner ($senderName, $senderMail, $receiverName, $receiverMail, $subject, $message) {
 
 
 	$config = readConfig("/etc/apache2/capstone-mysql/devconnect.ini");

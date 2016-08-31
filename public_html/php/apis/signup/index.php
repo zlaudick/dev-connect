@@ -2,6 +2,7 @@
 
 require_once dirname(__DIR__, 2) . "/classes/autoload.php";
 require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
+require_once dirname(__DIR__, 2) . "/lib/mail.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\DevConnect\Profile;
@@ -87,7 +88,8 @@ try {
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
 		$message = $emailContent;
 
-		$response = sendEmail($profileEmail, $profileName, $message);
+		$response = mailGunner("DevConnect", "gsandoval49@cnm.edu", $requestObject->profileName,
+			$requestObject->profileEmail, "Thank you for joining DevConnect! :)", $message);
 		if($response === "Email sent.") {
 			$reply->message = "Sign up was successful. Please check your email for account activation information.";
 		} else {
