@@ -7,7 +7,7 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 
 /**
- * api for the Review class
+ * api for the Tag class
  *
  * @author Zac Laudick <zlaudick@cnm.edu>
  **/
