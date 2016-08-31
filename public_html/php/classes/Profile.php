@@ -97,7 +97,8 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 **/
-	public function __construct(int $newProfileId = null, string $newProfileAccountType, string $newProfileActivationToken, bool $newProfileApproved, int $newProfileApprovedById, $newProfileApprovedDateTime = null, string $newProfileContent, string $newProfileEmail, string $newProfileGithubAccessToken, string $newProfileHash, string $newProfileLocation, string $newProfileName, string $newProfileSalt) {
+	public function __construct(int $newProfileId = null, string $newProfileAccountType, string $newProfileActivationToken = null, bool $newProfileApproved = null, int $newProfileApprovedById = null, $newProfileApprovedDateTime = null, string
+	$newProfileContent, string $newProfileEmail, string $newProfileGithubAccessToken = null, string $newProfileHash = null, string $newProfileLocation, string $newProfileName, string $newProfileSalt = null) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileAccountType($newProfileAccountType);
@@ -238,7 +239,11 @@ class Profile implements \JsonSerializable {
 	 * @param bool $newProfileApproved new value of profile approved
 	 * @throws \TypeError if $newProfileApproved is not a boolean
 	 **/
-	public function setProfileApproved(bool $newProfileApproved) {
+	public function setProfileApproved(bool $newProfileApproved = null) {
+		if ($newProfileApproved === null) {
+			$this->profileApproved = null;
+			return;
+		}
 		// verify the profile approved value is boolean
 		if(is_bool($newProfileApproved) === false) {
 			throw(new \TypeError("this is not a boolean value"));
@@ -263,7 +268,11 @@ class Profile implements \JsonSerializable {
 	 * @throws \RangeException if $newProfileApprovedById is not positive
 	 * @throws \TypeError if $newProfileApprovedById is not an integer
 	 **/
-	public function setProfileApprovedById(int $newProfileApprovedById) {
+	public function setProfileApprovedById(int $newProfileApprovedById = null) {
+		if ($newProfileApprovedById === null) {
+			$this->profileApprovedById = null;
+			return;
+		}
 		// verify the profile approved by id is positive
 		if($newProfileApprovedById <= 0) {
 			throw(new \RangeException("profile approved by id is not positive"));
@@ -291,7 +300,7 @@ class Profile implements \JsonSerializable {
 	public function setProfileApprovedDateTime($newProfileApprovedDateTime = null) {
 		// base case: if the date is null, use the current date and time
 		if($newProfileApprovedDateTime === null) {
-			$this->profileApprovedDateTime = new \DateTime();
+			$this->profileApprovedDateTime = null;
 			return;
 		}
 
@@ -388,7 +397,11 @@ class Profile implements \JsonSerializable {
 	 * @throws \RangeException if $newProfileGithubAccessToken is not 64 characters
 	 * @throws \TypeError if $newProfileGithubAccessToken is not a string
 	 **/
-	public function setProfileGithubAccessToken(string $newProfileGithubAccessToken) {
+	public function setProfileGithubAccessToken(string $newProfileGithubAccessToken = null) {
+		if ($newProfileGithubAccessToken === null) {
+			$this->profileGithubAccessToken = null;
+			return;
+		}
 		// verify the github access token is secure
 		$newProfileGithubAccessToken = trim($newProfileGithubAccessToken);
 		$newProfileGithubAccessToken = filter_var($newProfileGithubAccessToken, FILTER_SANITIZE_STRING);
@@ -421,7 +434,11 @@ class Profile implements \JsonSerializable {
 	 * @throws \RangeException if $newProfileHash is !== 128 characters
 	 * @throws \TypeError if $newProfileHash is not a string
 	 **/
-	public function setProfileHash(string $newProfileHash) {
+	public function setProfileHash(string $newProfileHash = null) {
+		if ($newProfileHash === null) {
+			$this->profileHash = null;
+			return;
+		}
 		// verify the hash is secure
 		if(empty($newProfileHash)) {
 			throw(new \InvalidArgumentException("hash is empty or insecure"));
@@ -523,7 +540,11 @@ class Profile implements \JsonSerializable {
 	 * @throws \RangeException if $newProfileName is !== 64 characters
 	 * @throws \TypeError if $newProfileName is not a string
 	 **/
-	public function setProfileSalt(string $newProfileSalt) {
+	public function setProfileSalt(string $newProfileSalt = null) {
+		if ($newProfileSalt === null) {
+			$this->profileSalt = null;
+			return;
+		}
 		// verify the profile salt is secure
 		if(empty($newProfileSalt) === true) {
 			throw(new \InvalidArgumentException("profile salt is empty or insecure"));

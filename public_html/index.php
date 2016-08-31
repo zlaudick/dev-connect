@@ -3,17 +3,13 @@
 $CURRENT_DIR = __DIR__;
 
 /*load head-utils.php*/
-require_once("php/partials/head-utils.php");
-?>
+require_once("php/partials/head-utils.php");?>
 
-</head>
 <body class="sfooter">
 	<div class="sfooter-content">
+
 		<!-- begin header and nav -->
-		<?php
-		/*load header.php*/
-		require_once("php/partials/header.php");
-		?>
+		<?php require_once("php/partials/header.php"); ?>
 
 
 		<!-- welcome section -->

@@ -14,6 +14,23 @@ body {
 	color: #000;
 }
 
+a,
+a:link,
+a:visited,
+a:hover,
+a:active,
+button,
+button:link,
+button:visited,
+button:hover,
+button:active {
+	-webkit-transition: all 250ms ease-in-out;
+	-moz-transition: all 250ms ease-in-out;
+	-ms-transition: all 250ms ease-in-out;
+	-o-transition: all 250ms ease-in-out;
+	transition: all 250ms ease-in-out;
+}
+
 main {
 	padding-top: 50px;
 }
@@ -37,8 +54,10 @@ main {
 
 /* override Bootstrap default .navbar-inverse styles */
 .navbar-inverse {
-	background-image: none;
-	background-color: #2F394A;
+	background: none;
+	border: none;
+	box-shadow: none;
+	color: black;
 }
 
 /**********************************************
@@ -124,7 +143,7 @@ img[alt="fillmurray.com"] {
 .well:hover,
 .well:active {
 	background-color: darkblue;
-	color deepskyblue;
+	color: deepskyblue;
 }
 
 a:hover,
