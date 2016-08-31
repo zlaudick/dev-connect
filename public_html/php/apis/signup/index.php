@@ -28,12 +28,6 @@ try {
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
-	//sanitize input
-	$profileName = filter_input(INPUT_POST, "profileName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$profileEmail = filter_input(INPUT_POST, "profileEmail", FILTER_SANITIZE_EMAIL, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$confirmPassword = filter_input(INPUT_POST, "confirmPassword", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-
 	//perform the actual post
 	if($method === "POST") {
 
@@ -61,9 +55,9 @@ try {
 			throw(new \InvalidArgumentException("Password does not match"));
 		}
 
-		if($requestObject->profileAccountType = "O") {
+		if($requestObject->profileAccountType === "O") {
 			$emailContent = "Thank you for signing up with DevConnect! We will be reviewing your request pending approval and email activation.";
-		} elseif($requestObject->profileAccountType = "D") {
+		} elseif($requestObject->profileAccountType === "D") {
 			$emailContent = "Thank you for signing up with DevConnect! Please click the link to activate your account, thank you!";
 		}
 
@@ -78,11 +72,12 @@ try {
 		//create a new user, password salt and hash, and activation token
 		$profileActivationToken = bin2hex(random_bytes(16));
 		$salt = bin2hex(random_bytes(32));
-		$hash = hash_pbkdf2("sha512", $password, $salt, 262144);
+		$hash = hash_pbkdf2("sha512", $requestObject->password, $salt, 262144);
+
 
 		//create a new profile for the user
-		$profile = new Profile(null, $requestObject->profileAccountType, null, $profileApproved, $profileApprovedById, $profileApprovedDateTime, "I'm too lazy to create a profile! XD", $profileEmail, null, $hash, "I don't know where I 
-		am!", $profileName, $salt);
+		$profile = new Profile(null, $requestObject->profileAccountType, null, $profileApproved, $profileApprovedById, $profileApprovedDateTime, "I'm too lazy to create a profile! XD", $requestObject->profileEmail, null, $hash, "I don't
+		 know where I am!", $requestObject->profileName, $salt);
 		$profile->insert($pdo);
 
 		//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.

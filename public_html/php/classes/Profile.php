@@ -208,7 +208,11 @@ class Profile implements \JsonSerializable {
 	 * @throws \RangeException if $newProfileActivationToken is !== 32 characters
 	 * @throws \TypeError if $newProfileActivationToken is not a string
 	 **/
-	public function setProfileActivationToken(string $newProfileActivationToken) {
+	public function setProfileActivationToken(string $newProfileActivationToken = null) {
+		if ($newProfileActivationToken === null) {
+			$this->profileActivationToken = null;
+			return;
+		}
 		// verify the activation token is secure
 		$newProfileActivationToken = trim($newProfileActivationToken);
 		$newProfileActivationToken = filter_var($newProfileActivationToken, FILTER_SANITIZE_STRING);
