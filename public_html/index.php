@@ -3,12 +3,12 @@
 $CURRENT_DIR = __DIR__;
 
 /*load head-utils.php*/
-require_once("php/partials/head-utils.php");?>
+require_once("php/partials/head-utils.php"); ?>
 
 <body class="sfooter">
 	<div class="sfooter-content">
 
-		<!-- begin header and nav -->
+		<!-- Begin header and Nav -->
 		<?php require_once("php/partials/header.php"); ?>
 
 
@@ -20,20 +20,15 @@ require_once("php/partials/head-utils.php");?>
 					<p>Sharing your dream for a better future with the world</p>
 				</div>
 			</div>
-		</section> <!--welcome-->
+		</section>
 
 
+		<!-- End sfooter-content-->
+	</div>
 
-
-		</div><!--container-->
-		<!--</section>thumbnails-->
-	</div><!--/.sfooter-content-->
 
 	<!--begin footer -->
-	<?php
-	/*load footer.php*/
-	require_once("php/partials/footer.php");
-	?>
+	<?php require_once("php/partials/footer.php"); ?>
 
 </body>
 </html>
