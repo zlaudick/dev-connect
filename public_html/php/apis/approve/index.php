@@ -45,7 +45,7 @@ try {
 		}
 		$salt = bin2hex(random_bytes(32));
 		$hash = hash_pbkdf2("sha512", $password, $salt, 262144);
-		$accoutType = "d";
+		$accountType = "d";
 		$profileApprove = true;
 		$profileActivationToken = bin2hex(random_bytes(16));
 		$approveById = 100;
@@ -53,7 +53,7 @@ try {
 		$gitHubToken = bin2hex(random_bytes(32));
 		$location = "Albuquerque";
 
-		$profile = new Profile(null, $accoutType, $profileActivationToken, $profileApprove, $approveById, null, $content, $userEmail, $gitHubToken, $hash, $location, $profileName, $salt);
+		$profile = new Profile(null, $accountType, $profileActivationToken, $profileApprove, $approveById, null, $content, $userEmail, $gitHubToken, $hash, $location, $profileName, $salt);
 		$profile->insert($pdo);
 
 		$reply->message = "new profile successfully inserted";

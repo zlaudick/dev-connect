@@ -102,7 +102,7 @@ try {
 		// Put the new profile content into the profile and update
 		$profile->setProfileLocation($requestObject->profileLocation);
 		$profile->setProfileContent($requestObject->profileContent);
-		$profile->setprofileName($requestObject->profileName);
+		$profile->setProfileName($requestObject->profileName);
 		$profile->update($pdo);
 		$reply->message = "Profile updated successfully.";
 	} else if($method === "DELETE") {
