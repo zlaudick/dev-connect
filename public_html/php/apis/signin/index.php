@@ -49,6 +49,10 @@ try {
 			$password = filter_input($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
+		if(($profileAccountType="D") === true && ($profileGithubActivationToken = true)){
+			//execute some github authentication stuffs here
+		}
+
 		//create the user
 		$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
 
