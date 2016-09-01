@@ -107,11 +107,6 @@ main {
 	color: #fff;
 }
 
-/* add margin-bottom to bill murray img, to add space above stacked paragraph on mobile */
-img[alt="fillmurray.com"] {
-	margin-bottom: 2rem;
-}
-
 /**********************************************
 * Thumbnails Section Styles
 /*********************************************/
