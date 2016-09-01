@@ -90,11 +90,7 @@ try {
 
 		$response = mailGunner("DevConnect", "gsandoval49@cnm.edu", $requestObject->profileName,
 			$requestObject->profileEmail, "Thank you for joining DevConnect! :)", $message);
-		if($response === "Email sent.") {
 			$reply->message = "Sign up was successful. Please check your email for account activation information.";
-		} else {
-			throw(new \InvalidArgumentException("Error sending email."));
-		}
 	} else {
 		throw(new \InvalidArgumentException("Invalid HTTP request."));
 	}

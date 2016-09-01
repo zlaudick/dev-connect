@@ -34,30 +34,17 @@ function mailGunner ($senderName, $senderMail, $receiverName, $receiverMail, $su
 			"text" => $message
 		]
 	);
-/*
-	// inform the user of the result
+
 	if($result->http_response_code !== 200) {
 		throw(new RuntimeException("unable to send email", $result->http_response_code));
 	}
-	$reply->message = "Thank you for reaching out. I'll be in contact shortly!";
-	}  else {
-		throw(new InvalidArgumentException("Invalid HTTP method request", 405));
+	//split the result before the at symbol
+	$atIndex = strpos($result->http_response_body->id, "@");
+	if($atIndex === false) {
+		throw (new RangeException("unable to send email", 503));
 	}
+	$mailgunMessageId = substr($result->http_response_body->id, 1, $atIndex - 1);
 
-*/
-
-	# Iterate through the results and echo the message IDs.
-	$logItems = $result->http_response_body->items;
-	foreach($logItems as $logItem){
-		$mailMessageId = $logItem->message_id;
-	}
-
-
-   return $mailMessageId;
+   return $mailgunMessageId;
    //https://github.com/mailgun/mailgun-php
-
 }
-
-
-
-?>
