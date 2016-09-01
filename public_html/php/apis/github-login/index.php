@@ -95,15 +95,19 @@ try {
 		$response = $client->fetch('https://api.github.com/user', [], 'GET', ['User-Agent' => 'Talcott Auto Deleter']);
 //		var_dump($response);
 		$profileName = $response["result"]["login"];
+		var_dump($profileName);
 		$response = $client->fetch('https://api.github.com/user/emails', [], 'GET', ['User-Agent' => 'Talcott Auto Deleter']);
 //		var_dump($response);
 		foreach($response['result'] as $result) {
 			if($result['primary'] === true) {
 				$profileEmail = $result['email'];
+				break;
 			}
 		}
+		var_dump($profileEmail);
 		// get profile by email to see if it exists, if it does not then create a new one
 		$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
+		var_dump($profile);
 		if(empty($profile) === true) {
 			// create a new profile
 			$profile = new Profile(null, "D", null, null, null, null, null, $profileEmail, $profileGithubAccessToken, null, null, $profileName, null);
