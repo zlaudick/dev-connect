@@ -49,9 +49,9 @@ try {
 			$password = filter_input($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
-		if(($profileAccountType="D") === true && ($profileGithubActivationToken = true)){
+		//if(($profileAccountType="D") === true && ($profileGithubActivationToken = true)){
 			//execute some github authentication stuffs here
-		}
+		//}
 
 		//create the user
 		$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
@@ -61,15 +61,15 @@ try {
 		}
 
 		//hash for the password
-		$hash =  hash_pbkdf2("sha512", $password, $profile->getUserSalt(), 262144);
+		$hash =  hash_pbkdf2("sha512", $password, $requestObject->getProfileSalt(), 262144);
 
 		//verify the hash is correct
-		if($hash !== $profile->getProfileHash()) {
+		if($hash !== $requestObject->getProfileHash()) {
 			throw (new \InvalidArgumentException("Email or password is incorrect"));
 		}
 
 		//grab profile from database and put into a session
-		$profile = Profile::getProfileByProfileId($pdo, $profile->getProfileId());
+		$profile = Profile::getProfileByProfileId($pdo, $requestObject->getProfileId());
 		$_SESSION["profile"] = $profile;
 
 		$reply->message = "Log In Success!";
