@@ -1,3 +1,3 @@
-/**
- * Created by STEMulus on 9/1/2016.
- */
+app.controller('projectsController', function($scope) {
+
+});
