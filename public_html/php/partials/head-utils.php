@@ -56,6 +56,13 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.min.js"></script>
 
 		<!-- Load Our Angular Files -->
+		<script src="angular/dev-connect.js"></script>
+		<script src="angular/route-config.js"></script>
+		<script src="angular/directives/bootstrap-breakpoint.js"></script>
+		<script src="angular/controllers/home-controller.js"></script>
+		<script src="angular/controllers/nav-controller.js"></script>
+		<script src="angular/controllers/profile-controller.js"></script>
+		<script src="angular/controllers/signup-controller.js"></script>
 
 		<title>DevConnect</title>
 	</head>
