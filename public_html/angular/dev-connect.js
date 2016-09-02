@@ -1,3 +1,1 @@
-/**
- * Created by STEMulus on 9/1/2016.
- */
+var app = angular.module("DevConnect", ["ngRoute", "ui.bootstrap", "ngMessages","ngAnimate"]);
