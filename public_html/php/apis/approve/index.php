@@ -43,22 +43,24 @@ try {
 		} else {
 			$userEmail = filter_var($requestObject->userEmail, FILTER_SANITIZE_EMAIL);
 		}
-		$salt = bin2hex(random_bytes(32));
-		$hash = hash_pbkdf2("sha512", $password, $salt, 262144);
-		$accountType = "d";
-		$profileApprove = true;
-		$profileActivationToken = bin2hex(random_bytes(16));
-		$approveById = 100;
-		$content = "caramel";
-		$gitHubToken = bin2hex(random_bytes(32));
-		$location = "Albuquerque";
-
-		$profile = new Profile(null, $accountType, $profileActivationToken, $profileApprove, $approveById, null, $content, $userEmail, $gitHubToken, $hash, $location, $profileName, $salt);
-		$profile->insert($pdo);
+		if(empty($requestObject->profileApprove) === true) {
+			throw(new \InvalidArgumentException ("Must enter a valid profile approve", 405));
+		} else {
+			$profileApproved = true;
+		}
+		if(empty($requestObject->profileApprovedById) === true) {
+			throw(new \InvalidArgumentException ("Must enter a valid profile Id", 405));
+		} else {
+			$profileApprovedById = $this->id;
+		}
+		if(empty($requestObject->profileApprovedDateTime) === true) {
+			$requestObject->profileApprovedDateTime = new \DateTime();
+		} else {
+			$userEmail = filter_var($requestObject->userEmail, FILTER_SANITIZE_EMAIL);
+		}
 
 		$reply->message = "new profile successfully inserted";
-	/*
-		$messageSubject = "Dec-Connect Welcomes You! -- Account Activation";
+		$messageSubject = "Dev-Connect Welcomes You! -- Account Activation";
 		//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 		// FIXME: make sure URL is /public_html/php/apis/activation/$activation
 		$basePath = dirname($_SERVER["SCRIPT_NAME"], 2);
@@ -74,7 +76,7 @@ EOF;
 			$reply->message = "Sign up was successful, please check your email for activation message.";
 		} else {
 			throw(new InvalidArgumentException("Error sending email."));
-		}*/
+		}
 	} else{
 		throw (new InvalidArgumentException("invalid http request"));
 	}

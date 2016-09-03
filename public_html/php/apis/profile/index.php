@@ -66,7 +66,7 @@ try {
 		}
 
 	} else if($method === "PUT") {
-	//	verifyXsrf();
+	   verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 		// Make sure all fields are present in order to prevent database issues
