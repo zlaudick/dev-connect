@@ -38,7 +38,7 @@ try {
 		} else {
 			$password = filter_var($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
-		if(empty($requestObject->userEmail) === true) {
+		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException ("Must enter a valid email address", 405));
 		} else {
 			$userEmail = filter_var($requestObject->userEmail, FILTER_SANITIZE_EMAIL);

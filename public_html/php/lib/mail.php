@@ -31,7 +31,8 @@ function mailGunner ($senderName, $senderMail, $receiverName, $receiverMail, $su
 			"from" => "$senderName <$senderMail>",
 			"to" => "$receiverName <$receiverMail>",
 			"subject" => $subject,
-			"text" => $message
+			"html" => $message,
+			"text" => html_entity_decode($message)
 		]
 	);
 

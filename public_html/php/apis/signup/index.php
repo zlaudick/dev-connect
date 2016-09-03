@@ -84,9 +84,9 @@ try {
 		//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 		// FIXME: make sure URL is /public_html/activation/$activation
 		$basePath = dirname($_SERVER["SCRIPT_NAME"], 4);
-		$urlglue = $basePath . "/activation/" . $profileActivationToken;
+		$urlglue = $basePath . "/activation/?profileActivationToken=" . $profileActivationToken;
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
-		$message = $emailContent;
+		$message = $emailContent . "Y U NO CLICK LINK: <a href=\"$confirmLink\">Click me! :)<a>";
 
 		$response = mailGunner("DevConnect", "gsandoval49@cnm.edu", $requestObject->profileName,
 			$requestObject->profileEmail, "Thank you for joining DevConnect! :)", $message);
