@@ -4,26 +4,31 @@ app.config(function($routeProvider, $locationProvider) {
 
 	// route for the home page
 		.when('/', {
-			controller  : 'homeController',
-			templateUrl : 'angular/views/home.php'
+			controller: 'homeController',
+			templateUrl: 'angular/views/home.php'
 		})
 
 		// route for the projects page
 		.when('/profile', {
-			controller  : 'profileController',
-			templateUrl : 'angular/views/profile.php'
+			controller: 'profileController',
+			templateUrl: 'angular/views/profile.php'
+		})
+
+		.when('/activation/:profileActivation', {
+			controller: 'activationController',
+			templateUrl: 'angular/views/activation.php'
 		})
 
 		// route for the sign up page
 		.when('/sign-up', {
-			controller  : 'signupController',
-			templateUrl : 'angular/views/sign-up.php'
+			controller: 'signupController',
+			templateUrl: 'angular/views/sign-up.php'
 		})
 
 		// route for the projects page
 		.when('/projects', {
-			controller  : 'projectsController',
-			templateUrl : 'angular/views/projects.php'
+			controller: 'projectsController',
+			templateUrl: 'angular/views/projects.php'
 		})
 
 		// otherwise redirect to home

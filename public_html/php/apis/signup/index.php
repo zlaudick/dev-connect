@@ -57,9 +57,9 @@ try {
 		}
 
 		if($requestObject->profileAccountType === "O") {
-			$emailContent = "Thank you for signing up with DevConnect! We will be reviewing your request pending approval and email activation.";
+			$emailContent = "<p>Thank you for signing up with DevConnect! We will be reviewing your request pending approval and email activation.</p>" . PHP_EOL;
 		} elseif($requestObject->profileAccountType === "D") {
-			$emailContent = "Thank you for signing up with DevConnect! Please click the link to activate your account, thank you!";
+			$emailContent = "<p>Thank you for signing up with DevConnect! Please click the link to activate your account, thank you!</p>" . PHP_EOL;
 		}
 
 		$profileApproved = true;
@@ -84,9 +84,9 @@ try {
 		//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 		// FIXME: make sure URL is /public_html/activation/$activation
 		$basePath = dirname($_SERVER["SCRIPT_NAME"], 4);
-		$urlglue = $basePath . "/activation/?profileActivationToken=" . $profileActivationToken;
+		$urlglue = $basePath . "/activation/$profileActivationToken";
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
-		$message = $emailContent . "Y U NO CLICK LINK: <a href=\"$confirmLink\">Click me! :)<a>";
+		$message = $emailContent . "<p>Y U NO CLICK LINK: <a href=\"$confirmLink\">$confirmLink<a></p>";
 
 		$response = mailGunner("DevConnect", "gsandoval49@cnm.edu", $requestObject->profileName,
 			$requestObject->profileEmail, "Thank you for joining DevConnect! :)", $message);
