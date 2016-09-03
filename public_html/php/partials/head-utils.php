@@ -62,6 +62,7 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 		<script src="angular/dev-connect.js"></script>
 		<script src="angular/route-config.js"></script>
 		<script src="angular/directives/bootstrap-breakpoint.js"></script>
+		<script src="angular/controllers/activation-controller.js"></script>
 		<script src="angular/controllers/home-controller.js"></script>
 		<script src="angular/controllers/nav-controller.js"></script>
 		<script src="angular/controllers/profile-controller.js"></script>
