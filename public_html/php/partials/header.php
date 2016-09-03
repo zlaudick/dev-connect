@@ -38,8 +38,6 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 					<li><a href="sign-up">Sign Up</a></li>
 					<li><a href="profile">Profile</a></li>
 					<li><a href="projects">Projects</a></li>
-
-					<li><a href="https://github.com/rlewis2892/meow-app" target="_blank">GitHub</a></li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->

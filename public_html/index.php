@@ -12,16 +12,7 @@ require_once("php/partials/head-utils.php"); ?>
 		<?php require_once("php/partials/header.php"); ?>
 
 
-		<!-- welcome section -->
-		<section id="welcome">
-			<div class="container">
 
-				<!-- angular view directive -->
-				 <div ng-view></div>
-
-
-			</div>
-		</section>
 
 
 		<!-- End sfooter-content-->
