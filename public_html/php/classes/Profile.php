@@ -414,8 +414,8 @@ class Profile implements \JsonSerializable {
 		}
 
 		// verify the github access token will fit in the database
-		if(strlen($newProfileGithubAccessToken) !== 64) {
-			throw(new \RangeException("github access token is not 64 characters"));
+		if(strlen($newProfileGithubAccessToken) > 64) {
+			throw(new \RangeException("github access token is too large"));
 		}
 
 		// convert and store the github access token

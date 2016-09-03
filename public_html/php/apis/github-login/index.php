@@ -1,10 +1,10 @@
 <?php
-namespace Edu\Cnm\DevConnect;
-
 require_once(dirname(__DIR__, 2) . "/classes/autoload.php");
 require_once(dirname(__DIR__, 2) . "/lib/xsrf.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 require_once(dirname(__DIR__, 4) . "/vendor/autoload.php");
+
+use Edu\Cnm\DevConnect\Profile;
 
 /**  ___________________________________
  *
@@ -90,28 +90,25 @@ try {
 		$response = $client->getAccessToken($TOKEN_ENDPOINT, 'authorization_code', $params);
 		parse_str($response['result'], $info);
 		$client->setAccessToken($info['access_token']);
-		$profileGithubAccessToken = $response;
-//		var_dump($client);
+		$profileGithubAccessToken = $info['access_token'];
 		$response = $client->fetch('https://api.github.com/user', [], 'GET', ['User-Agent' => 'Talcott Auto Deleter']);
-//		var_dump($response);
 		$profileName = $response["result"]["login"];
-		var_dump($profileName);
 		$response = $client->fetch('https://api.github.com/user/emails', [], 'GET', ['User-Agent' => 'Talcott Auto Deleter']);
-//		var_dump($response);
 		foreach($response['result'] as $result) {
 			if($result['primary'] === true) {
 				$profileEmail = $result['email'];
 				break;
 			}
 		}
-		var_dump($profileEmail);
 		// get profile by email to see if it exists, if it does not then create a new one
 		$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
-		var_dump($profile);
 		if(empty($profile) === true) {
 			// create a new profile
-			$profile = new Profile(null, "D", null, null, null, null, null, $profileEmail, $profileGithubAccessToken, null, null, $profileName, null);
+			$profile = new Profile(null, "D", null, true, null, null, "Devon is truly an empty array []", $profileEmail, $profileGithubAccessToken, null, "Burque: the land of gsandoval", $profileName, null);
 			$profile->insert($pdo);
+			$reply->message = "Welcome to dev connect and stuff";
+		} else {
+			$reply->message = "Welcome back to dev connect - we have a gsandoval!";
 		}
 
 		header("Content-type: application/json");
