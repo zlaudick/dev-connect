@@ -104,12 +104,16 @@ try {
 		$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
 		if(empty($profile) === true) {
 			// create a new profile
-			$profile = new Profile(null, "D", null, true, null, null, "Devon is truly an empty array []", $profileEmail, $profileGithubAccessToken, null, "Burque: the land of gsandoval", $profileName, null);
+			$profile = new Profile(null, "D", null, true, null, null, "Please update your profile content!", $profileEmail, $profileGithubAccessToken, null, "Please update your location!", $profileName, null);
 			$profile->insert($pdo);
-			$reply->message = "Welcome to dev connect and stuff";
+			$reply->message = "Welcome to DevConnect!";
 		} else {
-			$reply->message = "Welcome back to dev connect - we have a gsandoval!";
+			$reply->message = "Welcome back to DevConnect!";
 		}
+
+		//grab profile from database and put into a session
+		$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
+		$_SESSION["profile"] = $profile;
 
 		header("Content-type: application/json");
 		if($reply->data === null) {
