@@ -111,6 +111,10 @@ try {
 			$reply->message = "Welcome back to DevConnect!";
 		}
 
+		//grab profile from database and put into a session
+		$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
+		$_SESSION["profile"] = $profile;
+
 		header("Content-type: application/json");
 		if($reply->data === null) {
 			unset($reply->data);
