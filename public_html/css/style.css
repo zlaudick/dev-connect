@@ -1,7 +1,8 @@
 /**********************************************
-* Bootstrap Practice Exercise
-* Custom CSS for Tier II Solution
-* @author: rlewis37@cnm.edu
+* Bootstrap For DevConnect
+* Custom CSS For Final Project
+* @authors: dbeetzz@gmail.com & gsandoval16@cnm.edu
+* Credit for some code borrowed from @rlewis37@cnm.edu
 /*********************************************/
 
 /**********************************************
@@ -32,7 +33,7 @@ button:active {
 }
 
 main {
-	padding-top: 50px;
+	padding-top: 70px;
 }
 
 /**********************************************
