@@ -1,7 +1,4 @@
 <?php
-/*grab current directory*/
-$CURRENT_DIR = __DIR__;
-
 /*load head-utils.php*/
 require_once("php/partials/head-utils.php"); ?>
 

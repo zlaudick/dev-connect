@@ -22,7 +22,7 @@
 			<div class="collapse navbar-collapse" uib-collapse="navCollapsed">
 
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="index.php">Home</a></li>
+					<li><a href="index">Home</a></li>
 					<li><a href="sign-up">Sign Up</a></li>
 					<li><a href="profile">Profile</a></li>
 					<li><a href="projects">Projects</a></li>

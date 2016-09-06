@@ -50,6 +50,7 @@
 		<script src="angular/controllers/home-controller.js"></script>
 		<script src="angular/controllers/nav-controller.js"></script>
 		<script src="angular/controllers/profile-controller.js"></script>
+		<script src="angular/controllers/projects-controller.js"></script>
 		<script src="angular/controllers/signup-controller.js"></script>
 
 		<title>DevConnect</title>
