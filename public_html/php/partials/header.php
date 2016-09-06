@@ -48,7 +48,7 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 							aria-expanded="false">Profile <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Sign In</a></li>
-							<li><a href="#">My Profile</a></li>
+							<li><a href="profile">My Profile</a></li>
 							<li><a href="#">Messages</a></li>
 						</ul>
 					</li>
