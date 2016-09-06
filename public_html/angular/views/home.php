@@ -42,7 +42,7 @@
 
 <!-- Developers Wanted & Example Projects-->
 <div class="row">
-	<div class="col-md-4 col-xs-12">
+	<div class="col-md-5 col-xs-12">
 		<div class="well">
 			<h3 class="text-center">Are YOU a Developer with a cause?</h3>
 			<div class="well">
@@ -54,6 +54,16 @@
 				<p class="text-center">Volunteer work looks great on a resume, and this is the best place you can get it.
 					You don't have to be a senior developer either, mid level or beginners are highly encouraged to join.</p>
 				<p class="text-center">Please <a href="sign-up.php">Sign Up Today</a> and we thank you.</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-7 col-xs-12">
+		<div class="well">
+			<h3 class="text-center">Featured Projects</h3>
+			<div class="well">
+				<p>insert project here</p>
+				<p>insert project here</p>
+				<p>insert project here</p>
 			</div>
 		</div>
 	</div>
