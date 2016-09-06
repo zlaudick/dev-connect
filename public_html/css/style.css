@@ -44,6 +44,14 @@ main {
 	padding-top: 10rem;
 }
 
+@media only screen and (min-width: 768px) {
+	.jumbotron {
+		min-height: 75vh;
+		display: flex;
+		align-items: center;
+	}
+}
+
 /**********************************************
 * Header and Navbar Styles
 /*********************************************/
