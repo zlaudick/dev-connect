@@ -69,14 +69,22 @@ main {
 }
 
 .navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-nav>li>a:hover {
-	color: #0053ff;
+	color: deepskyblue;
 	background-color: transparent;
 }
 
 .navbar-inverse .navbar-nav>li>a {
-	color: deepskyblue;
+	color: #0053ff;
 }
 
+.navbar-inverse .navbar-brand:focus, .navbar-inverse .navbar-brand:hover {
+	color: deepskyblue;
+	background-color: transparent;
+}
+
+.navbar-default .navbar-brand {
+	color: #0053ff;
+}
 /**********************************************
 * Welcome Section Styles
 /*********************************************/
