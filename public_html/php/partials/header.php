@@ -28,7 +28,14 @@
 							<li><a href="#">Non Profit Organization</a></li>
 						</ul>
 					</li>
-					<li><a href="profile">Profile</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Sign In</a></li>
+							<li><a href="#">My Profile</a></li>
+							<li><a href="#">Messages</a></li>
+						</ul>
+					</li>
 					<li><a href="projects">Projects</a></li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
