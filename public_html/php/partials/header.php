@@ -35,7 +35,6 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 			<div class="collapse navbar-collapse" uib-collapse="navCollapsed">
 
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="index">Home</a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false">Sign Up <span class="caret"></span></a>
@@ -44,7 +43,15 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 							<li><a href="#">Developer</a></li>
 						</ul>
 					</li>
-					<li><a href="profile">Profile</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">Profile <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Sign In</a></li>
+							<li><a href="#">My Profile</a></li>
+							<li><a href="#">Messages</a></li>
+						</ul>
+					</li>
 					<li><a href="projects">Projects</a></li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
