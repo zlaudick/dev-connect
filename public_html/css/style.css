@@ -132,14 +132,8 @@ main {
 	border-radius: 1px;
 	border-color: deepskyblue;
 	color: deepskyblue;
-	transition: all 0.2s;
 }
 
-.well:hover,
-.well:active {
-	background-color: darkblue;
-	color: deepskyblue;
-}
 
 a:hover,
 a:active {
@@ -156,7 +150,6 @@ a:active {
 }
 
 .text-justify {
-
 	color: deepskyblue;
 }
 /**********************************************

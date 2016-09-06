@@ -4,9 +4,8 @@
 
 	<!-- bootstrap breakpoint directive to control collapse behavior -->
 	<bootstrap-breakpoint></bootstrap-breakpoint>
-
-	<nav class="navbar navbar-default navbar-inverse">
-		<div class="container-fluid">
+	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" aria-expanded="false" ng-click="navCollapsed = !navCollapsed">
@@ -28,6 +27,6 @@
 					<li><a href="projects">Projects</a></li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
-		</div><!-- /.container-fluid -->
+		</div>
 	</nav>
 </header>
