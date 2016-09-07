@@ -38,9 +38,6 @@ try {
 
 
 
-		//some pseudo code
-		//send the user a message based on accountType
-
 		//check that the user fields that are required have been sent and filled out correctly
 		if(empty($requestObject->profileName) === true) {
 			throw(new \InvalidArgumentException("Please fill in a name."));
@@ -55,6 +52,12 @@ try {
 		} elseif($requestObject->password !== $requestObject->confirmPassword) {
 			throw(new \InvalidArgumentException("Password does not match"));
 		}
+
+		//sanitize and trim the inputs
+		$profileName = filter_input(INPUT_POST, "profileName", FILTER_SANITIZE_STRING);
+		$profileAccountType = filter_input(INPUT_POST, "profileAccountType", FILTER_SANITIZE_STRING);
+		$profileEmail = filter_input(INPUT_POST, "profileEmail", FILTER_SANITIZE_STRING);
+		$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
 
 		if($requestObject->profileAccountType === "O") {
 			$emailContent = "<p>Thank you for signing up with DevConnect! We will be reviewing your request pending approval and email activation.</p>" . PHP_EOL;
