@@ -176,16 +176,10 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if $newProfileAccountType is not a string
 	 **/
 	public function setProfileAccountType(string $newProfileAccountType) {
-		// verify the account type is secure
-		$newProfileAccountType = trim($newProfileAccountType);
-		$newProfileAccountType = filter_var($newProfileAccountType, FILTER_SANITIZE_STRING);
-		if(empty($newProfileAccountType) === true) {
-			throw(new \InvalidArgumentException("account type is empty or insecure"));
-		}
-
-		// verify the account type will fit in the database
-		if(strlen($newProfileAccountType) !== 1) {
-			throw(new \RangeException("account type is too large"));
+		$newProfileAccountType = strtoupper($newProfileAccountType);
+ 		$validAccountTypes = ["D", "O", "A"];
+		if(in_array($newProfileAccountType, $validAccountTypes) === false) {
+			throw(new \InvalidArgumentException("Not a valid account type."));
 		}
 
 		// store the account type
