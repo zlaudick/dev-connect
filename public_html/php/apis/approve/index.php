@@ -7,7 +7,7 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 
 /**
- * api for the Tag class
+ * api for profileApproved
  *
  * @author Zac Laudick <zlaudick@cnm.edu>
  **/
@@ -31,7 +31,7 @@ try {
 
 	// sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$profileApproved = filter_input(INPUT_GET, "profileApproved", FILTER_VALIDATE_BOOLEAN);
+	$profileApproved = filter_input(INPUT_GET, "profileApproved", FILTER_VALIDATE_INT);
 
 	//handle POST request
 	if($method === "POST") {
@@ -62,17 +62,20 @@ try {
 		$profile->setProfileApproved($requestObject->profileApproved);
 
 
+
 		// send email about approval status
-		if($profileApproved === true) {
+		$profileName = $profile->getProfileName();
+		$profileEmail = $profile->getProfileEmail();
+		if($profileApproved === 1) {
 			$subject = "DevConnect Profile Approved!";
 			$message = "You're profile has been approved! You can now create projects!";
-		} elseif($profileApproved === false) {
+		} elseif($profileApproved === 0) {
 			$subject = "DevConnect Profile Rejected";
 			$message = "Y U NO REGISTERED NON PROFIT?!?!";
 		}
 
-		$response = mailGunner("DevConnect", "gsandoval49@cnm.edu", $requestObject->profileName,
-			$requestObject->profileEmail, $subject, $message);
+		$response = mailGunner("DevConnect", "gsandoval49@cnm.edu", $profileName,
+			$profileEmail, $subject, $message);
 	}
 
 }// update reply with exception information
