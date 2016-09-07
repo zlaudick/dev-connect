@@ -40,13 +40,13 @@ try {
 		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException("Please fill in an email", 405));
 		} else {
-			$profileEmail = filter_input(INPUT_POST, "profileEmail", FILTER_SANITIZE_EMAIL);
+			$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
 		if(empty($requestObject->password) === true) {
 			throw(new \InvalidArgumentException("Please fill in a password", 405));
 		} else {
-			$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
+			$password = filter_var($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
 		//create the user
@@ -57,15 +57,15 @@ try {
 		}
 
 		//hash for the password
-		$hash =  hash_pbkdf2("sha512", $password, $requestObject->getProfileSalt(), 262144);
+		$hash =  hash_pbkdf2("sha512", $password, $profile->getProfileSalt(), 262144);
 
 		//verify the hash is correct
-		if($hash !== $requestObject->getProfileHash()) {
+		if($hash !== $profile->getProfileHash()) {
 			throw (new \InvalidArgumentException("Email or password is incorrect"));
 		}
 
 		//grab profile from database and put into a session
-		$profile = Profile::getProfileByProfileId($pdo, $requestObject->getProfileId());
+		$profile = Profile::getProfileByProfileId($pdo, $profile->getProfileId());
 		$_SESSION["profile"] = $profile;
 
 		$reply->message = "Log In Success!";
