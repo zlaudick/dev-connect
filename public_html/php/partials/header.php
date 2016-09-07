@@ -24,15 +24,15 @@
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sign Up <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Developer</a></li>
-							<li><a href="#">Non Profit Organization</a></li>
+							<li><a href="sign-up">Developer</a></li>
+							<li><a href="sign-up">Non Profit Organization</a></li>
 						</ul>
 					</li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Sign In</a></li>
-							<li><a href="#">My Profile</a></li>
+							<li><a href="profile">My Profile</a></li>
 							<li><a href="#">Messages</a></li>
 						</ul>
 					</li>
