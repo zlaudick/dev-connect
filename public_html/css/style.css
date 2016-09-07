@@ -8,11 +8,12 @@
 /**********************************************
 * Global Styles
 /*********************************************/
+html,
 body {
-	background: url("../images/earth.jpg") no-repeat center center;
 	background-size: cover;
 	background-attachment: fixed;
 	color: #000;
+	font-family: 'Roboto', sans-serif;
 }
 
 a,
@@ -101,17 +102,17 @@ main {
 	/*
 	color: #fff;
 	*/
-	color: deepskyblue;
+	color: #0053ff;
 }
 
 /* set text-shadow on the <h1> in the jumbotron */
 #welcome .jumbotron h1 {
-	text-shadow: 2px 2px 0 blue;
+	text-shadow: 2px 2px 0 #0d0054;
 
 }
 
 .click {
-	color: deepskyblue;
+	color: #0d0054;
 	text-shadow: 2px 2px 0 blue;
 
 }
@@ -126,27 +127,8 @@ main {
 }
 
 /**********************************************
-* Content Section Styles
-/*********************************************/
-#content {
-	background-color: #01B3ED;
-	color: #fff;
-}
-
-/**********************************************
 * Thumbnails Section Styles
 /*********************************************/
-#thumbnails {
-	/*
-	background-color: rgba(255,255,255,0.75);
-
-
-	background-color: transparent;
-	*/
-	background: rgba(255,255,255,0.5);
-	border-radius: 1px;
-	border-color: #FFCB05;
-}
 
 /* add padding around the image thumbnails and text */
 .image-tile {
@@ -154,21 +136,25 @@ main {
 }
 
 .well {
-	background: rgba(0,0,0,0.7);
+	background: rgba(236, 236, 236, 0.7);
 	border-radius: 1px;
 	border-color: deepskyblue;
-	color: deepskyblue;
+	color: #0d0054;
 }
-
 
 a:hover,
 a:active {
 	text-decoration: none;
 }
 
-.well h2{
-	color: deepskyblue;
-	text-shadow: 2px 2px 0 blue;
+.well-large {
+	background-color: #679fff;
+	box-shadow: 0 0 25px rgba(0,0,0,0.3);
+}
+
+.well-title {
+	font-size: 2.5rem;
+	color: #0d0054;
 }
 
 .img-bot-margin {
@@ -184,8 +170,5 @@ a:active {
 footer {
 	padding: 1rem 0;
 	background-color: #2F394A;
-	/*
-	color: #FFCB05;
-	*/
 	color: deepskyblue;
 }

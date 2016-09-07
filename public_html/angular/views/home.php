@@ -19,8 +19,8 @@
 <!-- Begin Main Content -->
 <div class="row">
 	<div class="col-xs-12">
-		<div class="well">
-			<h3 class="text-center">A Professional Online Presence for All Social Causes</h3>
+		<div class="well well-large">
+			<h3 class="text-center well-title">A Professional Online Presence for All Social Causes</h3>
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="well">
@@ -43,8 +43,8 @@
 <!-- Developers Wanted & Example Projects-->
 <div class="row">
 	<div class="col-md-5 col-xs-12">
-		<div class="well">
-			<h3 class="text-center">Are YOU a Developer with a cause?</h3>
+		<div class="well well-large">
+			<h3 class="text-center well-title">Are YOU a Developer with a cause?</h3>
 			<div class="well">
 				<p class="text-center">We need developers with experience in the field, and dedication in their hearts to
 					support our cause.</p>
@@ -58,8 +58,8 @@
 		</div>
 	</div>
 	<div class="col-md-7 col-xs-12">
-		<div class="well">
-			<h3 class="text-center">Featured Projects</h3>
+		<div class="well well-large">
+			<h3 class="text-center well-title">Featured Projects</h3>
 			<div class="well">
 				<p>insert project here</p>
 				<p>insert project here</p>
