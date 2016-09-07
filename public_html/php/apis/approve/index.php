@@ -24,7 +24,7 @@ try {
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	$reply->method = $method;
-	if($method === "POST") {
+	if($method === "GET") {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
@@ -43,7 +43,7 @@ try {
 		} else {
 			$userEmail = filter_var($requestObject->userEmail, FILTER_SANITIZE_EMAIL);
 		}
-		if(empty($requestObject->profileApprove) === true) {
+		if(empty($requestObject->profileApproved) === true) {
 			throw(new \InvalidArgumentException ("Must enter a valid profile approve", 405));
 		} else {
 			$profileApproved = true;
