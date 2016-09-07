@@ -36,7 +36,12 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-
+		//sanitize and trim the inputs
+		$profileName = filter_input(INPUT_POST, "profileName", FILTER_SANITIZE_STRING);
+		$profileAccountType = filter_input(INPUT_POST, "profileAccountType", FILTER_SANITIZE_STRING);
+		$profileEmail = filter_input(INPUT_POST, "profileEmail", FILTER_SANITIZE_STRING);
+		$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
+		$confirmPassword = filter_input(INPUT_POST, "confirmPassword", FILTER_SANITIZE_STRING);
 
 		//check that the user fields that are required have been sent and filled out correctly
 		if(empty($requestObject->profileName) === true) {
@@ -53,11 +58,6 @@ try {
 			throw(new \InvalidArgumentException("Password does not match"));
 		}
 
-		//sanitize and trim the inputs
-		$profileName = filter_input(INPUT_POST, "profileName", FILTER_SANITIZE_STRING);
-		$profileAccountType = filter_input(INPUT_POST, "profileAccountType", FILTER_SANITIZE_STRING);
-		$profileEmail = filter_input(INPUT_POST, "profileEmail", FILTER_SANITIZE_STRING);
-		$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
 
 		if($requestObject->profileAccountType === "O") {
 			$emailContent = "<p>Thank you for signing up with DevConnect! We will be reviewing your request pending approval and email activation.</p>" . PHP_EOL;
@@ -92,7 +92,7 @@ try {
 
 		$response = mailGunner("DevConnect", "gsandoval49@cnm.edu", $requestObject->profileName,
 			$requestObject->profileEmail, "Thank you for joining DevConnect! :)", $message);
-			$reply->message = "Sign up was successful. Please check your email for account activation information.";
+		$reply->message = "Sign up was successful. Please check your email for account activation information.";
 	} else {
 		throw(new \InvalidArgumentException("Invalid HTTP request."));
 	}
