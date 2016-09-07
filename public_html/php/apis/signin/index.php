@@ -40,18 +40,14 @@ try {
 		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException("Please fill in an email", 405));
 		} else {
-			$profileEmail = filter_input($requestObject->profileEmail, FILTER_SANITIZE_EMAIL, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$profileEmail = filter_input(INPUT_POST, "profileEmail", FILTER_SANITIZE_EMAIL);
 		}
 
 		if(empty($requestObject->password) === true) {
 			throw(new \InvalidArgumentException("Please fill in a password", 405));
 		} else {
-			$password = filter_input($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
 		}
-
-		//if(($profileAccountType="D") === true && ($profileGithubActivationToken = true)){
-			//execute some github authentication stuffs here
-		//}
 
 		//create the user
 		$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
