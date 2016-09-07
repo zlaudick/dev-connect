@@ -80,8 +80,7 @@ try {
 
 
 		//create a new profile for the user
-		$profile = new Profile(null, $requestObject->profileAccountType, null, $profileApproved, $profileApprovedById, $profileApprovedDateTime, "I'm too lazy to create a profile! XD", $requestObject->profileEmail, null, $hash, "I don't
-		 know where I am!", $requestObject->profileName, $salt);
+		$profile = new Profile(null, $requestObject->profileAccountType, $profileActivationToken, $profileApproved, $profileApprovedById, $profileApprovedDateTime, "I'm too lazy to create a profile! XD", $requestObject->profileEmail, null, $hash, "I don't know where I am!", $requestObject->profileName, $salt);
 		$profile->insert($pdo);
 
 		//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.

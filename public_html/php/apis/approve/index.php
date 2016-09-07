@@ -49,6 +49,8 @@ try {
 			throw(new InvalidArgumentException("profile is not in session", 403));
 		}
 
+
+
 		// request object profileApproved
 		if(empty($requestObject->profileApproved) === true) {
 			throw(new InvalidArgumentException("no approval status given", 405));
@@ -66,6 +68,7 @@ try {
 		// send email about approval status
 		$profileName = $profile->getProfileName();
 		$profileEmail = $profile->getProfileEmail();
+		$profileApproved = $profile->getProfileApproved();
 		if($profileApproved === 1) {
 			$subject = "DevConnect Profile Approved!";
 			$message = "You're profile has been approved! You can now create projects!";
