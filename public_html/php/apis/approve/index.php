@@ -45,11 +45,13 @@ try {
 		}
 
 		// verify profile is in session and is admin
-		if($_SESSION["profile"] === false) {
+		if(empty($_SESSION["profile"]) === true) {
 			throw(new InvalidArgumentException("profile is not in session", 403));
 		}
 
-
+		if($_SESSION["profile"]->getProfileAccountType() !== "A") {
+			throw(new InvalidArgumentException("you are not an admin!", 403));
+		}
 
 		// request object profileApproved
 		if(empty($requestObject->profileApproved) === true) {
