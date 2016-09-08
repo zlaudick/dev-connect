@@ -3,6 +3,7 @@ use Edu\Cnm\DevConnect\Profile;
 
 require_once dirname(__DIR__, 2) . "/classes/autoload.php";
 require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
+require_once dirname(__DIR__, 2) . "/lib/mail.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 
@@ -64,23 +65,21 @@ try {
 			throw(new RuntimeException("Profile does not exist.", 404));
 		}
 		$profile->setProfileApproved($requestObject->profileApproved);
+		$profile->update($pdo);
 
 
 
 		// send email about approval status
-		$profileName = $profile->getProfileName();
-		$profileEmail = $profile->getProfileEmail();
-		$profileApproved = $profile->getProfileApproved();
-		if($profileApproved === 1) {
+		if($profile->getProfileApproved() === true) {
 			$subject = "DevConnect Profile Approved!";
 			$message = "You're profile has been approved! You can now create projects!";
-		} elseif($profileApproved === 0) {
+		} elseif($profile->getProfileApproved() === false) {
 			$subject = "DevConnect Profile Rejected";
 			$message = "Y U NO REGISTERED NON PROFIT?!?!";
 		}
 
-		$response = mailGunner("DevConnect", "gsandoval49@cnm.edu", $profileName,
-			$profileEmail, $subject, $message);
+		$response = mailGunner("DevConnect", "gsandoval49@cnm.edu", $profile->getProfileName(),
+			$profile->getProfileEmail(), $subject, $message);
 	}
 
 }// update reply with exception information
