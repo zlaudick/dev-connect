@@ -31,6 +31,12 @@ app.config(function($routeProvider, $locationProvider) {
 			templateUrl: 'angular/views/projects.php'
 		})
 
+		// route for the message page
+		.when('/message', {
+			controller: 'messageController',
+			templateUrl: 'angular/views/message.php'
+		})
+
 		// otherwise redirect to home
 		.otherwise({
 			redirectTo: '/'

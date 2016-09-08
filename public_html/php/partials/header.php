@@ -33,7 +33,7 @@
 						<ul class="dropdown-menu">
 							<li><a href="#">Sign In</a></li>
 							<li><a href="profile">My Profile</a></li>
-							<li><a href="#">Messages</a></li>
+							<li><a href="message">Messages</a></li>
 						</ul>
 					</li>
 					<li><a href="projects">Projects</a></li>
