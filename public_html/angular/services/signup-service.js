@@ -1,3 +1,11 @@
-/**
- * Created by STEMulus on 9/2/2016.
- */
+app.constant("SIGNUP_ENDPOINT", "php/apis/signup/");
+app.service("SignupService", function($http, SIGNUP_ENDPOINT) {
+	function getUrl() {
+		return(SIGNUP_ENDPOINT);
+	}
+
+	this.create = function(signup) {
+		console.log("inside signup service");
+		return($http.post(getUrl(), signup));
+	};
+});
