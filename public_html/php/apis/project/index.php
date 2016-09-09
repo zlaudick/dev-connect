@@ -35,6 +35,9 @@ try {
 	$projectContent = filter_input(INPUT_GET, "projectContent", FILTER_SANITIZE_STRING);
 	$projectName = filter_input(INPUT_GET, "projectName", FILTER_SANITIZE_STRING);
 
+	//get the project profile id
+	$profileId = ($_SESSION["profile"]->getProfileId());
+
 	// make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
 		throw (new InvalidArgumentException("id cannot be empty or negative", 405));
