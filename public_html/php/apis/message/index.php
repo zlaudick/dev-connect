@@ -19,7 +19,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 $reply = new stdClass();
 $reply->status = 200;
 try {
-	//grab the mailgun configuration  !!! There currently is no directory called 'encrypted-config'
+	//grab the mailgun configuration!!! There currently is no directory called 'encrypted-config'
 	$config = readConfig("/etc/apache2/encrypted-config/devconnect.ini");
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];

@@ -70,7 +70,7 @@ try {
 		}
 
 	} else if($method === "PUT") {
-	   verifyXsrf();
+		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
@@ -105,7 +105,7 @@ try {
 			}
 		}
 
-		$profile = Profile::getProfileByProfileId($pdo,$id);
+		$profile = Profile::getProfileByProfileId($pdo, $id);
 		if($profile === null) {
 			throw(new RuntimeException("Profile does not exist.", 404));
 		}
@@ -121,10 +121,17 @@ try {
 		$profile = Profile::getProfileByProfileId($pdo, $id);
 		if($profile === null) {
 			throw(new RuntimeException("Profile does not exist.", 404));
+		} elseif($_SESSION["profile"]->getProfileAccountType() === "A") {
+			$profile->delete($pdo);
+			$deletedObject = new stdClass();
+			$reply->message = "Profile deleted successfully.";
+		} elseif(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $profile->getProfileId()) {
+			throw(new \InvalidArgumentException("You do not have permission to remove this profile", 403));
+		} else {
+			$profile->delete($pdo);
+			$deletedObject = new stdClass();
+			$reply->message = "Profile deleted successfully.";
 		}
-		$profile->delete($pdo);
-		$deletedObject = new stdClass();
-		$reply->message = "Profile deleted successfully.";
 
 	} else {
 		throw (new InvalidArgumentException("Invalid HTTP method request"));
