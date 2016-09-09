@@ -56,11 +56,15 @@ try {
 		if(empty($profileEmail) === false) {
 			$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
 			if($profile !== null) {
+				$profile = redactProfile($profile);
 				$reply->data = $profile;
 			}
 		} else if(empty($id) === false) {
 			$profile = Profile::getProfileByProfileId($pdo, $id);
 			if($profile !== null) {
+				if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $profile->getProfileId()) {
+					$profile = redactProfile($profile);
+				}
 				$reply->data = $profile;
 			}
 		}else if(empty($profileActivationToken) === false) {
