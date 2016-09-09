@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__DIR__, 2) . "/classes/autoload.php";
-require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
+require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
+require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\DevConnect\Image;
@@ -24,7 +24,7 @@ $reply->data = null;
 
 try {
 	//grab the MySQL connection
-	$pdo = connectToEncryptedMySQL("etc/apache2/capstone-mysql/devconnect.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/devconnect.ini");
 
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
