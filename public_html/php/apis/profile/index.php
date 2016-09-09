@@ -3,6 +3,16 @@ require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
 require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 use Edu\Cnm\DevConnect\Profile;
+
+function redactProfile(Profile $profile) {
+	$redacted = new stdClass();
+	$fields = ["profileAccountType", "profileContent", "profileLocation", "profileName"];
+	foreach($fields as $field) {
+		$redacted->$field = call_user_func([$profile, "get" . ucfirst($field)]);
+	}
+	return $redacted;
+}
+
 /**
  * API for profile class
  *
