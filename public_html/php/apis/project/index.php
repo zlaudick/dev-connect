@@ -5,7 +5,6 @@ require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\DevConnect\Project;
-use Edu\Cnm\DevConnect\Profile;
 
 /**
  * API for the Message class
@@ -73,7 +72,7 @@ try {
 
 		// make sure the profile is allowed to make projects
 		if($_SESSION["profile"]->getProfileAccountType() !== "O"){
-			throw(new \InvalidArgumentException("You do not have permission to make a project", 405));
+			throw(new \InvalidArgumentException("You do not have permission to make or update a project", 405));
 		}
 
 		if(empty($requestObject->projectDate) === true) {
@@ -105,7 +104,7 @@ try {
 
 			if($_SESSION["profile"]->getProfileAccountType() === "O" && $_SESSION["profile"]->getProfileApproved() === true){
 				// create the new project and insert it into the database
-				$project = new Project(null, $requestObject->profileId, $requestObject->projectContent, $requestObject->projectDate, $requestObject->projectName);
+				$project = new Project(null, $profileId, $requestObject->projectContent, $requestObject->projectDate, $requestObject->projectName);
 				$project->insert($pdo);
 
 				// update reply
