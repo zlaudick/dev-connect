@@ -36,7 +36,7 @@ try {
 	$reviewRating = filter_input(INPUT_GET, "reviewRating", FILTER_VALIDATE_INT);
 
 	// make sure the id's are valid for methods that require it
-	if(($method === "DELETE" || $method === "PUT") && (empty($reviewReceiveProfileId) === true || $reviewReceiveProfileId<0) && empty($reviewWriteProfileId) === true || $reviewWriteProfileId<0) {
+	if(($method === "DELETE" || $method === "PUT") && (empty($reviewReceiveProfileId) === true || $reviewReceiveProfileId < 0) && empty($reviewWriteProfileId) === true || $reviewWriteProfileId < 0) {
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 
@@ -52,29 +52,29 @@ try {
 				$reply->data = $review;
 			}
 			// get review by reviewReceiveProfileId and update reply
-		}elseif(empty($reviewReceiveProfileId) === false) {
+		} elseif(empty($reviewReceiveProfileId) === false) {
 			$reviews = DevConnect\Review::getReviewByReviewReceiveProfileId($pdo, $reviewReceiveProfileId);
 			if($reviews !== null) {
 				$reply->data = $reviews;
 			}
 			// get review by reviewWriteProfileId and update reply
-		}elseif(empty($reviewWriteProfileId) === false) {
+		} elseif(empty($reviewWriteProfileId) === false) {
 			$reviews = DevConnect\Review::getReviewByReviewWriteProfileId($pdo, $reviewWriteProfileId);
 			if($reviews !== null) {
 				$reply->data = $reviews;
 			}
 			// get review by content and update reply
-		}elseif(empty($reviewContent) === false) {
+		} elseif(empty($reviewContent) === false) {
 			$reviews = DevConnect\Review::getReviewByReviewContent($pdo, $reviewContent);
 			if($reviews !== null) {
 				$reply->data = $reviews;
 			}
 		}
-	}elseif($method === "PUT" || $method === "POST") {
+	} elseif($method === "PUT" || $method === "POST") {
 
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
-		$requestObject =json_decode($requestContent);
+		$requestObject = json_decode($requestContent);
 
 		// make sure review content or review rating is available
 		if(empty($requestObject->reviewContent) === true && empty($requestObject->reviewRating) === true) {
@@ -93,45 +93,50 @@ try {
 			$review = DevConnect\Review::getReviewByReceiveProfileIdAndWriteProfileId($pdo, $reviewReceiveProfileId, $reviewWriteProfileId);
 			if($review === null) {
 				throw(new RuntimeException("review does not exist", 404));
+			} elseif($_SESSION["profile"]->getProfileAccountType() === "O" && $_SESSION["profile"]->getProfileId() === $reviewWriteProfileId || $_SESSION["profile"]->getProfileAccountType() === "A") {
+				// update all attributes
+				$review->setReviewDateTime($requestObject->reviewDateTime);
+				$review->setReviewContent($requestObject->reviewContent);
+				$review->setReviewRating($requestObject->reviewRating);
+				$review->update($pdo);
+				// update reply
+				$reply->message = "Review updated OK";
+			} else{
+				throw(new InvalidArgumentException("You don't have permission to change this review", 403));
 			}
 
-			// update all attributes
-			$review->setReviewDateTime($requestObject->reviewDateTime);
-			$review->setReviewContent($requestObject->reviewContent);
-			$review->setReviewRating($requestObject->reviewRating);
-			$review->update($pdo);
 
-			// update reply
-			$reply->message = "Review updated OK";
-		}elseif($method === "POST") {
+		} elseif($method === "POST") {
 
 			// make sure reviewReceiveProfileId and reviewWriteProfileId are available
 			if(empty($requestObject->reviewReceiveProfileId) === true && empty($requestObject->reviewWriteProfileId) === true) {
 				throw(new InvalidArgumentException("no receive or write id", 405));
-			}
-
-			// create new review and insert into the database
-			$review = new DevConnect\Review($requestObject->reviewReceiveProfileId, $requestObject->reviewWriteProfileId, $requestObject->reviewContent, null, $requestObject->reviewRating);
-			$review->insert($pdo);
-
-			// update reply
+			} elseif($_SESSION["profile"]->getProfileAccountType() === "O" && $_SESSION["profile"]->getProfileId() === $reviewWriteProfileId || $_SESSION["profile"]->getProfileAccountType() === "A") {
+				// create new review and insert into the database
+				$review = new DevConnect\Review($requestObject->reviewReceiveProfileId, $requestObject->reviewWriteProfileId, $requestObject->reviewContent, null, $requestObject->reviewRating);
+				$review->insert($pdo);
+				// update reply
 			$reply->message = "Review created OK";
+			} else{
+				throw(new InvalidArgumentException("You do not have permission to write a review", 403));
+			}
 		}
-	}elseif($method === "DELETE") {
+	} elseif($method === "DELETE") {
 		verifyXsrf();
 
 		// retrieve the review to be deleted
 		$review = DevConnect\Review::getReviewByReceiveProfileIdAndWriteProfileId($pdo, $reviewReceiveProfileId, $reviewWriteProfileId);
 		if($review === null) {
 			throw(new RuntimeException("review does not exist", 404));
+		} elseif($_SESSION["profile"]->getProfileAccountType() === "O" && $_SESSION["profile"]->getProfileId() === $reviewWriteProfileId || $_SESSION["profile"]->getProfileAccountType() === "A"){
+			// delete review
+			$review->delete($pdo);
+			// update reply
+			$reply->message = "Review deleted OK";
+		}else{
+			throw(new InvalidArgumentException("You do not have permission to delete this review", 403));
 		}
-
-		// delete review
-		$review->delete($pdo);
-
-		// update reply
-		$reply->message = "Review deleted OK";
-	}else{
+	} else {
 		throw(new InvalidArgumentException("Invalid HTTP method request"));
 	}
 } // update reply with exception information
@@ -140,7 +145,7 @@ catch
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 	$reply->trace = $exception->getTraceAsString();
-}catch(TypeError $typeError) {
+} catch(TypeError $typeError) {
 	$reply->status = $typeError->getCode();
 	$reply->message = $typeError->getMessage();
 }
