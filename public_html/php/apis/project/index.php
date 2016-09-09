@@ -90,24 +90,32 @@ try {
 			$project = Project::getProjectByProjectId($pdo, $id);
 			if($project === null) {
 				throw(new \RuntimeException("Project does not exist", 404));
+			} elseif($_SESSION["profile"]->getProfileAccountType() === "O" && $_SESSION["profile"]->getProfileId() === $profileId) {
+				// update all attributes
+				$project->setProjectContent($requestObject->projectContent);
+				$project->setProjectDate($requestObject->projectDate);
+				$project->setProjectName($requestObject->projectName);
+				$project->update($pdo);
+
+				// update reply
+				$reply->message = "Project updated OK";
+			} else{
+				throw(new InvalidArgumentException("You do not have permission to update this project", 403));
 			}
 
-			// update all attributes
-			$project->setProjectContent($requestObject->projectContent);
-			$project->setProjectDate($requestObject->projectDate);
-			$project->setProjectName($requestObject->projectName);
-			$project->update($pdo);
 
-			// update reply
-			$reply->message = "Project updated OK";
 		} elseif($method === "POST") {
 
-			// create the new project and insert it into the database
-			$project = new Project(null, $requestObject->profileId, $requestObject->projectContent, $requestObject->projectDate, $requestObject->projectName);
-			$project->insert($pdo);
+			if($_SESSION["profile"]->getProfileAccountType() === "O" && $_SESSION["profile"]->getProfileApproved() === true){
+				// create the new project and insert it into the database
+				$project = new Project(null, $requestObject->profileId, $requestObject->projectContent, $requestObject->projectDate, $requestObject->projectName);
+				$project->insert($pdo);
 
-			// update reply
-			$reply->project = "Project created OK";
+				// update reply
+				$reply->project = "Project created OK";
+			}else{
+				throw(new InvalidArgumentException("You do not have permission to create projects", 403));
+			}
 		}
 	} elseif($method === "DELETE") {
 
@@ -117,13 +125,15 @@ try {
 		$project = Project::getProjectByProjectId($pdo, $id);
 		if($project === null) {
 			throw(new \RuntimeException("Project does not exist", 404));
+		} elseif($_SESSION["profile"]->getProfileAccountType() === "O" && $_SESSION["profile"]->getProfileId() === $profileId || $_SESSION["profile"]->getProfileAccountType() === "A") {
+			// delete the project
+			$project->delete($pdo);
+
+			// update reply
+			$reply->project = "Project deleted OK";
+		}else{
+			throw(new InvalidArgumentException("You do not have permission to delete this project", 403));
 		}
-
-		// delete the project
-		$project->delete($pdo);
-
-		// update reply
-		$reply->project = "Project deleted OK";
 	} else {
 		throw (new \InvalidArgumentException("Invalid HTTP method request"));
 	}
