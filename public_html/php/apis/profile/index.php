@@ -67,16 +67,6 @@ try {
 				}
 				$reply->data = $profile;
 			}
-		}else if(empty($profileActivationToken) === false) {
-			$profile = Profile::getProfileByProfileActivationToken($pdo, $profileActivationToken);
-			if($profile !== null) {
-				$reply->data = $profile;
-			}
-		} else{
-			$profile = Profile::getAllProfiles($pdo);
-			if($profile !== null) {
-				$reply->data = $profile;
-			}
 		}
 
 	} else if($method === "PUT") {
