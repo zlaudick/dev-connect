@@ -73,6 +73,13 @@ try {
 	   verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
+
+		// Make sure that only one can edit one's own profile
+		$profile = Profile::getProfileByProfileId($pdo, $id);
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $profile->getProfileId()) {
+			throw(new \InvalidArgumentException("You do not have permission to edit this profile", 403));
+		}
+
 		// Make sure all fields are present in order to prevent database issues
 		$requestObject->profileLocation = (filter_var($requestObject->profileLocation, FILTER_SANITIZE_EMAIL));
 		$requestObject->profileContent = (filter_var($requestObject->profileContent, FILTER_SANITIZE_STRING));
