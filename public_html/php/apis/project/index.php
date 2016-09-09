@@ -5,6 +5,7 @@ require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\DevConnect\Project;
+use Edu\Cnm\DevConnect\Profile;
 
 /**
  * API for the Message class
@@ -31,7 +32,6 @@ try {
 
 	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$profileId = filter_input(INPUT_GET, "profileId", FILTER_VALIDATE_INT);
 	$projectContent = filter_input(INPUT_GET, "projectContent", FILTER_SANITIZE_STRING);
 	$projectName = filter_input(INPUT_GET, "projectName", FILTER_SANITIZE_STRING);
 
@@ -51,12 +51,6 @@ try {
 			if($project !== null) {
 				$reply->data = $project;
 			}
-			// project by profile id
-		} elseif(empty($profileId) === false) {
-			$project = Project::getProjectByProjectProfileId($pdo, $profileId);
-			if($project !== null) {
-				$reply->data = $project;
-			}
 		} elseif(empty($projectName) === false) {
 			$project = Project::getProjectByProjectName($pdo, $projectName);
 			if($project !== null) {
@@ -69,14 +63,14 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-		// make sure that the project content is available
+		// make sure that the project content is present
 		if(empty($requestObject) === true) {
 			throw(new \InvalidArgumentException("No content for project", 405));
 		}
 
-		// make sure the profile id is available
-		if(empty($requestObject->profileId) === true) {
-			throw(new \InvalidArgumentException("No profile id", 405));
+		// make sure the profile is allowed to make projects
+		if($_SESSION["profile"]->getProfileAccountType() !== "O"){
+			throw(new \InvalidArgumentException("You do not have permission to make a project", 405));
 		}
 
 		if(empty($requestObject->projectDate) === true) {

@@ -1,16 +1,3 @@
-<h1>This is the Bloody Profile Page</h1>
-
-
-<!-- welcome section -->
-<section id="welcome">
-	<div class="container">
-		<div class="jumbotron text-center">
-			<h1>Dev-Connect</h1>
-			<p>Profile Page (Angular Template)</p>
-		</div>
-	</div>
-</section> <!--welcome-->
-
 <div class="container">
 	<div class="row">
 		<div class="col-md-4 col-sm-12">
