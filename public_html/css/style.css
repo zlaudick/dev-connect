@@ -12,7 +12,8 @@ html,
 body {
 	color: #000;
 	font-family: 'Roboto', sans-serif;
-	background-color: #ebf0ff;
+	background-color: #f4f4ff;
+	background-size: cover;
 }
 
 a,
