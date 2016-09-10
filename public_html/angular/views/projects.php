@@ -1,5 +1,5 @@
 <!-- Page Title -->
-<h1>Featured Projects</h1>
+<h2>Featured Projects</h2>
 
 <!-- Begin Search Bar -->
 <div class="row">
