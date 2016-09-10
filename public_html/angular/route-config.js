@@ -37,6 +37,12 @@ app.config(function($routeProvider, $locationProvider) {
 			templateUrl: 'angular/views/message.php'
 		})
 
+		// route for the message page
+		.when('/sign-in', {
+			controller: 'signinController',
+			templateUrl: 'angular/views/sign-in.php'
+		})
+
 		// otherwise redirect to home
 		.otherwise({
 			redirectTo: '/'
