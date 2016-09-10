@@ -64,9 +64,10 @@ main {
 
 /* override Bootstrap default .navbar-inverse styles */
 .navbar-inverse {
-	background: none;
+	background-image: none;
+	background-color: white;
 	border: none;
-	box-shadow: none;
+	box-shadow: 0 0 25px rgba(0,0,0,0.3);
 	color: black;
 }
 
@@ -77,6 +78,15 @@ main {
 
 .navbar-inverse .navbar-nav>li>a {
 	color: #0053ff;
+}
+
+.navbar.center .navbar-inner {
+	text-align: center;
+}
+
+.navbar.center .navbar-inner .nav {
+	display:inline-block;
+	float: none;
 }
 
 /**********************************************
