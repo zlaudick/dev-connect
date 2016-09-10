@@ -1,10 +1,12 @@
 <!-- Begin Jumbotron -->
-<div class="jumbotron text-center">
-	<div class="container">
-		<h1>Sharing your dream for a better future with the world.</h1>
-		<p>By the <em>power</em> of the web.</p>
+<section id="introduction">
+	<div class="jumbotron text-center">
+		<div class="container">
+			<h1>Sharing your dream for a better future with the world.</h1>
+			<p>By the <em>power</em> of the web.</p>
+		</div>
 	</div>
-</div>
+</section>
 
 <!-- Begin Search Bar -->
 <div class="row">
