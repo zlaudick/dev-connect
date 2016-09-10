@@ -10,7 +10,7 @@
 			<div class="navbar-header">
 
 				<a class="navbar-brand" href="index">
-					<img alt="dev connect logo" src="../../images/DevConnectLogoPNG.png">
+					<img alt="dev connect logo" src="images/DevConnectLogoPNG.png">
 				</a>
 			</div>
 
