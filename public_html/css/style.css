@@ -164,6 +164,13 @@ a:active {
 .text-justify {
 	color: deepskyblue;
 }
+
+#element1 {display:inline-block;margin-right:10px;}
+#element2 {display:inline-block;}
+/*
+#element1 {float:left;}
+#element2 {float:right;}
+*/
 /**********************************************
 * Footer Styles
 /*********************************************/
