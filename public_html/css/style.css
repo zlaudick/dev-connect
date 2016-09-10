@@ -79,14 +79,6 @@ main {
 	color: #0053ff;
 }
 
-.navbar-inverse .navbar-brand:focus, .navbar-inverse .navbar-brand:hover {
-	color: deepskyblue;
-	background-color: transparent;
-}
-
-.navbar-default .navbar-brand {
-	color: #0053ff;
-}
 /**********************************************
 * Welcome Section Styles
 /*********************************************/
