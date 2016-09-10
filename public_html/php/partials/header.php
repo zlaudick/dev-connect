@@ -4,7 +4,7 @@
 
 	<!-- bootstrap breakpoint directive to control collapse behavior -->
 	<bootstrap-breakpoint></bootstrap-breakpoint>
-	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+	<nav class="navbar navbar-fixed-top navbar-inverse">
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -14,7 +14,9 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="index"><img src="../../images/DevConnectLogo.png" alt="dev connect logo"></a>
+				<a class="navbar-brand" href="index">
+					<img alt="dev connect logo" src="../../images/DevConnectLogoPNG.png">
+				</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
