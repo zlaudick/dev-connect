@@ -18,6 +18,7 @@ function redactProfile(Profile $profile) {
  *
  * @author Marcelo Ibarra mibarra5@cnm.edu
  *
+ *
  * @see https://github.com/mzibert/BrewCrew/blob/master/public_html/php/apis/user/index.php for api I referenced
  */
 // Verify xsrf challenge
