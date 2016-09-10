@@ -5,7 +5,7 @@
 <div class="row">
 	<div class="col-xs-12">
 		<div class="well well-large">
-			<h3 id="element1" class="text-center well-title">$profileName</h3>
+			<h3 id="element1" class="text-center well-title">Devon Beets </h3>
 			<p id="element2">
 				$jobtitle from $city, $state | $email@$domain.com
 			</p>
