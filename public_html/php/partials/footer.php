@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12">
-				<p class="text-center h5"> © DevConnect</p>
+				<p class="text-center h5"> © DevConnect 2016 All Rights Reserved.</p>
 			</div>
 			<div class="row">
 				<div class="col-xs-12">

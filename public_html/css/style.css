@@ -33,10 +33,6 @@ button:active {
 	transition: all 250ms ease-in-out;
 }
 
-main {
-	padding-top: 70px;
-}
-
 /**********************************************
 * Utility Styles
 /*********************************************/
@@ -94,7 +90,7 @@ main {
 /*********************************************/
 /* this adds padding to compensate for the fixed navbar on mobile */
 #welcome {
-	padding-top: 70px;
+	padding-top: 25px;
 }
 
 .jumbotron {
@@ -184,4 +180,5 @@ footer {
 	padding: 1rem 0;
 	background-color: #2F394A;
 	color: deepskyblue;
+	font-size: 1rem;
 }
