@@ -16,6 +16,10 @@ body {
 	background-size: cover;
 }
 
+p {
+	color: #0d0054;
+}
+
 a,
 a:link,
 a:visited,
@@ -31,6 +35,8 @@ button:active {
 	-ms-transition: all 250ms ease-in-out;
 	-o-transition: all 250ms ease-in-out;
 	transition: all 250ms ease-in-out;
+	color: deepskyblue;
+	background-color: transparent;
 }
 
 /**********************************************
@@ -67,7 +73,10 @@ button:active {
 	color: black;
 }
 
-.navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-nav>li>a:hover {
+.navbar-inverse .navbar-brand:focus,
+.navbar-inverse .navbar-brand:hover,
+.navbar-inverse .navbar-nav>li>a:focus,
+.navbar-inverse .navbar-nav>li>a:hover {
 	color: deepskyblue;
 	background-color: transparent;
 }
@@ -110,7 +119,6 @@ button:active {
 /* set text-shadow on the <h1> in the jumbotron */
 #welcome .jumbotron h1 {
 	text-shadow: 2px 2px 0 #0d0054;
-
 }
 
 .click {

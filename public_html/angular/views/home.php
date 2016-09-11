@@ -3,7 +3,7 @@
 	<div class="jumbotron text-center">
 		<div class="container">
 			<h1>Sharing your dream for a better future with the world.</h1>
-			<p>By the <em>power</em> of the web.</p>
+			<p><strong>By the <em>power</em> of the web.</strong></p>
 		</div>
 	</div>
 </section>
@@ -14,7 +14,7 @@
 		<div class="col-xs-6">
 			<input type="text" class="form-control" placeholder="What causes do you support?">
 		</div>
-		<button type="submit" class="btn btn-default">Submit</button>
+		<button type="submit" class="btn btn-default"><a href="projects">Submit</a></button>
 	</div>
 </div>
 
