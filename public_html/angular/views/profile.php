@@ -11,11 +11,10 @@
 			</p>
 			<div class="row">
 				<div class="col-xs-12">
-					<div class="well">
 						<div class="col-md-4 col-sm-12">
+							<div class="well">
 						<img src="images/profile.PNG" alt="Profile"
 							  class="img-responsive img-square img-thumbnail center-block img-bot-margin">
-							</div>
 						<p>Hello!
 							My name is Devon Beets and I am a web developer from Albuquerque, NM. I have a passion for beautiful
 							design and I love to work on a wide variety of projects!
@@ -24,7 +23,8 @@
 							community with her work and would like to do the same! If you would like to request my service, I can
 							reached at the following contact information below! :)
 
-							-Devon B</p>
+							-Devon B
+							</div>
 					</div>
 				</div>
 			</div>
