@@ -59,14 +59,8 @@
 					</div>
 				</div>
 
-
-				<!-- reCAPTCHA
-				<div class="g-recaptcha" data-sitekey="--YOUR RECAPTCHA SITE KEY--"></div>
-				-->
-
 				<button class="btn btn-success" type="submit"><i class="fa fa-paper-plane"></i> Submit</button>
 				<button class="btn btn-warning" type="reset"><i class="fa fa-ban"></i> Reset</button>
-
 				<div id="output-area"></div>
 			</form>
 
@@ -77,7 +71,7 @@
 			<form class="form-horizontal well" id="contact-form" action="../php/mailer.php" method="post" novalidate>
 
 				<h2>
-					If you're a developer: <p> </p><a href="https://github.com/login">
+					Or, if you're a developer: <p></p><a href="https://github.com/login">
 						<img border="0" alt="GitHub" src="images/GitHub.png" width="313" height="92">
 					</a>
 				</h2>
