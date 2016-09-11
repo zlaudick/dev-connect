@@ -4,7 +4,7 @@ app.service("SignupService", function($http, SIGNUP_ENDPOINT) {
 		return(SIGNUP_ENDPOINT);
 	}
 
-	this.create = function(signup) {
+	this.signup = function(signup) {
 		console.log("inside signup service");
 		return($http.post(getUrl(), signup));
 	};
