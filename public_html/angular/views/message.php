@@ -9,7 +9,7 @@
 			-->
 
 			<!--Begin Contact Form-->
-			<form class="form-horizontal well" id="contact-form" action="../php/mailer.php" method="post" novalidate>
+			<form class="form-horizontal well" id="contact-form"  novalidate>
 				<h2>Contact $profileName:</h2>
 				<!--
 				<div class="form-group">
@@ -28,18 +28,43 @@
 						<div class="input-group-addon">
 							<i class="fa fa-pencil" aria-hidden="true"></i>
 						</div>
-						<input type="text" class="form-control" id="subject" name="subject" placeholder="Subject">
+						<input type="text" class="form-control" id="subject" name="subject" placeholder="Subject"
+								 ng-model="formData.subject" ng-minlength="2" ng-maxlength="128" ng-required="true">
 					</div>
-				</div>
+
+
+					<div class="alert alert-danger" role="alert" ng-messages="contact-form.subject.$error"
+						  ng-if="contact-form.subject.$touched" ng-hide="contact-form.subject.$valid">
+						<p ng-message="min">Your message is too small.</p>
+						<p ng-message="max">Your message is too large.</p>
+						<p ng-message="required">Please enter a message.</p>
+					</div>
+
+
+
+				</div> <!-- form-group -->
+
+
 				<div class="form-group">
 					<label for="message">Message <span class="text-danger">*</span></label>
 					<div class="input-group">
 						<div class="input-group-addon">
 							<i class="fa fa-comment" aria-hidden="true"></i>
 						</div>
-						<textarea class="form-control" rows="5" id="message" name="message" placeholder="Message (2000 characters max)"></textarea>
+						<textarea class="form-control" rows="5" id="message" name="message"
+									 placeholder="Message (2000 characters max)"
+									 ng-model="formData.message" ng-minlength="2" ng-maxlength="2000" ng-required="true"></textarea>
 					</div>
-				</div>
+
+					<div class="alert alert-danger" role="alert" ng-messages="contact-form.message.$error"
+						  ng-if="contact-form.message.$touched" ng-hide="contact-form.message.$valid">
+						<p ng-message="min">Your message is too small.</p>
+						<p ng-message="max">Your message is too large.</p>
+						<p ng-message="required">Please enter a message.</p>
+					</div>
+
+
+				</div> <!-- form group -->
 
 				<!-- reCAPTCHA
 				<div class="g-recaptcha" data-sitekey="--YOUR RECAPTCHA SITE KEY--"></div>
