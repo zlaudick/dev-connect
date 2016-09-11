@@ -9,7 +9,7 @@
 			-->
 
 
-			<form class="form-horizontal well" id="contact-form" action="../php/mailer.php" method="post" novalidate>
+			<form  name="signinForm" id="signinForm" class="form-horizontal well" ng-controller="SigninController" ng-submit="submit(signinData, signinForm.$valid)"method="post" novalidate>
 
 				<h2 align="center">Sign In</h2>
 
@@ -17,13 +17,16 @@
 
 
 
-				<div class="form-group">
-					<label for="username">User Name <span class="text-danger"></span></label>
+				<div class="form-group" ng-class="{ 'has-error': signinForm.email.$touched && signinForm.email.$invalid }">
+					<label for="username">Email <span class="text-danger"></span></label>
 					<div class="input-group">
 						<div class="input-group-addon">
-							<i class="fa fa-user" aria-hidden="true"></i>
+							<i class="fa fa-user fa-fw" aria-hidden="true"></i>
 						</div>
-						<input type="text" class="form-control" id="username" name="username" placeholder="Username">
+						<input type="text" class="form-control" id="email" name="email" placeholder="Email" ng-model="signinData.email" ng-required="true" />
+					</div>
+					<div class="alert alert-danger" role="alert" ng-messages="signinForm.email.$error" ng-if="signinForm.email.$touched" ng-hide="signinForm.email.$valid">
+						<p ng-message="required">Please enter your Email.</p>
 					</div>
 				</div>
 
@@ -31,7 +34,7 @@
 					<label for="password">Password<span class="text-danger"></span></label>
 					<div class="input-group">
 						<div class="input-group-addon">
-							<i class="fa fa-key" aria-hidden="true"></i>
+							<i class="fa fa-key fa-fw" aria-hidden="true"></i>
 						</div>
 						<input type="text" class="form-control" id="password" name="password" placeholder="Password">
 					</div>
