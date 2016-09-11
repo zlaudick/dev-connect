@@ -10,10 +10,10 @@
 /*********************************************/
 html,
 body {
-	background-size: cover;
-	background-attachment: fixed;
 	color: #000;
 	font-family: 'Roboto', sans-serif;
+	background-color: #f4f4ff;
+	background-size: cover;
 }
 
 a,
@@ -33,10 +33,6 @@ button:active {
 	transition: all 250ms ease-in-out;
 }
 
-main {
-	padding-top: 70px;
-}
-
 /**********************************************
 * Utility Styles
 /*********************************************/
@@ -48,7 +44,7 @@ main {
 
 @media only screen and (min-width: 768px) {
 	.jumbotron {
-		min-height: 75vh;
+		min-height: 80vh;
 		display: flex;
 		align-items: center;
 	}
@@ -64,9 +60,10 @@ main {
 
 /* override Bootstrap default .navbar-inverse styles */
 .navbar-inverse {
-	background: none;
+	background-image: none;
+	background-color: white;
 	border: none;
-	box-shadow: none;
+	box-shadow: 0 0 15px rgba(0,0,0,0.3);
 	color: black;
 }
 
@@ -79,17 +76,30 @@ main {
 	color: #0053ff;
 }
 
+.navbar.center .navbar-inner {
+	text-align: center;
+}
+
+.navbar.center .navbar-inner .nav {
+	display:inline-block;
+	float: none;
+}
+
 /**********************************************
 * Welcome Section Styles
 /*********************************************/
 /* this adds padding to compensate for the fixed navbar on mobile */
 #welcome {
-	padding-top: 70px;
+	padding-top: 25px;
+}
+
+.jumbotron {
+	background-image: url(../images/ZacsHands.png);
+	background-size: cover;
 }
 
 /* overrides bootstrap default styles */
 #welcome .jumbotron {
-	background: rgba(0,0,0,0.1);
 	border-radius: 0;
 	/*
 	color: #fff;
@@ -170,4 +180,5 @@ footer {
 	padding: 1rem 0;
 	background-color: #2F394A;
 	color: deepskyblue;
+	font-size: 1rem;
 }

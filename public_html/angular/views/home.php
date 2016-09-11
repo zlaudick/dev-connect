@@ -1,10 +1,12 @@
 <!-- Begin Jumbotron -->
-<div class="jumbotron text-center">
-	<div class="container">
-		<h1>Sharing your dream for a better future with the world.</h1>
-		<p>By the <em>power</em> of the web.</p>
+<section id="introduction">
+	<div class="jumbotron text-center">
+		<div class="container">
+			<h1>Sharing your dream for a better future with the world.</h1>
+			<p>By the <em>power</em> of the web.</p>
+		</div>
 	</div>
-</div>
+</section>
 
 <!-- Begin Search Bar -->
 <div class="row">
@@ -31,7 +33,7 @@
 						<p class="text-center">By connecting you with our network of dedicated and talented web
 							developers who understand and share compassion with the importance of your work, you can
 							bring your cause to light.</p>
-						<p class="text-center"><a href="sign-up.php">Sign Up Today</a> and make your mission known to
+						<p class="text-center"><a href="sign-up">Sign Up Today</a> and make your mission known to
 							the world.</p>
 					</div>
 				</div>
@@ -53,7 +55,7 @@
 					your art.</p>
 				<p class="text-center">Volunteer work looks great on a resume, and this is the best place you can get it.
 					You don't have to be a senior developer either, mid level or beginners are highly encouraged to join.</p>
-				<p class="text-center">Please <a href="sign-up.php">Sign Up Today</a> and we thank you.</p>
+				<p class="text-center">Please <a href="sign-up">Sign Up Today</a> and we thank you.</p>
 			</div>
 		</div>
 	</div>
