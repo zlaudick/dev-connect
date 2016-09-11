@@ -16,7 +16,7 @@ app.controller("SigninController", ["$scope", "SigninService", function($scope, 
 		SigninService.fetch()
 			.then(function(result) {
 				// the promise is accepted
-				if(result.data.status = 200) {
+				if(result.data.status === 200) {
 					$scope.signin = result.data.status;
 				} else {
 					// we got data with a non 200 message, display an error
