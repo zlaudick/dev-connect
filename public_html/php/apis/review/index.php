@@ -31,9 +31,11 @@ try {
 
 	// sanitize input
 	$reviewReceiveProfileId = filter_input(INPUT_GET, "reviewReceiveProfileId", FILTER_VALIDATE_INT);
-	$reviewWriteProfileId = filter_input(INPUT_GET, "reviewWriteProfileId", FILTER_VALIDATE_INT);
 	$reviewContent = filter_input(INPUT_GET, "reviewContent", FILTER_SANITIZE_STRING);
 	$reviewRating = filter_input(INPUT_GET, "reviewRating", FILTER_VALIDATE_INT);
+
+	// get the review write profile id
+	$reviewWriteProfileId = ($_SESSION["profile"]->getProfileId());
 
 	// make sure the id's are valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($reviewReceiveProfileId) === true || $reviewReceiveProfileId < 0) && empty($reviewWriteProfileId) === true || $reviewWriteProfileId < 0) {
