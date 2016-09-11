@@ -22,6 +22,31 @@
 					</div>
 				</div>
 				-->
+
+
+				<div class="form-group">
+					<label for="name">Name <span class="text-danger">*</span></label>
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</div>
+						<input type="text" class="form-control" id="name" name="name" placeholder="Name"
+								 ng-model="formData.name" ng-minlength="2" ng-maxlength="64" ng-required="true">
+					</div> <!-- input group -->
+
+
+					<div class="alert alert-danger" role="alert" ng-messages="contact-form.name.$error"
+						  ng-if="contact-form.name.$touched" ng-hide="contact-form.name.$valid">
+						<p ng-message="min">Your name is too small.</p>
+						<p ng-message="max">Your name is too large.</p>
+						<p ng-message="required">Please enter your name.</p>
+					</div>
+
+				</div> <!-- form group -->
+
+
+
+
 				<div class="form-group">
 					<label for="subject">Subject</label>
 					<div class="input-group">
@@ -30,7 +55,7 @@
 						</div>
 						<input type="text" class="form-control" id="subject" name="subject" placeholder="Subject"
 								 ng-model="formData.subject" ng-minlength="2" ng-maxlength="128" ng-required="true">
-					</div>
+					</div> <!-- input group -->
 
 
 					<div class="alert alert-danger" role="alert" ng-messages="contact-form.subject.$error"
@@ -70,8 +95,24 @@
 				<div class="g-recaptcha" data-sitekey="--YOUR RECAPTCHA SITE KEY--"></div>
 				-->
 
+				<!--
 				<button class="btn btn-success" type="submit"><i class="fa fa-paper-plane"></i> Send</button>
 				<button class="btn btn-warning" type="reset"><i class="fa fa-ban"></i> Reset</button>
+				-->
+
+				<button class="btn btn-lg btn-info" type="submit"><i class="fa fa-paper-plane"></i>&nbsp;Send</button>
+				<button class="btn btn-lg btn-warning" type="reset" ng-click="reset();"><i class="fa fa-ban"></i>&nbsp;Reset</button>
+				<hr />
+				<h5>Angular Form Data</h5>
+				<p ng-show="sampleForm.$valid"><em>Form data is valid!</em></p>
+				<p ng-hide="sampleForm.$valid"><em>Form data is invalid!</em></p>
+				<pre></pre>
+				<uib-alert ng-repeat="alert in alerts" type="" close="alerts.length = 0;"></uib-alert>
+
+
+
+
+
 
 				<!--empty area for form error/success output-->
 				<div class="row">
