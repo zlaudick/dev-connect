@@ -35,7 +35,7 @@ button:active {
 	-ms-transition: all 250ms ease-in-out;
 	-o-transition: all 250ms ease-in-out;
 	transition: all 250ms ease-in-out;
-	color: deepskyblue;
+	color: #0053ff;
 	background-color: transparent;
 }
 
@@ -94,6 +94,14 @@ button:active {
 	float: none;
 }
 
+.navbar-toggle.collapsed{
+	background-color: white;
+}
+
+.navbar-inverse .navbar-toggle .icon-bar {
+	background-color: #0d0054;
+}
+
 /**********************************************
 * Welcome Section Styles
 /*********************************************/
@@ -148,7 +156,7 @@ button:active {
 .well {
 	background: rgba(236, 236, 236, 0.7);
 	border-radius: 1px;
-	border-color: deepskyblue;
+	border-color: #2F394A;
 	color: #0d0054;
 }
 
