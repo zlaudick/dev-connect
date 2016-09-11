@@ -9,23 +9,26 @@
 			-->
 
 
-			<form class="form-horizontal well" id="contact-form" action="../php/mailer.php" method="post" novalidate>
+			<form name="signupForm" class="form-horizontal well" ng-controller="SignupController" ng-submit="submit(formData, signupForm.$valid);" id="contact-form" action="../php/mailer.php" method="post" novalidate>
 
 				<h2>Create an account</h2>
 
 
 				<p>Are you a Developer or do you represent an organization?</p>
 
-				<input type="radio" name="gender" value="male" checked> Developer<br>
-				<input type="radio" name="gender" value="female"> Non-Profit Organization<br>
+				<input type="radio" name="gender" value="male" ng-model="formData.gender" checked> Developer<br>
+				<input type="radio" name="gender" value="female" ng-model="formData.gender"> Non-Profit Organization<br>
 
-				<div class="form-group">
+				<div class="form-group" ng-class="{ 'has-error': signupForm.name.$touched && signupForm.name.$invalid }">
 					<label for="name">Name <span class="text-danger">*</span></label>
 					<div class="input-group">
 						<div class="input-group-addon">
 							<i class="fa fa-user" aria-hidden="true"></i>
 						</div>
-						<input type="text" class="form-control" id="name" name="name" placeholder="Name">
+						<input type="text" class="form-control" id="name" name="name" placeholder="Name" ng-model="formData.name" ng-required="true">
+					</div>
+					<div class="alert alert-danger" role="alert" ng-messages="signupForm.name.$error" ng-if="signupForm.name.$touched" ng-hide="signupForm.name.$valid">
+						<p ng-message="required">Please enter your name.</p>
 					</div>
 				</div>
 
