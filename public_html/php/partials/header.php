@@ -1,4 +1,4 @@
-<header ng-controller="navController">
+<header ng-controller="NavController">
 
 	<!-- bootstrap breakpoint directive to control collapse behavior -->
 	<bootstrap-breakpoint></bootstrap-breakpoint>
@@ -32,7 +32,7 @@
 							<?php if(empty($_SESSION["profile"]) === true) {?>
 							<li><a href="sign-in">Sign In</a></li>
 							<?php } else { ?>
-							<li><a href="sign-out">Sign Out</a></li>
+							<li><a ng-click="signout();">Sign Out</a></li>
 							<?php } ?>
 							<li><a href="profile">My Profile</a></li>
 							<li><a href="message">Messages</a></li>

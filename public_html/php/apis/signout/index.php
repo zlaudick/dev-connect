@@ -6,7 +6,7 @@ require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 
 /**
- * API for the sign up process
+ * API for the sign out process
  *
  * @author Devon Beets <dbeetzz@gmail.com> with code borrowed from Merri J Zibert
  **/
@@ -17,6 +17,9 @@ $reply->status = 200;
 $reply->data = null;
 
 try {
+	if(session_status() !== PHP_SESSION_ACTIVE) {
+		session_start();
+	}
 	//grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/devconnect.ini");
 

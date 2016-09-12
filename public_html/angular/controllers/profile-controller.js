@@ -1,3 +1,3 @@
-app.controller('profileController', function($scope) {
+app.controller('ProfileController', function($scope) {
 
 });
