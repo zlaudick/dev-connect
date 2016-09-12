@@ -35,7 +35,7 @@ try {
 	$projectName = filter_input(INPUT_GET, "projectName", FILTER_SANITIZE_STRING);
 
 	//get the project profile id
-	$profileId = ($_SESSION["profile"]->getProfileId());
+	//$profileId = ($_SESSION["profile"]->getProfileId());
 
 	// make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
@@ -91,7 +91,7 @@ try {
 			$project = Project::getProjectByProjectId($pdo, $id);
 			if($project === null) {
 				throw(new \RuntimeException("Project does not exist", 404));
-			} elseif($_SESSION["profile"]->getProfileAccountType() === "O" && $_SESSION["profile"]->getProfileId() === $profileId) {
+			} elseif($_SESSION["profile"]->getProfileAccountType() === "O" && $_SESSION["profile"]->getProfileId() === $project->getProjectProfileId()) {
 				// update all attributes
 				$project->setProjectContent($requestObject->projectContent);
 				$project->setProjectDate($requestObject->projectDate);

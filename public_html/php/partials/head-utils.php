@@ -49,6 +49,15 @@
 		<script src="angular/dev-connect.js"></script>
 		<script src="angular/route-config.js"></script>
 		<script src="angular/directives/bootstrap-breakpoint.js"></script>
+		<script src="angular/services/image-service.js"></script>
+		<script src="angular/services/message-service.js"></script>
+		<script src="angular/services/profile-service.js"></script>
+		<script src="angular/services/project-service.js"></script>
+		<script src="angular/services/review-service.js"></script>
+		<script src="angular/services/signin-service.js"></script>
+		<script src="angular/services/signout-service.js"></script>
+		<script src="angular/services/signup-service.js"></script>
+		<script src="angular/services/tag-service.js"></script>
 		<script src="angular/controllers/activation-controller.js"></script>
 		<script src="angular/controllers/home-controller.js"></script>
 		<script src="angular/controllers/nav-controller.js"></script>

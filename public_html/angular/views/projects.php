@@ -40,7 +40,7 @@
 	</tr>
 	<tr ng-repeat="project in projects">
 		<td>{{ project.projectName }}</td>
-		<td>{{ project.content }}</td>
-		<td>{{ project.date }}</td>
+		<td>{{ project.projectContent }}</td>
+		<td>{{ project.projectDate | date }}</td>
 	</tr>
 </table>
