@@ -9,7 +9,10 @@
 			-->
 
 			<!--Begin Contact Form-->
-			<form class="form-horizontal well" id="contactForm"  novalidate>
+			<form name="messageForm" class="form-horizontal well" ng-controller="MessageController"  ng-submit="submit(formData, messageForm.$valid);" id="messageForm"  action="../php/mailer.php" method="post" novalidate>
+
+
+
 				<h2>Contact $profileName:</h2>
 				<!--
 				<div class="form-group">
@@ -35,8 +38,8 @@
 					</div> <!-- input group -->
 
 
-					<div class="alert alert-danger" role="alert" ng-messages="contactForm.name.$error"
-						  ng-if="contactForm.name.$touched" ng-hide="contactForm.name.$valid">
+					<div class="alert alert-danger" role="alert" ng-messages="messageForm.name.$error"
+						  ng-if="messageForm.name.$touched" ng-hide="messageForm.name.$valid">
 						<p ng-message="min">Your name is too small.</p>
 						<p ng-message="max">Your name is too large.</p>
 						<p ng-message="required">Please enter your name.</p>
@@ -59,8 +62,8 @@
 					</div> <!-- input group -->
 
 
-					<div class="alert alert-danger" role="alert" ng-messages="contactForm.subject.$error"
-						  ng-if="contactForm.subject.$touched" ng-hide="contactForm.subject.$valid">
+					<div class="alert alert-danger" role="alert" ng-messages="messageForm.subject.$error"
+						  ng-if="messageForm.subject.$touched" ng-hide="messageForm.subject.$valid">
 						<p ng-message="min">Your message is too small.</p>
 						<p ng-message="max">Your message is too large.</p>
 						<p ng-message="required">Please enter a message.</p>
@@ -82,8 +85,8 @@
 									 ng-model="formData.message" ng-minlength="2" ng-maxlength="2000" ng-required="true"></textarea>
 					</div>
 
-					<div class="alert alert-danger" role="alert" ng-messages="contactForm.message.$error"
-						  ng-if="contactForm.message.$touched" ng-hide="contactForm.message.$valid">
+					<div class="alert alert-danger" role="alert" ng-messages="messageForm.message.$error"
+						  ng-if="messageForm.message.$touched" ng-hide="messageForm.message.$valid">
 						<p ng-message="min">Your message is too small.</p>
 						<p ng-message="max">Your message is too large.</p>
 						<p ng-message="required">Please enter a message.</p>
