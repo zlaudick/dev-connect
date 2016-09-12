@@ -27,7 +27,11 @@
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false">Profile<span class="caret"></span></a>
 						<ul class="dropdown-menu">
+							<?php if(empty($_SESSION["profile"]) === true) {?>
 							<li><a href="sign-in">Sign In</a></li>
+							<?php } else { ?>
+							<li><a href="sign-out">Sign Out</a></li>
+							<?php } ?>
 							<li><a href="profile">My Profile</a></li>
 							<li><a href="message">Messages</a></li>
 						</ul>
