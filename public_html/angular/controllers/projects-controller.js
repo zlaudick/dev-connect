@@ -1,21 +1,23 @@
 app.controller('ProjectsController', ["$scope", "ProjectService", "TagService", function($scope, ProjectService, TagService) {
 	// state variables
-	$scope.project = null;
+	$scope.projects = [];
 	$scope.tag = null;
+
+	$scope.alerts = [];
 
 	/**
 	 * accepts or rejects the promise from the project service
 	 **/
-	$scope.getProjectService = function() {
+	$scope.getAllProjects = function() {
 		// call the project service to fetch the projects
-		ProjectService.fetch()
+		ProjectService.all()
 			.then(function(result) {
 				// the promise is accepted
 				if(result.data.status = 200) {
-					$scope.project = result.data.data;
+					$scope.projects = result.data.data;
 				} else{
 					// we got data with a non 200 status, display an error
-					$scope.project = ["Service did not return data"]
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			});
 	};
@@ -32,8 +34,13 @@ app.controller('ProjectsController', ["$scope", "ProjectService", "TagService", 
 					$scope.tag = result.data.data;
 				} else {
 					// we got data with a non 200 status, display an error
-					$scope.tag = ["Service did not return data"]
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			});
 	};
+
+	// load the projects on load by retrying when the data is null
+	if($scope.projects.length === 0) {
+		$scope.getAllProjects();
+	}
 }]);

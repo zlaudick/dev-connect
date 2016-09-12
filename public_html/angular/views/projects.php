@@ -32,14 +32,14 @@
 	</div>
 </div>
 
-<table class="table table-responsive table-striped table-hover" ng-controller="ProjectsController">
+<table class="table table-responsive table-striped table-hover">
 	<tr>
 		<th>Project Name</th>
 		<th>Description</th>
 		<th>Date Created</th>
 	</tr>
-	<tr ng-repeat="project in project">
-		<td>{{ project.name }}</td>
+	<tr ng-repeat="project in projects">
+		<td>{{ project.projectName }}</td>
 		<td>{{ project.content }}</td>
 		<td>{{ project.date }}</td>
 	</tr>

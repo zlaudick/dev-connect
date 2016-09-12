@@ -387,6 +387,28 @@ class Project implements \JsonSerializable {
 		return ($projects);
 	}
 
+	public static function getAllProjects(\PDO $pdo) {
+		//create query template
+		$query = "SELECT projectId, projectProfileId, projectContent, projectDate, projectName FROM project";
+		$statement = $pdo->prepare($query);
+		//bind the project name to the place holder in the template
+		$statement->execute();
+		//build an array of projects
+		$projects = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$project = new Project($row["projectId"], $row["projectProfileId"], $row["projectContent"], $row["projectDate"], $row["projectName"]);
+				$projects[$projects->key()] = $project;
+				$projects->next();
+			} catch(\Exception $exception) {
+				//if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($projects);
+	}
+
 //jsonSerialize
 	/**
 	 * formats the state variables for JSON serialization
