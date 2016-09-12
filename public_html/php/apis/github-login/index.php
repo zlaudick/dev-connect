@@ -115,13 +115,8 @@ try {
 		$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
 		$_SESSION["profile"] = $profile;
 
-		header("Content-type: application/json");
-		if($reply->data === null) {
-			unset($reply->data);
-		}
+		header("Location: ../../../");
 
-		// encode and return reply to front end caller
-		echo json_encode($reply);
 	}
 } catch(\Exception $exception) {
 	$reply->status = $exception->getCode();

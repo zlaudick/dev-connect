@@ -1,6 +1,10 @@
-app.controller("SignupController", ["$scope", "SignupService", function($scope, SignupService) {
+app.controller("SignupController", ["$scope", "$window", "SignupService", function($scope, $window, SignupService) {
 	$scope.signupData = null;
 	$scope.alerts = [];
+
+	$scope.goToGithub = function() {
+		$window.location.href = "php/apis/github-login/";
+	};
 
 	$scope.signup = function() {
 		SignupService.signup()

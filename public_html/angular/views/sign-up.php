@@ -51,7 +51,7 @@
 						<div class="input-group-addon">
 							<i class="fa fa-key" aria-hidden="true"></i>
 						</div>
-						<input type="text" class="form-control" id="password" name="password" placeholder="Password" ng-model="formData.password" ng-required="true">
+						<input type="password" class="form-control" id="password" name="password" placeholder="Password" ng-model="formData.password" ng-required="true">
 					</div>
 					<div class="alert alert-danger" role="alert" ng-messages="signupForm.password.$error" ng-if="signupForm.password.$touched" ng-hide="signupForm.password.$valid">
 						<p ng-message="required">Please enter a password.</p>
@@ -64,7 +64,7 @@
 						<div class="input-group-addon">
 							<i class="fa fa-key" aria-hidden="true"></i>
 						</div>
-						<input type="text" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" ng-model="formData.confirmPassword" ng-required="true">
+						<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" ng-model="formData.confirmPassword" ng-required="true">
 					</div>
 					<div class="alert alert-danger" role="alert" ng-messages="signupForm.confirmPassword.$error" ng-if="signupForm.confirmPassword.$touched" ng-hide="signupForm.confirmPassword.$valid">
 						<p ng-message="required">Please confirm your password.</p>
@@ -79,13 +79,10 @@
 
 		</div>
 
-		<div class="col-xs-12 col-md-5 ">
-			<form class="form-horizontal well" id="contact-form" action="../php/mailer.php" method="post" novalidate>
+		<div class="col-xs-12 col-md-5 well">
 
 				<h2>Sign-up with GitHub!</h2>
-				<a class="btn btn-success fa fa-github" href="#" role="button" id="github-button">GitHub</a>
-
-			</form>
+				<button class="btn btn-success" ng-click="goToGithub();" id="github-button"><i class="fa fa-github fa-fw fa-2x"></i> GitHub</button>
 
 		</div>
 

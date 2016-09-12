@@ -4,24 +4,24 @@ app.config(function($routeProvider, $locationProvider) {
 
 	// route for the home page
 		.when('/', {
-			controller: 'homeController',
+			controller: 'HomeController',
 			templateUrl: 'angular/views/home.php'
 		})
 
 		// route for the projects page
 		.when('/profile', {
-			controller: 'profileController',
+			controller: 'ProfileController',
 			templateUrl: 'angular/views/profile.php'
 		})
 
 		.when('/activation/:profileActivation', {
-			controller: 'activationController',
+			controller: 'ActivationController',
 			templateUrl: 'angular/views/activation.php'
 		})
 
 		// route for the sign up page
 		.when('/sign-up', {
-			controller: 'signupController',
+			controller: 'SignupController',
 			templateUrl: 'angular/views/sign-up.php'
 		})
 
@@ -33,13 +33,13 @@ app.config(function($routeProvider, $locationProvider) {
 
 		// route for the message page
 		.when('/message', {
-			controller: 'messageController',
+			controller: 'MessageController',
 			templateUrl: 'angular/views/message.php'
 		})
 
 		// route for the message page
 		.when('/sign-in', {
-			controller: 'signinController',
+			controller: 'SigninController',
 			templateUrl: 'angular/views/sign-in.php'
 		})
 
