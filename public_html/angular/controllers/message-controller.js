@@ -1,4 +1,4 @@
-app.controller("messageController", ["$scope", function($scope) {
+app.controller("MessageController", ["$scope", function($scope) {
 	/**
 	 * state variable to store the alerts generated from the submit event
 	 * @type {Array}

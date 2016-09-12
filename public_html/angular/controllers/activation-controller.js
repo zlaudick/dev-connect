@@ -1,3 +1,3 @@
-app.controller("activationController", ["$routeParams", "$scope", function($routeParams, $scope) {
+app.controller("ActivationController", ["$routeParams", "$scope", function($routeParams, $scope) {
 
 }]);
