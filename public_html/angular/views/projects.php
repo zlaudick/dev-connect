@@ -31,3 +31,16 @@
 		</div>
 	</div>
 </div>
+
+<table class="table table-responsive table-striped table-hover" ng-controller="ProjectsController">
+	<tr>
+		<th>Project Name</th>
+		<th>Description</th>
+		<th>Date Created</th>
+	</tr>
+	<tr ng-repeat="project in project">
+		<td>{{ project.name }}</td>
+		<td>{{ project.content }}</td>
+		<td>{{ project.date }}</td>
+	</tr>
+</table>
