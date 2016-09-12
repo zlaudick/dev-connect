@@ -32,33 +32,42 @@
 					</div>
 				</div>
 
-				<div class="form-group">
+				<div class="form-group" ng-class="{ 'has-error': signupForm.email.$touched && signupForm.email.$invalid }">
 					<label for="email">Email <span class="text-danger">*</span></label>
 					<div class="input-group">
 						<div class="input-group-addon">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
 						</div>
-						<input type="email" class="form-control" id="email" name="email" placeholder="Email">
+						<input type="email" class="form-control" id="email" name="email" placeholder="Email" ng-model="formData.email" ng-required="true">
+					</div>
+					<div class="alert alert-danger" role="alert" ng-messages="signupForm.email.$error" ng-if="signupForm.email.$touched" ng-hide="signupForm.email.$valid">
+						<p ng-message="required">Please enter your email.</p>
 					</div>
 				</div>
 
-				<div class="form-group">
-					<label for="username">User Name <span class="text-danger">*</span></label>
-					<div class="input-group">
-						<div class="input-group-addon">
-							<i class="fa fa-user" aria-hidden="true"></i>
-						</div>
-						<input type="text" class="form-control" id="username" name="username" placeholder="Username">
-					</div>
-				</div>
-
-				<div class="form-group">
+				<div class="form-group" ng-class="{ 'has-error': signupForm.password.$touched && signupForm.password.$invalid }">
 					<label for="password">Password<span class="text-danger"> *</span></label>
 					<div class="input-group">
 						<div class="input-group-addon">
 							<i class="fa fa-key" aria-hidden="true"></i>
 						</div>
-						<input type="text" class="form-control" id="password" name="password" placeholder="Password">
+						<input type="text" class="form-control" id="password" name="password" placeholder="Password" ng-model="formData.password" ng-required="true">
+					</div>
+					<div class="alert alert-danger" role="alert" ng-messages="signupForm.password.$error" ng-if="signupForm.password.$touched" ng-hide="signupForm.password.$valid">
+						<p ng-message="required">Please enter a password.</p>
+					</div>
+				</div>
+
+				<div class="form-group" ng-class="{ 'has-error': signupForm.confirmPassword.$touched && signupForm.confirmPassword.$invalid }">
+					<label for="confirmPassword">Confirm Password<span class="text-danger"> *</span></label>
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-key" aria-hidden="true"></i>
+						</div>
+						<input type="text" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" ng-model="formData.confirmPassword" ng-required="true">
+					</div>
+					<div class="alert alert-danger" role="alert" ng-messages="signupForm.confirmPassword.$error" ng-if="signupForm.confirmPassword.$touched" ng-hide="signupForm.confirmPassword.$valid">
+						<p ng-message="required">Please confirm your password.</p>
 					</div>
 				</div>
 
@@ -73,11 +82,8 @@
 		<div class="col-xs-12 col-md-5 ">
 			<form class="form-horizontal well" id="contact-form" action="../php/mailer.php" method="post" novalidate>
 
-				<h2>
-					Or, if you're a developer: <p></p><a href="https://github.com/login">
-						<img border="0" alt="GitHub" src="images/GitHub.png" width="313" height="92">
-					</a>
-				</h2>
+				<h2>Sign-up with GitHub!</h2>
+				<a class="btn btn-success fa fa-github" href="#" role="button" id="github-button">GitHub</a>
 
 			</form>
 
