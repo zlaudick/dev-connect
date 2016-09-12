@@ -9,7 +9,7 @@
 			-->
 
 			<!--Begin Contact Form-->
-			<form class="form-horizontal well" id="contact-form"  novalidate>
+			<form class="form-horizontal well" id="contactForm"  novalidate>
 				<h2>Contact $profileName:</h2>
 				<!--
 				<div class="form-group">
@@ -35,8 +35,8 @@
 					</div> <!-- input group -->
 
 
-					<div class="alert alert-danger" role="alert" ng-messages="contact-form.name.$error"
-						  ng-if="contact-form.name.$touched" ng-hide="contact-form.name.$valid">
+					<div class="alert alert-danger" role="alert" ng-messages="contactForm.name.$error"
+						  ng-if="contactForm.name.$touched" ng-hide="contactForm.name.$valid">
 						<p ng-message="min">Your name is too small.</p>
 						<p ng-message="max">Your name is too large.</p>
 						<p ng-message="required">Please enter your name.</p>
@@ -48,7 +48,8 @@
 
 
 				<div class="form-group">
-					<label for="subject">Subject</label>
+					<label for="subject">Subject <span class="text-danger">*</span></label>
+
 					<div class="input-group">
 						<div class="input-group-addon">
 							<i class="fa fa-pencil" aria-hidden="true"></i>
@@ -58,8 +59,8 @@
 					</div> <!-- input group -->
 
 
-					<div class="alert alert-danger" role="alert" ng-messages="contact-form.subject.$error"
-						  ng-if="contact-form.subject.$touched" ng-hide="contact-form.subject.$valid">
+					<div class="alert alert-danger" role="alert" ng-messages="contactForm.subject.$error"
+						  ng-if="contactForm.subject.$touched" ng-hide="contactForm.subject.$valid">
 						<p ng-message="min">Your message is too small.</p>
 						<p ng-message="max">Your message is too large.</p>
 						<p ng-message="required">Please enter a message.</p>
@@ -81,8 +82,8 @@
 									 ng-model="formData.message" ng-minlength="2" ng-maxlength="2000" ng-required="true"></textarea>
 					</div>
 
-					<div class="alert alert-danger" role="alert" ng-messages="contact-form.message.$error"
-						  ng-if="contact-form.message.$touched" ng-hide="contact-form.message.$valid">
+					<div class="alert alert-danger" role="alert" ng-messages="contactForm.message.$error"
+						  ng-if="contactForm.message.$touched" ng-hide="contactForm.message.$valid">
 						<p ng-message="min">Your message is too small.</p>
 						<p ng-message="max">Your message is too large.</p>
 						<p ng-message="required">Please enter a message.</p>

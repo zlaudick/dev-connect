@@ -1,4 +1,4 @@
-app.controller("AngularFormController", ["$scope", function($scope) {
+app.controller("messageController", ["$scope", function($scope) {
 	/**
 	 * state variable to store the alerts generated from the submit event
 	 * @type {Array}
@@ -16,29 +16,31 @@ app.controller("AngularFormController", ["$scope", function($scope) {
 	 * method to reset form data when the submit and cancel buttons are pressed
 	 **/
 	$scope.reset = function() {
-		$scope.formData = {"name": [], "subject": [], "message": []};
+		$scope.formData = {"name": "", "subject": "", "message": ""};
 		$scope.contact-form.$setUntouched();
 		$scope.contact-form.$setPristine();
 	};
 
+
 	/**
-	 * method to process the action from the submit button
+	 * creates a message and sends it to the message API
 	 *
-	 * @param formData object containing submitted form data
-	 * @param validated true if passed validation, false if not
+	 * @param message: the message to send
+	 * @param validated true if Angular validated the form, false if not
 	 **/
-	$scope.submit = function(formData, validated) {
+	$scope.createMessage = function(message, validated) {
 		if(validated === true) {
-			$scope.alerts[0] = {
-				type: "success",
-				msg: "Well done! You have found the submit button on this form and clicked it."
-			};
-		} else {
-			$scope.alerts[0] = {
-				type: "danger",
-				msg: "Oh snap! You clicked the submit button while the form has invalid data. Check yourself before you wreck yourself!"
-			};
+			MessageService.create(message)
+				.then(function(result) {
+					if(result.data.status === 200) {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+						$scope.newMessage = {messageId: null, attribution: "", message: "", submitter: ""};
+						$scope.addMessageForm.$setPristine();
+						$scope.addMessageForm.$setUntouched();
+					} else {
+						$scope.alerts[0] = {type: "danger", msg: result.data.message};
+					}
+				});
 		}
-		$scope.reset();
 	};
 }]);
