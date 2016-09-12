@@ -58,6 +58,11 @@ try {
 			if($project !== null) {
 				$reply->data = $project;
 			}
+		} else {
+			$project = Project::getAllProjects($pdo);
+			if($project !== null) {
+				$reply->data = $project;
+			}
 		}
 	} elseif($method === "PUT" || $method === "POST") {
 

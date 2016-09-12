@@ -1,6 +1,6 @@
-app.constant("PROJECT_ENDPOINT", "php/apis/project");
+app.constant("PROJECT_ENDPOINT", "php/apis/project/");
 app.service("ProjectService", function($http, PROJECT_ENDPOINT) {
-	function getUrl(projectId) {
+	function getUrl() {
 		return(PROJECT_ENDPOINT);
 	}
 
@@ -12,19 +12,19 @@ app.service("ProjectService", function($http, PROJECT_ENDPOINT) {
 		return($http.get(getUrl()));
 	};
 
-	this.fetch = function() {
+	this.fetch = function(projectId) {
 		return($http.get(getUrlForId(projectId)));
 	};
 
-	this.create = function() {
+	this.create = function(project) {
 		return($http.post(getUrl(), project));
 	};
 
-	this.update = function() {
+	this.update = function(projectId, project) {
 		return($http.put(getUrlForId(projectId), project));
 	};
 
-	this.destroy = function() {
+	this.destroy = function(projectId) {
 		return($http.delete(getUrlForId(projectId)));
 	};
 });

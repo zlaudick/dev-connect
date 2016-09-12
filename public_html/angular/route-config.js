@@ -27,7 +27,7 @@ app.config(function($routeProvider, $locationProvider) {
 
 		// route for the projects page
 		.when('/projects', {
-			controller: 'projectsController',
+			controller: 'ProjectsController',
 			templateUrl: 'angular/views/projects.php'
 		})
 
