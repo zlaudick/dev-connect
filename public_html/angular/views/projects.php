@@ -32,7 +32,7 @@
 				</div>
 				<div class="col-md-4 col-xs-12">
 					<ul>
-						<li><a href="#">Obesity</a></li>
+						<li><a href="#">Pandas</a></li>
 						<li><a href="#">Hunger</a></li>
 						<li><a href="#">Drug Abuse</a></li>
 					</ul>

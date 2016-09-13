@@ -20,6 +20,11 @@ p {
 	color: #0d0054;
 }
 
+h2,
+h3 {
+	padding-top: 15px;
+}
+
 a,
 a:link,
 a:visited,
@@ -61,7 +66,7 @@ button:active {
 /*********************************************/
 /* removes the margin-bottom that Bootstrap sets by default */
 .navbar {
-	margin-bottom: 0;
+	margin-bottom: 0px;
 }
 
 /* override Bootstrap default .navbar-inverse styles */
