@@ -387,6 +387,15 @@ class Project implements \JsonSerializable {
 		return ($projects);
 	}
 
+
+	/**
+	 * gets all Projects
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of Projects found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
 	public static function getAllProjects(\PDO $pdo) {
 		//create query template
 		$query = "SELECT projectId, projectProfileId, projectContent, projectDate, projectName FROM project";
