@@ -31,8 +31,9 @@ try {
 
 	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$projectContent = filter_input(INPUT_GET, "projectContent", FILTER_SANITIZE_STRING);
-	$projectName = filter_input(INPUT_GET, "projectName", FILTER_SANITIZE_STRING);
+	$projectContent = filter_input(INPUT_GET, "projectContent", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$projectName = filter_input(INPUT_GET, "projectName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$searchInput = filter_input(INPUT_GET, "searchInput", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//get the project profile id
 	//$profileId = ($_SESSION["profile"]->getProfileId());
@@ -54,12 +55,17 @@ try {
 				$reply->data = $project;
 			}
 		} elseif(empty($projectName) === false) {
-			$project = Project::getProjectByProjectName($pdo, $projectName);
+			$project = Project::getProjectByProjectName($pdo, $projectName)->toArray();
+			if($project !== null) {
+				$reply->data = $project;
+			}
+		} elseif(empty($searchInput) === false) {
+			$project = Project::getProjectByProjectContentOrTagName($pdo, $searchInput)->toArray();
 			if($project !== null) {
 				$reply->data = $project;
 			}
 		} else {
-			$project = Project::getAllProjects($pdo);
+			$project = Project::getAllProjects($pdo)->toArray();
 			if($project !== null) {
 				$reply->data = $project;
 			}

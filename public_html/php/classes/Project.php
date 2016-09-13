@@ -348,6 +348,7 @@ class Project implements \JsonSerializable {
 		}
 		return ($projects);
 	}
+
 	/**
 	 * get project by project name
 	 *
@@ -387,6 +388,48 @@ class Project implements \JsonSerializable {
 		return ($projects);
 	}
 
+	/**
+	 * get project by project content or tag name
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $searchInput data to search for
+	 * @return \SplFixedArray SplFixedArray of projects that are found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getProjectByProjectContentOrTagName(\PDO $pdo, $searchInput) {
+		//sanitize the project name before searching
+		$searchInput = trim($searchInput);
+		$searchInput = filter_var($searchInput, FILTER_SANITIZE_STRING);
+		if(empty($searchInput) === true) {
+			throw(new \PDOException("project name is invalid"));
+		}
+		//create query template
+		$query = "SELECT DISTINCT projectId, projectContent, projectDate, projectName, projectProfileId
+FROM project
+INNER JOIN projectTag ON project.projectId = projectTag.projectTagProjectId
+INNER JOIN tag ON projectTag.projectTagTagId = tag.tagId
+WHERE projectContent LIKE :searchInput OR projectName LIKE :searchInput OR tagName LIKE :searchInput;";
+		$statement = $pdo->prepare($query);
+		//bind the project name to the place holder in the template
+		$searchInput = "%$searchInput%";
+		$parameters = array("searchInput" => $searchInput);
+		$statement->execute($parameters);
+		//build an array of projects
+		$projects = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$project = new Project($row["projectId"], $row["projectProfileId"], $row["projectContent"], $row["projectDate"], $row["projectName"]);
+				$projects[$projects->key()] = $project;
+				$projects->next();
+			} catch(\Exception $exception) {
+				//if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($projects);
+	}
 
 	/**
 	 * gets all Projects

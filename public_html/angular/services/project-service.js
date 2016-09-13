@@ -16,6 +16,10 @@ app.service("ProjectService", function($http, PROJECT_ENDPOINT) {
 		return($http.get(getUrlForId(projectId)));
 	};
 
+	this.fetchByProjectByProjectContentOrTagName = function(searchInput) {
+		return($http.get(getUrl() + "?searchInput=" + searchInput));
+	};
+
 	this.create = function(project) {
 		return($http.post(getUrl(), project));
 	};

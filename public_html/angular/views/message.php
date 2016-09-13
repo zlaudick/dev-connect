@@ -106,12 +106,6 @@
 				<button class="btn btn-lg btn-info" type="submit"><i class="fa fa-paper-plane"></i>&nbsp;Send</button>
 				<button class="btn btn-lg btn-warning" type="reset" ng-click="reset();"><i class="fa fa-ban"></i>&nbsp;Reset
 				</button>
-				<hr/>
-				<h5>Angular Form Data</h5>
-				<p ng-show="sampleForm.$valid"><em>Form data is valid!</em></p>
-				<p ng-hide="sampleForm.$valid"><em>Form data is invalid!</em></p>
-				<pre></pre>
-				<uib-alert ng-repeat="alert in alerts" type="" close="alerts.length = 0;"></uib-alert>
 
 
 				<!--empty area for form error/success output-->

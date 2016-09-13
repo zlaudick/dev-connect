@@ -3,7 +3,6 @@ app.controller('ProjectsController', ["$scope", "ProjectService", "ProjectTagSer
 	$scope.projects = [];
 	$scope.projectTag = [];
 	$scope.tag = [];
-
 	$scope.alerts = [];
 
 	/**
@@ -14,7 +13,7 @@ app.controller('ProjectsController', ["$scope", "ProjectService", "ProjectTagSer
 		ProjectService.all()
 			.then(function(result) {
 				// the promise is accepted
-				if(result.data.status = 200) {
+				if(result.data.status === 200) {
 					$scope.projects = result.data.data;
 				} else{
 					// we got data with a non 200 status, display an error
@@ -31,11 +30,22 @@ app.controller('ProjectsController', ["$scope", "ProjectService", "ProjectTagSer
 		TagService.fetch()
 			.then(function(result) {
 				// the promise is accepted
-				if(result.data.status = 200) {
+				if(result.data.status === 200) {
 					$scope.tag = result.data.data;
 				} else {
 					// we got data with a non 200 status, display an error
 					$scope.alerts[0] = {type: "danger", msg: result.data.message};
+				}
+			});
+	};
+
+	$scope.getByProjectByProjectContentOrTagName = function(searchInput) {
+		// call the project service to fetch the tags
+		ProjectService.fetchByProjectByProjectContentOrTagName(searchInput)
+			.then(function(result) {
+				// the promise is accepted
+				if(result.data.status === 200) {
+					$scope.projects = result.data.data;
 				}
 			});
 	};

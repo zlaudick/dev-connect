@@ -33,7 +33,7 @@
 
 <!-- Begin Contact, Links and Review Sections -->
 <div class="row">
-	<div class="col-md-6 col-xs-12">
+	<div class="col-md-3 col-xs-12">
 		<h2 class="text-center">Contact & Links</h2>
 		<div class="well well-large">
 			<div class="well" style="text-align: center;">
@@ -45,7 +45,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-6 col-xs-12">
+	<div class="col-md-3 col-xs-12">
 		<h2 class="text-center">Reviews</h2>
 		<div class="well well-large">
 			<div class="well">
