@@ -35,7 +35,7 @@ button:active {
 	-ms-transition: all 250ms ease-in-out;
 	-o-transition: all 250ms ease-in-out;
 	transition: all 250ms ease-in-out;
-	color: #0053ff;
+	color: deepskyblue;
 	background-color: transparent;
 }
 

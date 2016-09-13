@@ -68,10 +68,20 @@
 						<th>Description</th>
 						<th>Date Created</th>
 					</tr>
-					<tr ng-repeat="project in projects">
-						<td>{{ project.projectName }}</td>
-						<td>{{ project.projectContent }}</td>
-						<td>{{ project.projectDate | date }}</td>
+					<tr>
+						<td>NM Health Connections Website Update</td>
+						<td>NMHC is in need of an update to a website that hasn't been changed since the 2000s.</td>
+						<td>Sep 4, 2016</td>
+					</tr>
+					<tr>
+						<td>Adelante</td>
+						<td>New Website Needed</td>
+						<td>Aug 20, 2016</td>
+					</tr>
+					<tr>
+						<td>Save The Whales</td>
+						<td>We must save our ocean brethren!</td>
+						<td>Jul 13, 2016</td>
 					</tr>
 				</table>
 			</div>
