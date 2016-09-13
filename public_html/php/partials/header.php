@@ -45,7 +45,7 @@
 							<?php if(empty($_SESSION["profile"]) === true) { ?>
 							<li><a href="create-project">Create a Project</a></li>
 							<?php } ?>
-							<li><a ng-click="signout();">View Projects</a></li>
+							<li><a href="projects">View Projects</a></li>
 						</ul>
 			</div>
 		</div>
