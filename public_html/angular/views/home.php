@@ -29,7 +29,6 @@
 						<p class="text-center">Every social issue has it's due need for exposure, which can be costly
 							for a tight budget. Our goal at DevConnect is to give your non-profit organization an
 							opportunity to share your cause on the most global scale: The Internet.</p>
-						<p class="text-center">For low or no cost at all.*</p>
 						<p class="text-center">By connecting you with our network of dedicated and talented web
 							developers who understand and share compassion with the importance of your work, you can
 							bring your cause to light.</p>
@@ -63,9 +62,18 @@
 		<div class="well well-large">
 			<h3 class="text-center well-title">Featured Projects</h3>
 			<div class="well">
-				<p>insert project here</p>
-				<p>insert project here</p>
-				<p>insert project here</p>
+				<table class="table table-responsive table-striped table-hover">
+					<tr>
+						<th>Project Name</th>
+						<th>Description</th>
+						<th>Date Created</th>
+					</tr>
+					<tr ng-repeat="project in projects">
+						<td>{{ project.projectName }}</td>
+						<td>{{ project.projectContent }}</td>
+						<td>{{ project.projectDate | date }}</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>

@@ -36,7 +36,7 @@
 						<div class="input-group-addon">
 							<i class="fa fa-key fa-fw" aria-hidden="true"></i>
 						</div>
-						<input type="text" class="form-control" id="password" name="password" placeholder="Password">
+						<input type="password" class="form-control" id="password" name="password" placeholder="Password">
 					</div>
 				</div>
 
