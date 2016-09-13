@@ -241,6 +241,36 @@ class ProjectTag implements \JsonSerializable {
 		}
 		return ($projectTag);
 	}
+
+	/**
+	 * gets all ProjectTags
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of ProjectTags found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllProjectTags(\PDO $pdo) {
+		//create query template
+		$query = "SELECT projectTagProjectId, projectTagTagId FROM projectTag";
+		$statement = $pdo->prepare($query);
+		//bind the project name to the place holder in the template
+		$statement->execute();
+		//build an array of projectTags
+		$projectTags = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$projectTag = new ProjectTag($row["projectTagProjectId"], $row["projectTagTagId"]);
+				$projectTags[$projectTags->key()] = $projectTag;
+				$projectTags->next();
+			} catch(\Exception $exception) {
+				//if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($projectTags);
+	}
 	//jsonSerialize
 	/**
 	 * formats the state variables for JSON serialization

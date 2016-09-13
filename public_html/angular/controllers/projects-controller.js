@@ -1,7 +1,8 @@
-app.controller('ProjectsController', ["$scope", "ProjectService", "TagService", function($scope, ProjectService, TagService) {
+app.controller('ProjectsController', ["$scope", "ProjectService", "ProjectTagService", "TagService", function($scope, ProjectService, ProjectTagService, TagService) {
 	// state variables
 	$scope.projects = [];
-	$scope.tag = null;
+	$scope.projectTag = [];
+	$scope.tag = [];
 
 	$scope.alerts = [];
 
