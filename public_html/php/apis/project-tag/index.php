@@ -63,7 +63,7 @@ try {
 				$reply->data = $projectTag;
 			}
 		}
-	} elseif($method = "POST") {
+	} elseif($method === "POST") {
 
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
@@ -79,7 +79,7 @@ try {
 			// update reply
 			$reply->message = "projectTag created OK";
 		}
-	} elseif($method = "DELETE") {
+	} elseif($method === "DELETE") {
 		verifyXsrf();
 
 		// retrieve the projectTag to be deleted
