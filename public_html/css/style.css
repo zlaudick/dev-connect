@@ -158,6 +158,11 @@ button:active {
 	padding: 2rem;
 }
 
+.img-thumbnail {
+	max-height: 280px;
+	width: auto;
+}
+
 .well {
 	background: rgba(236, 236, 236, 0.7);
 	border-radius: 1px;
@@ -190,10 +195,7 @@ a:active {
 
 #element1 {display:inline-block;margin-right:10px;}
 #element2 {display:inline-block;}
-/*
-#element1 {float:left;}
-#element2 {float:right;}
-*/
+
 /**********************************************
 * Footer Styles
 /*********************************************/
@@ -203,7 +205,6 @@ footer {
 	color: deepskyblue;
 	font-size: 1rem;
 }
-
 
 /*************************************
 * Github Button

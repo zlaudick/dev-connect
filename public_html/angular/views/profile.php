@@ -45,6 +45,26 @@
 			</div>
 		</div>
 	</div>
+	<div class="col-md-6 col-xs-12">
+		<h2 class="text-center">Reviews</h2>
+		<div class="well well-large">
+			<div class="well">
+		<table class="table table-responsive table-striped table-hover">
+			<tr>
+			<th>Reviewer</th>
+			<th>Rating</th>
+			<th>Content</th>
+			<th></th>
+			</tr>
+			<tr>
+				<td>Adelante</td>
+				<td>★★★★★</td>
+				<td>Devon was Great! :) Got everything we needed.</td>
+			</tr>
+		</table>
+			</div>
+		</div>
+	</div>
 </div>
 
 
