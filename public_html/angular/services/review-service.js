@@ -1,6 +1,6 @@
 app.constant("REVIEW_ENDPOINT", "php/apis/review");
 app.service("ReviewService", function($http, REVIEW_ENDPOINT){
-	function getUrl(reviewWriteProfileId, reviewReceiveProfileId) {
+	function getUrl() {
 		return(REVIEW_ENDPOINT);
 	}
 
@@ -12,19 +12,19 @@ app.service("ReviewService", function($http, REVIEW_ENDPOINT){
 		return($http.get(getUrl()));
 	}
 
-	this.fetch = function() {
+	this.fetch = function(reviewWriteProfileId, reviewReceiveProfileId) {
 		return($http.get(getUrlForId(reviewWriteProfileId, reviewReceiveProfileId)));
 	};
 
-	this.create = function() {
+	this.create = function(review) {
 		return($http.post(getUrl(), review));
 	};
 
-	this.update = function() {
+	this.update = function(reviewWriteProfileId, reviewReceiveProfileId, review) {
 		return($http.put(getUrlForId(reviewWriteProfileId, reviewReceiveProfileId), review));
 	};
 
-	this.destroy = function() {
+	this.destroy = function(reviewWriteProfileId, reviewReceiveProfileId) {
 		return($http.delete(getUrlForId(reviewWriteProfileId, reviewReceiveProfileId)));
 	};
 });
