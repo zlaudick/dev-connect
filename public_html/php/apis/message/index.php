@@ -10,6 +10,20 @@ require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
  *
  * @author
  **/
+
+use Edu\Cnm\DevConnect\{Profile};
+// grab the mySQL connection
+$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/devconnect.ini");
+
+$getProfileInfo = new Profile;
+
+$getProfileInfo = Profile::getProfileByProfileId($pdo, $profileId);
+
+$recieveName  = $getProfileInfo->$profileName;
+
+$recieverEmail = $getProfileInfo->$profileEmail;
+
+
 //verify the session, start if not active
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
