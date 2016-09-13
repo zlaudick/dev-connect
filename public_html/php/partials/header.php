@@ -22,24 +22,31 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right center">
-					<?php if(empty($_SESSION["profile"]) === true) {?>
-					<li><a href="sign-up">Sign Up</a></li>
+					<?php if(empty($_SESSION["profile"]) === true) { ?>
+						<li><a href="sign-up">Sign Up</a></li>
 					<?php } ?>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false">Profile<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<?php if(empty($_SESSION["profile"]) === true) {?>
-							<li><a href="sign-in">Sign In</a></li>
+							<?php if(empty($_SESSION["profile"]) === true) { ?>
+								<li><a href="sign-in">Sign In</a></li>
 							<?php } else { ?>
-							<li><a ng-click="signout();">Sign Out</a></li>
+								<li><a ng-click="signout();">Sign Out</a></li>
 							<?php } ?>
 							<li><a href="profile">My Profile</a></li>
 							<li><a href="message">Messages</a></li>
 						</ul>
 					</li>
-					<li><a href="projects">Projects</a></li>
-				</ul>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">Projects<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<?php if(empty($_SESSION["profile"]) === true) { ?>
+							<li><a href="create-project">Create a Project</a></li>
+							<?php } ?>
+							<li><a ng-click="signout();">View Projects</a></li>
+						</ul>
 			</div>
 		</div>
 	</nav>
