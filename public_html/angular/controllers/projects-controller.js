@@ -1,5 +1,6 @@
 app.controller('ProjectsController', ["$scope", "ProjectService", "ProjectTagService", "TagService", function($scope, ProjectService, ProjectTagService, TagService) {
 	// state variables
+	$scope.searchInput = null;
 	$scope.projects = [];
 	$scope.projectTag = [];
 	$scope.tag = [];
