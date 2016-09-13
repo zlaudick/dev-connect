@@ -69,8 +69,8 @@
 						<th>Date Created</th>
 					</tr>
 					<tr>
-						<td>NM Health Connections Website Update</td>
-						<td>NMHC is in need of an update to a website that hasn't been changed since the 2000s.</td>
+						<td>NM Health Website Update</td>
+						<td>NMH is in need of an update to a website that hasn't been changed since the 2000s.</td>
 						<td>Sep 4, 2016</td>
 					</tr>
 					<tr>

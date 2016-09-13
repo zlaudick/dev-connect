@@ -36,9 +36,9 @@
 	<div class="col-md-6 col-xs-12">
 		<h2 class="text-center">Contact & Links</h2>
 		<div class="well well-large">
-			<div class="well">
-				<h4 class="text-center">Email</h4>
-				<p class="text-center">devon@devonbeetsdesign.com</p>
+			<div class="well" style="text-align: center;">
+				<h4 class="text-center">Message</h4>
+				<button class="btn btn-default align-center" type="submit"><a href="message"><i class="fa fa-paper-plane"></i> Send Message</a></button>
 				<h4 class="text-center">Links</h4>
 				<a href="#"><p class="text-center">https://github.com/dbeetz</p></a>
 				<a href="#"><p class="text-center">https://www.linkedin.com/in/devon-beets</p></a>

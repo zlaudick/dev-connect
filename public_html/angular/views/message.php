@@ -9,11 +9,12 @@
 			-->
 
 			<!--Begin Contact Form-->
-			<form name="messageForm" class="form-horizontal well" ng-controller="MessageController"  ng-submit="submit(formData, messageForm.$valid);" id="messageForm"  action="../php/mailer.php" method="post" novalidate>
+			<form name="messageForm" class="form-horizontal well" ng-controller="MessageController"
+					ng-submit="submit(formData, messageForm.$valid);" id="messageForm" action="../php/mailer.php"
+					method="post" novalidate>
 
 
-
-				<h2>Contact $profileName:</h2>
+				<h2>Contact Devon:</h2>
 				<!--
 				<div class="form-group">
 					<label for="email">Email <span class="text-danger">*</span></label>
@@ -48,8 +49,6 @@
 				</div> <!-- form group -->
 
 
-
-
 				<div class="form-group">
 					<label for="subject">Subject <span class="text-danger">*</span></label>
 
@@ -70,7 +69,6 @@
 					</div>
 
 
-
 				</div> <!-- form-group -->
 
 
@@ -82,7 +80,8 @@
 						</div>
 						<textarea class="form-control" rows="5" id="message" name="message"
 									 placeholder="Message (2000 characters max)"
-									 ng-model="formData.message" ng-minlength="2" ng-maxlength="2000" ng-required="true"></textarea>
+									 ng-model="formData.message" ng-minlength="2" ng-maxlength="2000"
+									 ng-required="true"></textarea>
 					</div>
 
 					<div class="alert alert-danger" role="alert" ng-messages="messageForm.message.$error"
@@ -105,17 +104,14 @@
 				-->
 
 				<button class="btn btn-lg btn-info" type="submit"><i class="fa fa-paper-plane"></i>&nbsp;Send</button>
-				<button class="btn btn-lg btn-warning" type="reset" ng-click="reset();"><i class="fa fa-ban"></i>&nbsp;Reset</button>
-				<hr />
+				<button class="btn btn-lg btn-warning" type="reset" ng-click="reset();"><i class="fa fa-ban"></i>&nbsp;Reset
+				</button>
+				<hr/>
 				<h5>Angular Form Data</h5>
 				<p ng-show="sampleForm.$valid"><em>Form data is valid!</em></p>
 				<p ng-hide="sampleForm.$valid"><em>Form data is invalid!</em></p>
 				<pre></pre>
 				<uib-alert ng-repeat="alert in alerts" type="" close="alerts.length = 0;"></uib-alert>
-
-
-
-
 
 
 				<!--empty area for form error/success output-->
@@ -128,6 +124,6 @@
 			</form>
 
 
-
 		</div> <!-- row -->
 	</div>
+</div>
