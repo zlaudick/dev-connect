@@ -31,6 +31,12 @@ app.config(function($routeProvider, $locationProvider) {
 			templateUrl: 'angular/views/projects.php'
 		})
 
+		// route for the create a project page
+		.when('/create-project', {
+			controller: 'CreateProjectController',
+			templateUrl: 'angular/views/create-project.php'
+		})
+
 		// route for the message page
 		.when('/message', {
 			controller: 'MessageController',

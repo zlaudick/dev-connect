@@ -19,9 +19,9 @@ $getProfileInfo = new Profile;
 
 $getProfileInfo = Profile::getProfileByProfileId($pdo, $profileId);
 
-$recieveName  = $getProfileInfo->$profileName;
+$receiverName  = $getProfileInfo->$profileName;
 
-$recieverEmail = $getProfileInfo->$profileEmail;
+$receiverEmail = $getProfileInfo->$profileEmail;
 
 
 //verify the session, start if not active
