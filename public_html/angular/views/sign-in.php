@@ -11,7 +11,7 @@
 
 
 				<form name="signinForm" id="signinForm" class="form-horizontal well  sign-form" ng-controller="SigninController"
-						ng-submit="submit(signinData, signinForm.$valid)" method="post" novalidate>
+						ng-submit="signin(signinData, signinForm.$valid)" method="post" novalidate>
 
 					<h2 align="center">Sign In</h2>
 

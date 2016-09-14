@@ -70,6 +70,7 @@
 		<script src="angular/controllers/profile-controller.js"></script>
 		<script src="angular/controllers/projects-controller.js"></script>
 		<script src="angular/controllers/signup-controller.js"></script>
+		<script src="angular/controllers/signin-controller.js"></script>
 		<script src="angular/controllers/message-controller.js"></script>
 
 		<title>DevConnect</title>
