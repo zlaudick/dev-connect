@@ -48,7 +48,7 @@
 					<label for="tag">Give a Few Words to Describe Your Cause  <span class="text-danger">*</span></label>
 					<div class="input-group">
 						<div class="input-group-addon">
-							<i class="fa fa-pencil" aria-hidden="true"></i>
+							<i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
 						</div>
 						<input type="text" class="form-control" id="tag" name="tag" placeholder="ie Children's Issues, Elderly Advocacy, Animal Welfare">
 					</div>

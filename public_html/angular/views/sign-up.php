@@ -3,10 +3,11 @@
 		<!--
 		<div class="col-xs-12 col-md-6 col-md-offset-0">
 		-->
-		<div class="col-xs-12 col-md-6  col-md-offset-0">
+		<div class="col-xs-12 col-md-6  col-md-offset-6">
 			<!--
 			<form id="contact-form" action="../php/mailer.php" method="post" novalidate>
 			-->
+			<div class="well">
 
 
 			<form name="signupForm" class="form-horizontal well" ng-controller="SignupController" ng-submit="submit(formData, signupForm.$valid);" id="contact-form" action="../php/mailer.php" method="post" novalidate>
@@ -74,15 +75,11 @@
 				<button class="btn btn-success" type="submit"><i class="fa fa-paper-plane"></i> Submit</button>
 				<button class="btn btn-warning" type="reset"><i class="fa fa-ban"></i> Reset</button>
 				<div id="output-area"></div>
+
 			</form>
-
-
-		</div>
-
-		<div class="col-xs-12 col-md-5 well">
-
 				<h2>Sign-up with GitHub!</h2>
 				<button class="btn btn-success" ng-click="goToGithub();" id="github-button"><i class="fa fa-github fa-fw fa-2x"></i> GitHub</button>
+
 
 		</div>
 

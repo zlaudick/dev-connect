@@ -23,6 +23,7 @@
 				<p>I especially hold a deep place in my heart for people with physical disabilities, my mother has worked
 					with them since I was young and I have always looked up to her and her ability to give back to her
 					community with her work and would like to do the same!</p>
+				<p>There are many great causes out there, the ones I support the most are people with mental disabilities, world hunger, and saving the beluga whales.</p>
 				<p>If you would like to request my service, I can
 					reached at the following contact information below! :)</p>
 				<p>-Devon B</p>
@@ -42,10 +43,6 @@
 				<h4 class="text-center">Links</h4>
 				<a href="#"><p class="text-center">https://github.com/dbeetz</p></a>
 				<a href="#"><p class="text-center">https://www.linkedin.com/in/devon-beets</p></a>
-				<h4 class="text-center">Supported Causes</h4>
-				<p class="text-center">Mental Disability</p>
-				<p class="text-center">Hunger</p>
-				<p class="text-center">Education</p>
 			</div>
 		</div>
 	</div>
