@@ -54,7 +54,7 @@
 					</div>
 				</div>
 
-				<button class="btn btn-success" type="submit"><i class="fa fa-paper-plane"></i> Send</button>
+				<button class="btn btn-success" type="submit"><i class="fa fa-paper-plane"></i> Submit</button>
 				<button class="btn btn-warning" type="reset"><i class="fa fa-ban"></i> Reset</button>
 
 				<!--empty area for form error/success output-->
