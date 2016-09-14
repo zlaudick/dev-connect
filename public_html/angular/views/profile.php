@@ -33,7 +33,7 @@
 
 <!-- Begin Contact, Links and Review Sections -->
 <div class="row">
-	<div class="col-md-3 col-xs-12">
+	<div class="col-md-6 col-xs-12">
 		<h2 class="text-center">Contact & Links</h2>
 		<div class="well well-large">
 			<div class="well" style="text-align: center;">
@@ -42,10 +42,14 @@
 				<h4 class="text-center">Links</h4>
 				<a href="#"><p class="text-center">https://github.com/dbeetz</p></a>
 				<a href="#"><p class="text-center">https://www.linkedin.com/in/devon-beets</p></a>
+				<h4 class="text-center">Supported Causes</h4>
+				<p class="text-center">Mental Disability</p>
+				<p class="text-center">Hunger</p>
+				<p class="text-center">Education</p>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-3 col-xs-12">
+	<div class="col-md-6 col-xs-12">
 		<h2 class="text-center">Reviews</h2>
 		<div class="well well-large">
 			<div class="well">
