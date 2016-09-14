@@ -10,7 +10,7 @@
 			<div class="well">
 
 
-			<form name="signupForm" class="form-horizontal well sign-form" ng-controller="SignupController" ng-submit="submit(formData, signupForm.$valid);" id="contact-form" action="../../php/mail.php" method="post" novalidate>
+			<form name="signupForm" class="form-horizontal well sign-form" ng-controller="SignupController" ng-submit="submit(formData, signupForm.$valid);" id="contact-form" action="php/lib/mail.php" method="post" novalidate>
 
 				<h2>Create an account</h2>
 
