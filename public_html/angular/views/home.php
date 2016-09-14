@@ -12,11 +12,9 @@
 <div class="row">
 	<div class="form-group search-bar">
 		<div class="col-xs-6">
-			<div class="well">
-				<input type="text" class="form-control" placeholder="What causes do you support?">
-			<button type="submit" class="btn btn-default"><a href="projects">Submit</a></button>
-			</div>
+			<input type="text" class="form-control" placeholder="What causes do you support?">
 		</div>
+		<button type="submit" class="btn btn-default"><a href="projects">Submit</a></button>
 	</div>
 </div>
 
