@@ -3,14 +3,14 @@
 		<!--
 		<div class="col-xs-12 col-md-6 col-md-offset-0">
 		-->
-		<div class="col-xs-12 col-md-6  col-md-offset-6">
+		<div class="col-xs-12 col-md-6  col-md-offset-3">
 			<!--
 			<form id="contact-form" action="../php/mailer.php" method="post" novalidate>
 			-->
 			<div class="well">
 
 
-			<form name="signupForm" class="form-horizontal well" ng-controller="SignupController" ng-submit="submit(formData, signupForm.$valid);" id="contact-form" action="../php/mailer.php" method="post" novalidate>
+			<form name="signupForm" class="form-horizontal well  sign-form" ng-controller="SignupController" ng-submit="submit(formData, signupForm.$valid);" id="contact-form" action="../php/mailer.php" method="post" novalidate>
 
 				<h2>Create an account</h2>
 

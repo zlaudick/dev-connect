@@ -168,6 +168,11 @@ button:active {
 	border-radius: 1px;
 	border-color: #2F394A;
 	color: #0d0054;
+	padding-top: 15px;
+}
+
+.sign-form {
+	border: none;
 }
 
 a:hover,
