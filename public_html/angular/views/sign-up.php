@@ -24,7 +24,7 @@
 					<label for="profileName">Name <span class="text-danger">*</span></label>
 					<div class="input-group">
 						<div class="input-group-addon">
-							<i class="fa fa-user" aria-hidden="true"></i>
+							<i class="fa fa-user fa-fw" aria-hidden="true"></i>
 						</div>
 						<input type="text" class="form-control" id="profileName" name="profileName" placeholder="Name" ng-model="formData.profileName" ng-required="true">
 					</div>
@@ -37,7 +37,7 @@
 					<label for="profileEmail">Email <span class="text-danger">*</span></label>
 					<div class="input-group">
 						<div class="input-group-addon">
-							<i class="fa fa-envelope" aria-hidden="true"></i>
+							<i class="fa fa-envelope fa-fw" aria-hidden="true"></i>
 						</div>
 						<input type="email" class="form-control" id="profileEmail" name="profileEmail" placeholder="Email" ng-model="formData.profileEmail" ng-required="true">
 					</div>
@@ -50,7 +50,7 @@
 					<label for="password">Password<span class="text-danger"> *</span></label>
 					<div class="input-group">
 						<div class="input-group-addon">
-							<i class="fa fa-key" aria-hidden="true"></i>
+							<i class="fa fa-key fa-fw" aria-hidden="true"></i>
 						</div>
 						<input type="password" class="form-control" id="password" name="password" placeholder="Password" ng-model="formData.password" ng-required="true">
 					</div>
@@ -63,7 +63,7 @@
 					<label for="confirmPassword">Confirm Password<span class="text-danger"> *</span></label>
 					<div class="input-group">
 						<div class="input-group-addon">
-							<i class="fa fa-key" aria-hidden="true"></i>
+							<i class="fa fa-key fa-fw" aria-hidden="true"></i>
 						</div>
 						<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" ng-model="formData.confirmPassword" ng-required="true">
 					</div>

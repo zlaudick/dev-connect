@@ -51,7 +51,7 @@
 
 					<div class="form-group" class="row">
 
-						<button class="btn btn-success" type="submit"><i class="fa fa-paper-plane"></i> Log In</button>
+						<button class="btn btn-success" type="submit"><i class="fa fa-paper-plane fa-fw"></i> Log In</button>
 						<p>Forgot your <a href="#">password?</a></p>
 						<!--
 						<span class="psw" align="right" >Forgot your <a href="#">password?</a></span>

@@ -32,7 +32,7 @@
 					<label for="name">Name <span class="text-danger">*</span></label>
 					<div class="input-group">
 						<div class="input-group-addon">
-							<i class="fa fa-user" aria-hidden="true"></i>
+							<i class="fa fa-user fa-fw" aria-hidden="true"></i>
 						</div>
 						<input type="text" class="form-control" id="name" name="name" placeholder="Name"
 								 ng-model="formData.name" ng-minlength="2" ng-maxlength="64" ng-required="true">
@@ -54,7 +54,7 @@
 
 					<div class="input-group">
 						<div class="input-group-addon">
-							<i class="fa fa-pencil" aria-hidden="true"></i>
+							<i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
 						</div>
 						<input type="text" class="form-control" id="subject" name="subject" placeholder="Subject"
 								 ng-model="formData.subject" ng-minlength="2" ng-maxlength="128" ng-required="true">
@@ -76,7 +76,7 @@
 					<label for="message">Message <span class="text-danger">*</span></label>
 					<div class="input-group">
 						<div class="input-group-addon">
-							<i class="fa fa-comment" aria-hidden="true"></i>
+							<i class="fa fa-comment fa-fw" aria-hidden="true"></i>
 						</div>
 						<textarea class="form-control" rows="5" id="message" name="message"
 									 placeholder="Message (2000 characters max)"
@@ -103,7 +103,7 @@
 				<button class="btn btn-warning" type="reset"><i class="fa fa-ban"></i> Reset</button>
 				-->
 
-				<button class="btn btn-lg btn-info" type="submit"><i class="fa fa-paper-plane"></i>&nbsp;Send</button>
+				<button class="btn btn-lg btn-info" type="submit"><i class="fa fa-paper-plane fa-fw"></i>&nbsp;Send</button>
 				<button class="btn btn-lg btn-warning" type="reset" ng-click="reset();"><i class="fa fa-ban"></i>&nbsp;Reset
 				</button>
 

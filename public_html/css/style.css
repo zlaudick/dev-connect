@@ -150,7 +150,7 @@ button:active {
 }
 
 /**********************************************
-* Thumbnails Section Styles
+* Content Section Styles
 /*********************************************/
 
 /* add padding around the image thumbnails and text */
@@ -183,6 +183,10 @@ a:active {
 .well-large {
 	background-color: #679fff;
 	box-shadow: 0 0 25px rgba(0,0,0,0.3);
+}
+
+.search-bar {
+	border-color: #0d0054;
 }
 
 .well-title {
