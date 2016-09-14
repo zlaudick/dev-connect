@@ -67,7 +67,7 @@
 						</div>
 						<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" ng-model="formData.confirmPassword" ng-required="true">
 					</div>
-					<div class="alert alert-danger" role="alert" ng-messages="signupForm.confirmPassword.$error" ng-if="signupForm.confirmPassword.$touched || signupForm.confirmPassword != signupForm.password" ng-hide="signupForm.confirmPassword.$valid">
+					<div class="alert alert-danger" role="alert" ng-messages="signupForm.confirmPassword.$error" ng-if="signupForm.confirmPassword.$touched" ng-hide="signupForm.confirmPassword.$valid">
 						<p ng-message="required">Please confirm your password.</p>
 					</div>
 				</div>
