@@ -71,7 +71,7 @@ try {
 // now $oauth->github->clientId and $oauth->github->clientKey exist
 
 
-	$REDIRECT_URI = 'https://bootcamp-coders.cnm.edu/~zlaudick/dev-connect/public_html/php/apis/github-login/';
+	$REDIRECT_URI = 'https://dev-connect.net/php/apis/github-login/';
 	$AUTHORIZATION_ENDPOINT = 'https://github.com/login/oauth/authorize';
 	$TOKEN_ENDPOINT = 'https://github.com/login/oauth/access_token';
 
