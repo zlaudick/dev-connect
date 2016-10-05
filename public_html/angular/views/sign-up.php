@@ -1,24 +1,15 @@
 <div class="container">
 	<div class="row">
-		<!--
-		<div class="col-xs-12 col-md-6 col-md-offset-0">
-		-->
 		<div class="col-xs-12 col-md-6  col-md-offset-3">
-			<!--
-			<form id="contact-form" action="../php/mailer.php" method="post" novalidate>
-			-->
+
 			<div class="well">
 
-
-			<form name="signupForm" class="form-horizontal well sign-form" ng-controller="SignupController" ng-submit="signup(signupData, signupForm.$valid);" id="contact-form" action="php/apis/signup" method="post" novalidate>
+			<form name="signupForm" class="form-horizontal well sign-form" ng-controller="SignupController" ng-submit="signup(formData, signupForm.$valid);" id="contact-form" action="php/apis/signup" method="post" novalidate>
 
 				<h2>Create an account</h2>
-
-
 				<p>Are you a Developer or do you represent an organization?</p>
-
-				<input type="radio" name="gender" value="male" ng-model="formData.gender" checked> Developer<br>
-				<input type="radio" name="gender" value="female" ng-model="formData.gender"> Non-Profit Organization<br>
+				<input type="radio" name="accountType" value="D" ng-model="formData.accountType" checked> Developer<br>
+				<input type="radio" name="accountType" value="O" ng-model="formData.accountType"> Non-Profit Organization<br>
 
 				<div class="form-group" ng-class="{ 'has-error': signupForm.name.$touched && signupForm.name.$invalid }">
 					<label for="profileName">Name <span class="text-danger">*</span></label>
@@ -75,6 +66,7 @@
 				<button class="btn btn-success" type="submit"><i class="fa fa-paper-plane"></i> Submit</button>
 				<button class="btn btn-warning" type="reset"><i class="fa fa-ban"></i> Reset</button>
 				<div id="output-area"></div>
+				<pre>{{ formData | json }}</pre>
 
 			</form>
 				<h2>Sign-up with GitHub!</h2>
