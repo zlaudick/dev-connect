@@ -8,8 +8,8 @@
 
 				<h2>Create an account</h2>
 				<p>Are you a Developer or do you represent an organization?</p>
-				<input type="radio" name="accountType" value="D" ng-model="formData.accountType" checked> Developer<br>
-				<input type="radio" name="accountType" value="O" ng-model="formData.accountType"> Non-Profit Organization<br>
+				<input type="radio" name="accountType" value="D" ng-model="formData.profileAccountType" checked> Developer<br>
+				<input type="radio" name="accountType" value="O" ng-model="formData.profileAccountType"> Non-Profit Organization<br>
 
 				<div class="form-group" ng-class="{ 'has-error': signupForm.name.$touched && signupForm.name.$invalid }">
 					<label for="profileName">Name <span class="text-danger">*</span></label>
