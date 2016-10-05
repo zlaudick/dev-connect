@@ -2,6 +2,8 @@
 	if(session_status() !== PHP_SESSION_ACTIVE) {
 		session_start();
 	}
+
+	setXsrfCookie();
 ?>
 <!DOCTYPE html>
 <html lang="en" ng-app="DevConnect">
