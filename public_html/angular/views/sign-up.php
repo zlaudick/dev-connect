@@ -4,7 +4,7 @@
 
 			<div class="well">
 
-			<form name="signupForm" class="form-horizontal well sign-form" ng-controller="SignupController" ng-submit="signup(formData, signupForm.$valid);" id="contact-form" action="php/apis/signup" method="post" novalidate>
+			<form name="signupForm" class="form-horizontal well sign-form" ng-controller="SignupController" ng-submit="signup(formData, signupForm.$valid);" id="contact-form" novalidate>
 
 				<h2>Create an account</h2>
 				<p>Are you a Developer or do you represent an organization?</p>
