@@ -66,7 +66,7 @@
 				<button class="btn btn-success" type="submit"><i class="fa fa-paper-plane"></i> Submit</button>
 				<button class="btn btn-warning" type="reset"><i class="fa fa-ban"></i> Reset</button>
 				<div id="output-area"></div>
-				<pre>{{ formData | json }}</pre>
+
 
 			</form>
 				<h2>Sign-up with GitHub!</h2>

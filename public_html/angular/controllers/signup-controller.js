@@ -13,6 +13,7 @@ app.controller("SignupController", ["$scope", "$window", "SignupService", functi
 					if(result.data.status === 200) {
 						$scope.formData = result.data.data;
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
+						$window.location.href = "/";
 					} else {
 						$scope.alerts[0] = {type: "danger", msg: result.data.message};
 					}

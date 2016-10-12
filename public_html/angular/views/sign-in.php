@@ -60,7 +60,7 @@
 						-->
 
 					</div>
-					<pre>{{ formData | json }}</pre>
+
 
 
 				</form>
