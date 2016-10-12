@@ -1,6 +1,6 @@
 app.controller("SigninController", ["$scope", "$window", "SigninService", function($scope, $window, SigninService) {
 	// state variables
-	$scope.signinData = null;
+	$scope.signinData = {};
 	$scope.alerts = [];
 
 	$scope.goToGithub = function() {
@@ -17,14 +17,14 @@ app.controller("SigninController", ["$scope", "$window", "SigninService", functi
 	/**
 	 * Accepts or rejects the promise from the Signin service
 	 **/
-	$scope.getSigninFromService = function(signinData, validated) {
+	$scope.signin = function(signinData, validated) {
 		// call the Signin service to fetch the signin procedure
 		if(validated === true) {
 			SigninService.signin(signinData)
 				.then(function(result) {
 					// the promise is accepted
 					if(result.data.status === 200) {
-						// $scope.signin = result.data.status;
+						$scope.signin = result.data.status;
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
 						$window.location.href = "/";
 					} else {

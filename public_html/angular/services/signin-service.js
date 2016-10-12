@@ -4,8 +4,8 @@ app.service("SigninService", function($http, SIGNIN_ENDPOINT) {
 		return(SIGNIN_ENDPOINT);
 	}
 
-	this.signin = function(signin) {
+	this.signin = function(signinData) {
 		console.log("inside signin service");
-		return($http.post(getUrl(), signin));
+		return($http.post(getUrl(), signinData));
 	};
 });

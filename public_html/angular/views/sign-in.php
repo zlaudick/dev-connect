@@ -11,7 +11,7 @@
 
 
 				<form name="signinForm" id="signinForm" class="form-horizontal well  sign-form" ng-controller="SigninController"
-						ng-submit="signin(signinData, signinForm.$valid)" method="post" novalidate>
+						ng-submit="signin(formData, signinForm.$valid)" novalidate>
 
 					<h2 align="center">Sign In</h2>
 
@@ -24,7 +24,7 @@
 								<i class="fa fa-user fa-fw" aria-hidden="true"></i>
 							</div>
 							<input type="text" class="form-control" id="email" name="email" placeholder="Email"
-									 ng-model="signinData.email" ng-required="true"/>
+									 ng-model="formData.profileEmail" ng-required="true"/>
 						</div>
 						<div class="alert alert-danger" role="alert" ng-messages="signinForm.email.$error"
 							  ng-if="signinForm.email.$touched" ng-hide="signinForm.email.$valid">
@@ -38,7 +38,7 @@
 							<div class="input-group-addon">
 								<i class="fa fa-key fa-fw" aria-hidden="true"></i>
 							</div>
-							<input type="password" class="form-control" id="password" name="password" placeholder="Password">
+							<input type="password" class="form-control" id="password" name="password" placeholder="Password" ng-model="formData.password">
 						</div>
 					</div>
 
@@ -60,6 +60,7 @@
 						-->
 
 					</div>
+					<pre>{{ formData | json }}</pre>
 
 
 				</form>
